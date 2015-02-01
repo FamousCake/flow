@@ -8,7 +8,7 @@
 
 namespace io {
 
-    void printGraphEdges(const Graph &g, int w)
+    inline void printGraphEdges(const Graph &g, int w)
     {
         for (int i = 0; i < g.VertexCount; ++i)
         {
@@ -21,14 +21,13 @@ namespace io {
 
     }
 
-    Graph readGraph(char *filename)
+    inline Graph readGraph(char *filename)
     {
         std::ifstream myfile (filename);
 
         if ( ! myfile.is_open())
         {
             Graph g;
-            std::cout << g.VertexCount;
             return g;
         }
 
@@ -47,8 +46,10 @@ namespace io {
             }
         }
 
-        return g;
 
         myfile.close();
+
+        return g;
+
     }
 }

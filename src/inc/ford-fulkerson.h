@@ -3,7 +3,10 @@
 #pragma once
 
 #include "graph.h"
+#include "io.h"
 #include <queue>
+#include <vector>
+#include <iostream>
 
 class FordFulkerson {
 
@@ -14,6 +17,8 @@ class FordFulkerson {
 
         static Graph Run(Graph);
 
-        static int* GetPath(Graph);
+        static bool GetPath(Graph&, int, int);
+
+        static void AugmentPath(Graph&, int, int);
 
 };

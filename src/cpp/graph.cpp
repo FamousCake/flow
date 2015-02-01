@@ -3,20 +3,48 @@
 #include "../inc/graph.h"
 
 
-Graph::Graph(int n) {
+Graph::Graph(const int n) {
+    this->initialize(n);
+}
+
+Graph::Graph(const Graph &g) {
+
+    this->initialize(g.VertexCount);
+
+    for (int i = 0; i < g.VertexCount; ++i)
+    {
+       this->V[i] = g.V[i];
+    }
+
+    for (int i = 0; i < g.VertexCount; ++i)
+    {
+        for (int j = 0; j < g.VertexCount; ++j)
+        {
+            this->E[i][j] = g.E[i][j];
+        }
+    }
+}
+
+void Graph::ApplyToV(std::function<int(int)> c)
+{
+    for (int i = 0; i < this->VertexCount; ++i)
+    {
+        V[i] = c(V[i]);
+    }
+}
+
+
+void Graph::initialize(const int n)
+{
     this->VertexCount = n;
 
     this->V = new int[n];
     memset(this->V, 0, sizeof(int) * n );
 
-
     this->E = new int*[n];
     for (int i = 0; i < n; ++i) {
         this->E[i] = new int[n];
-
-        // Fastest way to initialize
         memset(this->E[i], 0, sizeof(int) * n);
-
         // Fill is slower
         // std::fill(this->E[i], this->E[i] + n, 11);
     }
