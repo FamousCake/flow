@@ -1,22 +1,24 @@
+// Copyright 2015 Peter
+
 #include <iostream>
+
 #include "../inc/graph.h"
 #include "../inc/stopwatch.h"
-#include <functional>
-#include <memory>
+#include "../inc/io.h"
 
-
-
-int main ()
-{
+int main() {
     CStopWatch a;
-
     a.Start();
 
-    Graph g(10000);
+    Graph g = io::readGraph("tests/test1/inputz");
+    io::printGraphEdges(g, 3);
+
+    Graph z(10);
 
     a.Stop();
 
-    std::cout << a.GetDuration();
+    std::cout << std::endl << "Time is : " << a.GetDuration();
+
 
     return 0;
 }
