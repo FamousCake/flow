@@ -3,25 +3,19 @@
 
 Graph FordFulkerson::Run(Graph g)
 {
-
-    std::cout << "f ";
-
-     while(GetPath(g,0,4)) {
-
+    while(GetPath(g,0,4)) {
         AugmentPath(g,0,4);
     }
 
-    std::cout << std::endl;
-    io::printGraphEdges(g, 3);
+    g.ApplyToV([](int a) -> int { return 0; });
 
     return g;
 }
 
-void FordFulkerson::AugmentPath(Graph &g, int source, int sink)
+void FordFulkerson::AugmentPath(Graph &g, const int source, const int sink)
 {
-    int min = 100000;
-
     int x = sink;
+    int min = g.E[g.V[x]][x];
 
     while (g.V[x] != x)
     {
@@ -49,7 +43,7 @@ void FordFulkerson::AugmentPath(Graph &g, int source, int sink)
     }
 }
 
-bool FordFulkerson::GetPath(Graph &g, int source, int sink)
+bool FordFulkerson::GetPath(Graph &g, const int source, const int sink)
 {
     g.ApplyToV( [](int a) -> int { return -1; });
 
@@ -59,7 +53,7 @@ bool FordFulkerson::GetPath(Graph &g, int source, int sink)
     g.V[source] = source;
 
     while(!q.empty()) {
-        int u = q.front();
+        const int u = q.front();
         q.pop();
 
         for (int v = 0; v < g.VertexCount; ++v)

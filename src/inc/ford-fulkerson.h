@@ -17,8 +17,8 @@ class FordFulkerson {
 
         static Graph Run(Graph);
 
-        static bool GetPath(Graph&, int, int);
+        static bool GetPath(Graph&, const int, const int);
 
-        static void AugmentPath(Graph&, int, int);
+        static void AugmentPath(Graph&, const int, const int);
 
 };

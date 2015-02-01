@@ -5,6 +5,7 @@
 #include "../inc/stopwatch.h"
 #include "../inc/io.h"
 #include "../inc/ford-fulkerson.h"
+#include "../inc/linked_list.h"
 
 int main() {
 
@@ -14,17 +15,33 @@ int main() {
 
 
 
+    //LinkedList l;
 
+    //l.Add(11,5);
+
+    LinkedList p;
+    p.Add(11,4);
+    p.Add(11,4);
+    p.Add(11,4);
+    p.Add(11,4);
+
+
+    ListNode *x = p.start;
+
+    while(x)
+    {
+        std::cout << x->v <<" ";
+        x = x->next;
+    }
 
 
 
     Graph g = io::readGraph("tests/test1/input");
 
-    io::printGraphEdges(g, 3);
+    io::printGraph(g, 3);
 
+    io::printGraph(FordFulkerson::Run(g), 3);
 
-    FordFulkerson::Run(g);
-    //FordFulkerson::GetPath(g, 0);
 
 
 
