@@ -1,48 +1,29 @@
 // Copyright 2015 Peter
 #include <iostream>
+#include <queue>
 
 #include "../inc/graph.h"
 #include "../inc/stopwatch.h"
 #include "../inc/io.h"
-#include "../inc/ford-fulkerson.h"
-#include "../inc/linked_list.h"
+#include "../inc/ford_fulkerson.h"
 
-int main() {
+
+int main(int argc, char **argv ) {
 
     std::cout << "\n\n";
     CStopWatch a;
     a.Start();
+    
+    std::queue<int> q;
 
-
-
-    //LinkedList l;
-
-    //l.Add(11,5);
-
-    LinkedList p;
-    p.Add(11,4);
-    p.Add(11,4);
-    p.Add(11,4);
-    p.Add(11,4);
-
-
-    ListNode *x = p.start;
-
-    while(x)
-    {
-        std::cout << x->v <<" ";
-        x = x->next;
-    }
-
+    q.push(11);
 
 
     Graph g = io::readGraph("tests/test1/input");
 
     io::printGraph(g, 3);
 
-    io::printGraph(FordFulkerson::Run(g), 3);
-
-
+    io::printGraph(FordFulkerson::Run(g, 0, 4), 3);
 
 
     a.Stop();

@@ -1,10 +1,9 @@
-#include "../inc/ford-fulkerson.h"
+#include "../inc/ford_fulkerson.h"
 
-
-Graph FordFulkerson::Run(Graph g)
+Graph FordFulkerson::Run(Graph g, const int source, const int sink)
 {
-    while(GetPath(g,0,4)) {
-        AugmentPath(g,0,4);
+    while(GetPath(g, source, sink)) {
+        AugmentPath(g, source, sink);
     }
 
     g.ApplyToV([](int a) -> int { return 0; });
@@ -47,19 +46,21 @@ bool FordFulkerson::GetPath(Graph &g, const int source, const int sink)
 {
     g.ApplyToV( [](int a) -> int { return -1; });
 
-    std::queue<int> q;
+    SimpleQueue q(g.VertexCount);
 
     q.push(source);
     g.V[source] = source;
 
-    while(!q.empty()) {
-        const int u = q.front();
-        q.pop();
+    while( q.size() > 0 ) {
 
-        for (int v = 0; v < g.VertexCount; ++v)
-        {
+        const int u = q.pop();
+
+        for (int v = 0; v < g.VertexCount; ++v) {
+
             if ( g.E[u][v] != 0 && g.V[v] == -1 ) {
+
                 q.push(v);
+
                 g.V[v] = u;
 
                 if (v == sink) {

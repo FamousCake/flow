@@ -7,6 +7,11 @@ ListNode::ListNode(int v, int w, ListNode *next)
     this->next = next;
 }
 
+ListNode::~ListNode()
+{
+    delete this->next;
+}
+
 void LinkedList::Add(int v, int w)
 {
     this->start = new ListNode(v, w, start);
@@ -14,5 +19,16 @@ void LinkedList::Add(int v, int w)
 
 LinkedList::~LinkedList()
 {
+    ListNode *x = this->start;
 
+    while(x) {
+
+        ListNode *y = x;
+
+        x = x->next;
+
+        delete y;
+    }
+
+    delete x;
 }
