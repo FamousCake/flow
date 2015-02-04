@@ -1,1 +1,1 @@
-g++ src/cpp/* -o bin/run && ./bin/run
+clear && make clang && ./bin/run

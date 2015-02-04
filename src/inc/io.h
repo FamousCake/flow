@@ -6,14 +6,14 @@
 
 #include "graph.h"
 
-namespace io {
+namespace io
+{
 
-    void printGraphV(const Graph&, int);
+void printGraphV(const Graph &, int);
 
-    void printGraphE(const Graph&, int);
+void printGraphE(const Graph &, int);
 
-    void printGraph(const Graph&, int);
+void printGraph(const Graph &, int);
 
-    Graph readGraph(const char*);
-
+Graph readGraph(const char *);
 }

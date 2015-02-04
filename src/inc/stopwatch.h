@@ -1,17 +1,25 @@
 #pragma once
 
- #include <time.h>
+#include <time.h>
 
- class CStopWatch
- {
+class CStopWatch
+{
 
-    public:
+  public:
+    clock_t start;
+    clock_t finish;
 
-        clock_t start;
-        clock_t finish;
-
-        inline double GetDuration() { return (double)(finish - start) / CLOCKS_PER_SEC; }
-        inline void Start() { this->start  = clock();    }
-        inline void Stop()  { this->finish = clock(); }
+    inline double GetDuration()
+    {
+        return (double)(finish - start) / CLOCKS_PER_SEC;
+    }
+    inline void Start()
+    {
+        this->start = clock();
+    }
+    inline void Stop()
+    {
+        this->finish = clock();
+    }
 
 }; // class CStopWatch

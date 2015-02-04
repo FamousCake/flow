@@ -1,4 +1,4 @@
-#include "../inc/linked_list.h"
+#include "inc/linked_list.h"
 
 ListNode::ListNode(int v, int w, ListNode *next)
 {
@@ -21,7 +21,7 @@ LinkedList::~LinkedList()
 {
     ListNode *x = this->start;
 
-    while(x) {
+    while (x) {
 
         ListNode *y = x;
 

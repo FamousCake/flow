@@ -1,4 +1,4 @@
-#include "../inc/simple_queue.h"
+#include "inc/simple_queue.h"
 
 SimpleQueue::SimpleQueue(int n)
 {
@@ -9,7 +9,7 @@ SimpleQueue::SimpleQueue(int n)
 
 SimpleQueue::~SimpleQueue()
 {
-    delete [] this->m;
+    delete[] this->m;
 }
 
 void SimpleQueue::push(int n)

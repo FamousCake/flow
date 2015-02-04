@@ -2,26 +2,23 @@
 
 #define SIMPLE_QUEUE_H
 
-
 class SimpleQueue
 {
-public:
+  public:
     SimpleQueue(int);
     ~SimpleQueue();
 
     void push(int);
 
-    int front ();
+    int front();
 
     int pop();
 
     int size();
 
-private:
+  private:
     int *m;
-    int l,r;
-
+    int l, r;
 };
-
 
 #endif // SIMPLE_QUEUE_H

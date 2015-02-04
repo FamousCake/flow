@@ -1,8 +1,8 @@
-#include "../inc/ford_fulkerson.h"
+#include "inc/ford_fulkerson.h"
 
 Graph FordFulkerson::Run(Graph g, const int source, const int sink)
 {
-    while(GetPath(g, source, sink)) {
+    while (GetPath(g, source, sink)) {
         AugmentPath(g, source, sink);
     }
 
@@ -16,12 +16,11 @@ void FordFulkerson::AugmentPath(Graph &g, const int source, const int sink)
     int x = sink;
     int min = g.E[g.V[x]][x];
 
-    while (g.V[x] != x)
-    {
+    while (g.V[x] != x) {
         int u = x;
         int v = g.V[x];
 
-        if ( min > g.E[v][u] ) {
+        if (min > g.E[v][u]) {
             min = g.E[v][u];
         }
 
@@ -44,20 +43,21 @@ void FordFulkerson::AugmentPath(Graph &g, const int source, const int sink)
 
 bool FordFulkerson::GetPath(Graph &g, const int source, const int sink)
 {
-    g.ApplyToV( [](int a) -> int { return -1; });
+
+    g.ApplyToV([](int a) -> int { return -1; });
 
     SimpleQueue q(g.VertexCount);
 
     q.push(source);
     g.V[source] = source;
 
-    while( q.size() > 0 ) {
+    while (q.size() > 0) {
 
         const int u = q.pop();
 
         for (int v = 0; v < g.VertexCount; ++v) {
 
-            if ( g.E[u][v] != 0 && g.V[v] == -1 ) {
+            if (g.E[u][v] != 0 && g.V[v] == -1) {
 
                 q.push(v);
 
