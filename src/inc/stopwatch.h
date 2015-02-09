@@ -1,4 +1,5 @@
-#pragma once
+#ifndef STOPWATCH_H
+#define STOPWATCH_H
 
 #include <time.h>
 
@@ -23,3 +24,5 @@ class CStopWatch
     }
 
 }; // class CStopWatch
+
+#endif // STOPWATCH_H

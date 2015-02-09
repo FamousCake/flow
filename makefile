@@ -1,5 +1,5 @@
 all:
-	clang++ -Wc++11-extensions -std=c++14 ./src/*.cpp -o ./bin/run
+	clang++ -Wc++11-extensions -std=c++14 -g ./src/*.cpp -o ./bin/run
 
 clang:
 	clang++ -Wc++11-extensions -std=c++14 ./src/*.cpp -o ./bin/run
@@ -11,5 +11,5 @@ analyze:
 	clang++ --analyze -Xanalyzer -analyzer-output=text -Wc++11-extensions -std=c++14 ./src/*.cpp
 
 format:
-	clang-format ./src/*.cpp ./src/inc/* -i
+	clang-format ./src/*.cpp ./src/inc/*.h -i
 

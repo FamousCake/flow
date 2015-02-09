@@ -1,6 +1,7 @@
 // Copyright 2015 Peter
 
-#pragma once
+#ifndef GRAPH_H
+#define GRAPH_H
 
 #include <iostream>
 #include <cstring>
@@ -25,8 +26,10 @@ class Graph
     int *V = NULL;
     int **E = NULL;
 
-    void ApplyToV(std::function<int(int)>);
+    void ApplyToV(const std::function<int(int)>);
 
   private:
     void initialize(const int);
 };
+
+#endif // GRAPH_HP
