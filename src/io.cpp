@@ -4,6 +4,8 @@ void io::printGraph(const Graph &g, int w)
 {
     std::cout << std::endl;
     printGraphV(g, w);
+    printGraphe(g, w);
+    printGraphh(g, w);
     printGraphE(g, w);
 }
 
@@ -15,6 +17,28 @@ void io::printGraphV(const Graph &g, int w)
 
     for (int i = 0; i < g.VertexCount; ++i) {
         std::cout << std::setw(w) << g.V[i];
+    }
+}
+
+void io::printGraphe(const Graph &g, int w)
+{
+    std::cout << std::endl;
+
+    std::cout << "e pointer at : " << g.e << std::endl;
+
+    for (int i = 0; i < g.VertexCount; ++i) {
+        std::cout << std::setw(w) << g.e[i];
+    }
+}
+
+void io::printGraphh(const Graph &g, int w)
+{
+    std::cout << std::endl;
+
+    std::cout << "h pointer at : " << g.h << std::endl;
+
+    for (int i = 0; i < g.VertexCount; ++i) {
+        std::cout << std::setw(w) << g.h[i];
     }
 }
 
