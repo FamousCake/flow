@@ -1,11 +1,11 @@
 all:
-	clang++ -Wc++11-extensions -std=c++14 -g ./src/*.cpp -o ./bin/run
+	clang++ -Wc++11-extensions -std=c++14 -g ./src/*.cpp -o ./bin/run.out
 
 clang:
-	clang++ -Wc++11-extensions -std=c++14 ./src/*.cpp -o ./bin/run
+	clang++ -Wc++11-extensions -std=c++14 ./src/*.cpp -o ./bin/run.out
 
 gcc:
-	g++ -std=c++14 -fdiagnostics-color src/*.cpp -o bin/run
+	g++ -std=c++14 -fdiagnostics-color src/*.cpp -o bin/run.out
 
 analyze:
 	clang++ --analyze -Xanalyzer -analyzer-output=text -Wc++11-extensions -std=c++14 ./src/*.cpp
