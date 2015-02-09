@@ -20,7 +20,7 @@ int main()
 
     // io::printGraph(FordFulkerson::Run(g, 0, 4), 3);
 
-    PushRelabel::run(g, o, 0, 3);
+    PushRelabel::run(g, o, 0, 4);
 
     io::printGraph(g, 3);
     io::printGraph(o, 3);

@@ -1,47 +1,44 @@
 #include "inc/push_relabel.h"
 
-void PushRelabel::run(Graph &g, const Graph &o, int source, int sink)
+void PushRelabel::run(Graph &g, const Graph &o, unsigned const int source,
+                      unsigned const sink)
 {
     PushRelabel::init(g, source);
 
-
-
     while (true) {
 
-
-
-        if (PushRelabel::Push(g, o)) {
-            std::cout << std::endl;
-            io::printGraph(g,3);
-            std::cout << std::endl;
+        if (PushRelabel::Push(g, o, source, sink)) {
+            // std::cout << std::endl;
+            // io::printGraph(g,3);
+            // std::cout << std::endl;
             continue;
         }
 
         if (PushRelabel::Relabel(g, o, source, sink)) {
-            std::cout << std::endl;
-            io::printGraph(g,3);
-            std::cout << std::endl;
+            // std::cout << std::endl;
+            // io::printGraph(g,3);
+            // std::cout << std::endl;
             continue;
         }
-
-
 
         break;
     }
 }
 
-bool PushRelabel::Push(Graph &g, const Graph &o)
+bool PushRelabel::Push(Graph &g, const Graph &o, unsigned const source,
+                       unsigned const sink)
 {
     for (int i = 0; i < g.VertexCount; ++i) {
-        // Optimize and put g.e[i] if here
 
-        if (i!=0 && i!=4) {
+        // If the current vertex is overflowing
+        // s and t cannot overflow by definition!
+        if (i != source && i != sink && g.e[i] > 0) {
 
             for (int j = 0; j < g.VertexCount; ++j) {
 
-                if (g.e[i] > 0 && g.E[i][j] > 0 && g.h[i] == g.h[j] + 1) {
+                if (g.E[i][j] > 0 && g.h[i] == g.h[j] + 1) {
 
-                    std::cout << "Push : " << i << " / " << j << std::endl;
+                    // std::cout << "Push : " << i << " / " << j << std::endl;
 
                     int min = g.e[i] < g.E[i][j] ? g.e[i] : g.E[i][j];
 
@@ -65,12 +62,16 @@ bool PushRelabel::Push(Graph &g, const Graph &o)
     return false;
 }
 
-bool PushRelabel::Relabel(Graph &g, const Graph &o, int souce , int sink)
+bool PushRelabel::Relabel(Graph &g, const Graph &o, unsigned const souce,
+                          unsigned const sink)
 {
     for (int i = 0; i < g.VertexCount; ++i) {
-        if (i!=souce && i!=sink && g.e[i] > 0) {
 
-            int min = 10000000;
+        // If vertex is overflowing.
+        // s and t do not overflow by definition!
+        if (i != souce && i != sink && g.e[i] > 0) {
+
+            unsigned int min = std::numeric_limits<int>::max();
 
             for (int j = 0; j < g.VertexCount; ++j) {
                 if (g.E[i][j] > 0 && g.h[i] <= g.h[j]) {

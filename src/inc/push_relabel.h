@@ -2,19 +2,18 @@
 #define PUSH_RELABEL_H
 
 #include "iostream"
+#include <limits>
 #include "graph.h"
 #include "io.h"
 
 namespace PushRelabel
 {
 
-void run(Graph &, const Graph &, int, int);
+void run(Graph &, const Graph &, unsigned const int, unsigned const int);
 void init(Graph &, int);
 
-bool canPush(Graph &, const Graph &, int, int);
-
-bool Push(Graph &, const Graph &);
-bool Relabel(Graph &, const Graph &, int, int);
+bool Push(Graph &, const Graph &, unsigned const int, unsigned const int);
+bool Relabel(Graph &, const Graph &, unsigned const int, unsigned const int);
 
 } // PushRelabel PushRelabel
 
