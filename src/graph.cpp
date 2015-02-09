@@ -35,7 +35,12 @@ void Graph::initialize(const int n)
     this->VertexCount = n;
 
     this->V = new int[n];
+    this->e = new int[n];
+    this->h = new int[n];
+
     memset(this->V, 0, sizeof(int) * n);
+    memset(this->e, 0, sizeof(int) * n);
+    memset(this->h, 0, sizeof(int) * n);
 
     this->E = new int *[n];
     for (int i = 0; i < n; ++i) {
@@ -50,4 +55,6 @@ Graph::~Graph()
 {
     delete[] this->E;
     delete[] this->V;
+    delete[] this->e;
+    delete[] this->h;
 }
