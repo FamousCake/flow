@@ -1,1 +1,1 @@
-clear && make clang && ./bin/run
+clear && make clang && ./bin/run.out
