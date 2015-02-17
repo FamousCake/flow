@@ -11,8 +11,8 @@ namespace io
 {
 
 void printGraphV(const Graph &, const int);
-void printGraphe(const Graph &, const int);
-void printGraphh(const Graph &, const int);
+void printGraphExcessFlow(const Graph &, const int);
+void printGraphHeight(const Graph &, const int);
 
 void printGraphE(const Graph &, const int);
 

@@ -25,8 +25,8 @@ class Graph
 
     int *V = nullptr;
 
-    int *h = nullptr;
-    int *e = nullptr;
+    int *Height = nullptr;
+    int *ExcessFlow = nullptr;
 
     int **E = nullptr;
 

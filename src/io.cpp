@@ -4,8 +4,8 @@ void io::printGraph(const Graph &g, int w)
 {
     std::cout << std::endl;
     printGraphV(g, w);
-    printGraphe(g, w);
-    printGraphh(g, w);
+    printGraphExcessFlow(g, w);
+    printGraphHeight(g, w);
     printGraphE(g, w);
 }
 
@@ -20,25 +20,25 @@ void io::printGraphV(const Graph &g, int w)
     }
 }
 
-void io::printGraphe(const Graph &g, int w)
+void io::printGraphExcessFlow(const Graph &g, int w)
 {
     std::cout << std::endl;
 
-    std::cout << "e pointer at : " << g.e << std::endl;
+    std::cout << "e pointer at : " << g.ExcessFlow << std::endl;
 
     for (int i = 0; i < g.VertexCount; ++i) {
-        std::cout << std::setw(w) << g.e[i];
+        std::cout << std::setw(w) << g.ExcessFlow[i];
     }
 }
 
-void io::printGraphh(const Graph &g, int w)
+void io::printGraphHeight(const Graph &g, int w)
 {
     std::cout << std::endl;
 
-    std::cout << "h pointer at : " << g.h << std::endl;
+    std::cout << "h pointer at : " << g.Height << std::endl;
 
     for (int i = 0; i < g.VertexCount; ++i) {
-        std::cout << std::setw(w) << g.h[i];
+        std::cout << std::setw(w) << g.Height[i];
     }
 }
 
