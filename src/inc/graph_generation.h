@@ -4,7 +4,8 @@
 #include "graph.h"
 #include <random>
 
-namespace GraphGeneration {
+namespace GraphGeneration
+{
 
 Graph GenerateRandomGraph(int, int, int, int);
 

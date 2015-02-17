@@ -14,6 +14,10 @@ class CStopWatch
     {
         return (double)(finish - start) / CLOCKS_PER_SEC;
     }
+    inline double GetCurrentDuration()
+    {
+        return (double)(clock() - start) / CLOCKS_PER_SEC;
+    }
     inline void Start()
     {
         this->start = clock();

@@ -7,13 +7,11 @@
 #include "inc/push_relabel.h"
 #include "inc/graph_generation.h"
 
-
 int getFlow(const Graph &a)
 {
     int s = 0;
 
-    for (int i = 0; i < a.VertexCount; ++i)
-    {
+    for (int i = 0; i < a.VertexCount; ++i) {
         s += a.E[a.VertexCount - 1][i];
     }
 
@@ -23,52 +21,41 @@ int getFlow(const Graph &a)
 int main()
 {
     std::cout << "\n\n";
-    CStopWatch a;
+    CStopWatch a, b, c, t;
     a.Start();
-
-    int N = 10;
-
+    t.Start();
 
 
-    Graph g(GraphGeneration::GenerateRandomGraph(N, 40, 1, 100));
+    int N = 500;
+
+    std::cin >> N;
+
+    Graph g(GraphGeneration::GenerateRandomGraph(N, 70, 1, 1000));
+
+    a.Stop();
+    std::cout << "Generated in : " << a.GetDuration() << std::endl;
+
     Graph o(g);
-
-    //io::printGraph(g, 3);
-
-
-
-    // Graph g = io::readGraph("tests/test1/input");
-
-    // io::printGraph(g, 3);
-
-
-
-    io::printGraph(FordFulkerson::Run(g, 0, 9), 3);
-
-    //Graph
 
     Graph g1(g);
 
-    PushRelabel::run(g1, o, 0, 9);
 
-    io::printGraph(g1, 5);
-    // io::printGraph(o, 3);
+    b.Start();
+    std::cout << "Ford-Fulkerson Flow : " << getFlow(FordFulkerson::Run(g, 0, N - 1)) << std::endl;
 
-    std::cout << "Ford-Fulkerson Flow : " << getFlow(FordFulkerson::Run(g,0, N-1)) << std::endl;
+    b.Stop();
+    std::cout << "Ford-Fulkerson in : " << b.GetDuration() << std::endl;
+
+
+    c.Start();
+    PushRelabel::run(g1, o, 0, N - 1);
     std::cout << "Push Relabel   Flow : " << getFlow(g1) << std::endl;
 
+    c.Stop();
+    std::cout << "Push Relabel in : " << c.GetDuration() << std::endl;
 
-
-
-
-
-
-
-
-
-
-    a.Stop();
-    std::cout << "\n\nTime is : " << a.GetDuration() << std::endl;
+    t.Stop();
+    std::cout << "\n\nTime is : " << t.GetDuration() << std::endl;
 
     return 0;
 }

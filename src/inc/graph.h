@@ -23,12 +23,12 @@ class Graph
 
     int VertexCount = 0;
 
-    unsigned int *V = nullptr;
+    int *V = nullptr;
 
-    unsigned int *h = nullptr;
-    unsigned int *e = nullptr;
+    int *h = nullptr;
+    int *e = nullptr;
 
-    unsigned int **E = nullptr;
+    int **E = nullptr;
 
     void ApplyToV(const std::function<int(int)>);
 

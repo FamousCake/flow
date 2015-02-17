@@ -8,16 +8,10 @@ void PushRelabel::run(Graph &g, const Graph &o, unsigned const int s,
     while (true) {
 
         if (PushRelabel::Push(g, o, s, t)) {
-            // std::cout << std::endl;
-            // io::printGraph(g,3);
-            // std::cout << std::endl;
             continue;
         }
 
         if (PushRelabel::Relabel(g, o, s, t)) {
-            // std::cout << std::endl;
-            // io::printGraph(g,3);
-            // std::cout << std::endl;
             continue;
         }
 
@@ -38,18 +32,10 @@ bool PushRelabel::Push(Graph &g, const Graph &o, unsigned const s,
 
                 if (g.E[i][j] > 0 && g.h[i] == g.h[j] + 1) {
 
-                    // std::cout << "Push : " << i << " / " << j << std::endl;
-
                     int min = g.e[i] < g.E[i][j] ? g.e[i] : g.E[i][j];
 
-                    // Important it's o here
-                    if (o.E[i][j] > 0) {
-                        g.E[i][j] -= min;
-                        g.E[j][i] += min;
-                    } else {
-                        g.E[i][j] += min;
-                        g.E[j][i] -= min;
-                    }
+                    g.E[i][j] -= min;
+                    g.E[j][i] += min;
 
                     g.e[i] -= min;
                     g.e[j] += min;
@@ -82,7 +68,6 @@ bool PushRelabel::Relabel(Graph &g, const Graph &o, unsigned const s,
                 }
             }
 
-            //std::cout << "Relabel : " << i << std::endl;
             // Increase the height of the lowest heighbour plus one
             g.h[i] = 1 + min;
 
@@ -103,13 +88,16 @@ void PushRelabel::init(Graph &g, int source)
     g.h[source] = g.VertexCount;
 
     for (int i = 0; i < g.VertexCount; ++i) {
+
         if (g.E[source][i] > 0) {
 
-            g.E[i][source] = g.E[source][i];
-            g.E[source][i] = 0;
+            int flow = g.E[source][i];
 
-            g.e[i] += g.E[i][source];
-            g.e[source] -= g.E[i][source];
+            g.E[i][source] += flow;
+            g.E[source][i] -= flow;
+
+            g.e[i] += flow;
+            g.e[source] -= flow;
         }
     }
 }

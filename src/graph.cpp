@@ -34,17 +34,17 @@ void Graph::initialize(const int n)
 {
     this->VertexCount = n;
 
-    this->V = new unsigned int[n];
-    this->e = new unsigned int[n];
-    this->h = new unsigned int[n];
+    this->V = new int[n];
+    this->e = new int[n];
+    this->h = new int[n];
 
-    memset(this->V, 0, sizeof(unsigned int) * n);
-    memset(this->e, 0, sizeof(unsigned int) * n);
-    memset(this->h, 0, sizeof(unsigned int) * n);
+    memset(this->V, 0, sizeof(int) * n);
+    memset(this->e, 0, sizeof(int) * n);
+    memset(this->h, 0, sizeof(int) * n);
 
-    this->E = new unsigned int *[n];
+    this->E = new int *[n];
     for (int i = 0; i < n; ++i) {
-        this->E[i] = new unsigned int[n];
+        this->E[i] = new int[n];
         memset(this->E[i], 0, sizeof(int) * n);
         // Fill is slower
         // std::fill(this->E[i], this->E[i] + n, 11);
