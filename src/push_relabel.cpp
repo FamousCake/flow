@@ -1,17 +1,16 @@
 #include "inc/push_relabel.h"
 
-void PushRelabel::run(Graph &g, const Graph &o, unsigned const int s,
-                      unsigned const t)
+void PushRelabel::run(Graph &residual_network, const int s, const int t)
 {
-    PushRelabel::init(g, s);
+    PushRelabel::init(residual_network, s);
 
     while (true) {
 
-        if (PushRelabel::Push(g, o, s, t)) {
+        if (PushRelabel::Push(residual_network, s, t)) {
             continue;
         }
 
-        if (PushRelabel::Relabel(g, o, s, t)) {
+        if (PushRelabel::Relabel(residual_network, s, t)) {
             continue;
         }
 
@@ -19,26 +18,26 @@ void PushRelabel::run(Graph &g, const Graph &o, unsigned const int s,
     }
 }
 
-bool PushRelabel::Push(Graph &g, const Graph &o, unsigned const s,
-                       unsigned const t)
+bool PushRelabel::Push(Graph &residual_network, const int s, const int t)
 {
-    for (int i = 0; i < g.VertexCount; ++i) {
+    for (int i = 0; i < residual_network.VertexCount; ++i) {
 
         // If the current vertex is overflowing
         // s and t cannot overflow by definition!
-        if (i != s && i != t && g.e[i] > 0) {
+        if (i != s && i != t && residual_network.e[i] > 0) {
 
-            for (int j = 0; j < g.VertexCount; ++j) {
+            for (int j = 0; j < residual_network.VertexCount; ++j) {
 
-                if (g.E[i][j] > 0 && g.h[i] == g.h[j] + 1) {
+                if (residual_network.E[i][j] > 0 &&
+                    residual_network.h[i] == residual_network.h[j] + 1) {
 
-                    int min = g.e[i] < g.E[i][j] ? g.e[i] : g.E[i][j];
+                    int min = std::min(residual_network.e[i], residual_network.E[i][j]);
 
-                    g.E[i][j] -= min;
-                    g.E[j][i] += min;
+                    residual_network.E[i][j] -= min;
+                    residual_network.E[j][i] += min;
 
-                    g.e[i] -= min;
-                    g.e[j] += min;
+                    residual_network.e[i] -= min;
+                    residual_network.e[j] += min;
 
                     return true;
                 }
@@ -48,28 +47,29 @@ bool PushRelabel::Push(Graph &g, const Graph &o, unsigned const s,
     return false;
 }
 
-bool PushRelabel::Relabel(Graph &g, const Graph &o, unsigned const s,
-                          unsigned const t)
+bool PushRelabel::Relabel(Graph &residual_network, const int s, const int t)
 {
-    for (int i = 0; i < g.VertexCount; ++i) {
+    for (int i = 0; i < residual_network.VertexCount; ++i) {
 
         // If vertex is overflowing.
         // s and t do not overflow by definition!
-        if (i != s && i != t && g.e[i] > 0) {
+        if (i != s && i != t && residual_network.e[i] > 0) {
 
-            unsigned int min = std::numeric_limits<int>::max();
+            int min = std::numeric_limits<int>::max();
 
-            // For each neighbouring vertex, look for the one that is of least height
-            for (int j = 0; j < g.VertexCount; ++j) {
-                if (g.E[i][j] > 0 && g.h[i] <= g.h[j]) {
-                    if (g.h[j] < min) {
-                        min = g.h[j];
+            // For each neighbouring vertex, look for the one that is of least
+            // height
+            for (int j = 0; j < residual_network.VertexCount; ++j) {
+                if (residual_network.E[i][j] > 0 &&
+                    residual_network.h[i] <= residual_network.h[j]) {
+                    if (residual_network.h[j] < min) {
+                        min = residual_network.h[j];
                     }
                 }
             }
 
             // Increase the height of the lowest heighbour plus one
-            g.h[i] = 1 + min;
+            residual_network.h[i] = 1 + min;
 
             return true;
         }
@@ -77,27 +77,27 @@ bool PushRelabel::Relabel(Graph &g, const Graph &o, unsigned const s,
     return false;
 }
 
-void PushRelabel::init(Graph &g, int source)
+void PushRelabel::init(Graph &residual_network, int source)
 {
-    for (int i = 0; i < g.VertexCount; ++i) {
-        g.e[i] = 0;
-        g.h[i] = 0;
-        g.V[i] = 0;
+    for (int i = 0; i < residual_network.VertexCount; ++i) {
+        residual_network.e[i] = 0;
+        residual_network.h[i] = 0;
+        residual_network.V[i] = 0;
     }
 
-    g.h[source] = g.VertexCount;
+    residual_network.h[source] = residual_network.VertexCount;
 
-    for (int i = 0; i < g.VertexCount; ++i) {
+    for (int i = 0; i < residual_network.VertexCount; ++i) {
 
-        if (g.E[source][i] > 0) {
+        if (residual_network.E[source][i] > 0) {
 
-            int flow = g.E[source][i];
+            int flow = residual_network.E[source][i];
 
-            g.E[i][source] += flow;
-            g.E[source][i] -= flow;
+            residual_network.E[i][source] += flow;
+            residual_network.E[source][i] -= flow;
 
-            g.e[i] += flow;
-            g.e[source] -= flow;
+            residual_network.e[i] += flow;
+            residual_network.e[source] -= flow;
         }
     }
 }

@@ -1,8 +1,7 @@
 
 #include "inc/graph_generation.h"
 
-Graph GraphGeneration::GenerateRandomGraph(int vertexCount, int density,
-                                           int min, int max)
+Graph GraphGeneration::GenerateRandomGraph(int vertexCount, int density, int min, int max)
 {
     Graph a(vertexCount);
 
@@ -15,7 +14,7 @@ Graph GraphGeneration::GenerateRandomGraph(int vertexCount, int density,
 
     for (int i = 0; i < a.VertexCount - 1; ++i) {
         for (int j = 0; j < a.VertexCount; ++j) {
-            if ( i!=j && dist2(mt) <= density && a.E[j][i] == 0) {
+            if (i != j && dist2(mt) <= density && a.E[j][i] == 0) {
                 a.E[i][j] = dist(mt);
             }
         }

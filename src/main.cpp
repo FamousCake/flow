@@ -25,7 +25,6 @@ int main()
     a.Start();
     t.Start();
 
-
     int N = 500;
 
     std::cin >> N;
@@ -35,10 +34,7 @@ int main()
     a.Stop();
     std::cout << "Generated in : " << a.GetDuration() << std::endl;
 
-    Graph o(g);
-
     Graph g1(g);
-
 
     b.Start();
     std::cout << "Ford-Fulkerson Flow : " << getFlow(FordFulkerson::Run(g, 0, N - 1)) << std::endl;
@@ -46,9 +42,8 @@ int main()
     b.Stop();
     std::cout << "Ford-Fulkerson in : " << b.GetDuration() << std::endl;
 
-
     c.Start();
-    PushRelabel::run(g1, o, 0, N - 1);
+    PushRelabel::run(g1, 0, N - 1);
     std::cout << "Push Relabel   Flow : " << getFlow(g1) << std::endl;
 
     c.Stop();
