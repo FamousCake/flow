@@ -26,7 +26,7 @@ int main()
     CStopWatch a;
     a.Start();
 
-    int N = 1000;
+    int N = 10;
 
 
 
@@ -43,7 +43,7 @@ int main()
 
 
 
-    //io::printGraph(FordFulkerson::Run(g, 0, 9), 3);
+    io::printGraph(FordFulkerson::Run(g, 0, 9), 3);
 
     //Graph
 
@@ -51,11 +51,11 @@ int main()
 
     PushRelabel::run(g1, o, 0, 9);
 
-    //io::printGraph(g1, 5);
+    io::printGraph(g1, 5);
     // io::printGraph(o, 3);
 
     std::cout << "Ford-Fulkerson Flow : " << getFlow(FordFulkerson::Run(g,0, N-1)) << std::endl;
-    //std::cout << "Push Relabel   Flow : " << getFlow(g1) << std::endl;
+    std::cout << "Push Relabel   Flow : " << getFlow(g1) << std::endl;
 
 
 
