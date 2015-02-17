@@ -1,5 +1,6 @@
 #include "inc/ford_fulkerson.h"
 
+
 Graph FordFulkerson::Run(Graph g, const int source, const int sink)
 {
     while (GetPath(g, source, sink)) {

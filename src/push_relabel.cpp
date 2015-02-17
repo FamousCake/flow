@@ -6,11 +6,11 @@ void PushRelabel::run(Graph &residual_network, const int s, const int t)
 
     while (true) {
 
-        if (PushRelabel::Push(residual_network, s, t)) {
+        if (PushRelabel::Relabel(residual_network, s, t)) {
             continue;
         }
 
-        if (PushRelabel::Relabel(residual_network, s, t)) {
+        if (PushRelabel::Push(residual_network, s, t)) {
             continue;
         }
 

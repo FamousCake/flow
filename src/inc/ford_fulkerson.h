@@ -2,6 +2,7 @@
 
 #ifndef FORD_FULKERSON_H
 #define FORD_FULKERSON_H
+#include <queue>
 
 #include "graph.h"
 #include "simple_queue.h"

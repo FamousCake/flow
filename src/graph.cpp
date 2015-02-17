@@ -23,10 +23,10 @@ Graph::Graph(const Graph &g)
     }
 }
 
-void Graph::ApplyToV(std::function<int(int)> c)
+void Graph::ApplyToV(std::function<int(int)> callback)
 {
     for (int i = 0; i < this->VertexCount; ++i) {
-        V[i] = c(V[i]);
+        V[i] = callback(V[i]);
     }
 }
 

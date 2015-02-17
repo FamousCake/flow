@@ -7,6 +7,7 @@
 #include "inc/push_relabel.h"
 #include "inc/graph_generation.h"
 
+// Sums all the flowing going in the sink
 int getFlow(const Graph &a)
 {
     int s = 0;
@@ -29,6 +30,7 @@ int main()
 
     std::cin >> N;
 
+    // Vertex Count, Density, Min , Max (Flow Capasity for all edges)
     Graph g(GraphGeneration::GenerateRandomGraph(N, 70, 1, 1000));
 
     a.Stop();
