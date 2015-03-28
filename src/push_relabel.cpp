@@ -2,81 +2,76 @@
 
 void PushRelabel::run(Graph &residual_network, const int s, const int t)
 {
-    PushRelabel::init(residual_network, s);
+    SimpleQueue Q(residual_network.VertexCount);
 
-    while (true) {
+    PushRelabel::init(residual_network, Q,  s);
 
-        if (PushRelabel::Push(residual_network, s, t)) {
-            continue;
-        }
+    while ( Q.size() > 0 ) {
 
-        if (PushRelabel::Relabel(residual_network, s, t)) {
-            continue;
-        }
+        std::cout << "blqqqqq - " << Q.front();
 
-        break;
-    }
-}
+        // Pick any active vertex
+        int x = Q.front();
 
-bool PushRelabel::Push(Graph &residual_network, const int s, const int t)
-{
-    for (int i = 0; i < residual_network.VertexCount; ++i) {
+        int min = std::numeric_limits<int>::max();
 
-        // If the current vertex is overflowing
-        // s and t cannot overflow by definition!
-        if (i != s && i != t && residual_network.ExcessFlow[i] > 0) {
+        // For all neighbours
+        for (int y = 0; y < residual_network.VertexCount; ++y) {
+            if (CanPush(residual_network, x, y)) {
 
-            for (int j = 0; j < residual_network.VertexCount; ++j) {
+                // If y will be made active with this push (THIS IS THE ONLY PLACE WE PUSH in the Q)
+                if (0 == residual_network.ExcessFlow[y] && y != s && y != t) {
+                    Q.push(y);
+                }
 
-                if (residual_network.E[i][j] > 0 &&
-                    residual_network.Height[i] == residual_network.Height[j] + 1) {
+                Push(residual_network, x, y);
 
-                    int min = std::min(residual_network.ExcessFlow[i], residual_network.E[i][j]);
+                // If the push was saturating X is no longer active!
+                if (0 == residual_network.ExcessFlow[x]) {
+                    Q.pop();
 
-                    residual_network.E[i][j] -= min;
-                    residual_network.E[j][i] += min;
-
-                    residual_network.ExcessFlow[i] -= min;
-                    residual_network.ExcessFlow[j] += min;
-
-                    return true;
+                    // We can't go on if the vertex is inactive
+                    break;
                 }
             }
-        }
-    }
-    return false;
-}
-
-bool PushRelabel::Relabel(Graph &residual_network, const int s, const int t)
-{
-    for (int i = 0; i < residual_network.VertexCount; ++i) {
-
-        // If vertex is overflowing.
-        // s and t do not overflow by definition!
-        if (i != s && i != t && residual_network.ExcessFlow[i] > 0) {
-
-            int min = std::numeric_limits<int>::max();
-
-            // For each neighbouring vertex, look for the one that is of least height
-            for (int j = 0; j < residual_network.VertexCount; ++j) {
-                if (residual_network.E[i][j] > 0 &&
-                    residual_network.Height[i] <= residual_network.Height[j]) {
-                    if (residual_network.Height[j] < min) {
-                        min = residual_network.Height[j];
-                    }
-                }
+            else if (residual_network.Height[y] < min) {
+                min = residual_network.Height[y];
             }
+        }
 
-            // Increase the height of the lowest heighbour plus one
-            residual_network.Height[i] = 1 + min;
+        // If the vertex is still active after going through all the neigbouts
+        if (residual_network.ExcessFlow[x] > 0) {
+            Relabel(residual_network, x, min);
 
-            return true;
         }
     }
-    return false;
 }
 
-void PushRelabel::init(Graph &residual_network, int source)
+
+bool PushRelabel::CanPush(Graph &residual_network, const int x, const int y)
+{
+    return residual_network.E[x][y] > 0 && residual_network.Height[x] == (residual_network.Height[y] + 1);
+}
+
+void PushRelabel::Push(Graph &residual_network, const int x, const int y)
+{
+    int min = std::min(residual_network.ExcessFlow[x], residual_network.E[x][y]);
+
+    residual_network.E[x][y] -= min;
+    residual_network.E[y][x] += min;
+
+    residual_network.ExcessFlow[x] -= min;
+    residual_network.ExcessFlow[y] += min;
+}
+
+void PushRelabel::Relabel(Graph &residual_network, const int x, const int min)
+{
+    // Increase the height of the lowest heighbour plus one
+    residual_network.Height[x] = 1 + min;
+}
+
+
+void PushRelabel::init(Graph &residual_network, SimpleQueue &Q, int source)
 {
     for (int i = 0; i < residual_network.VertexCount; ++i) {
         residual_network.ExcessFlow[i] = 0;
@@ -97,6 +92,8 @@ void PushRelabel::init(Graph &residual_network, int source)
 
             residual_network.ExcessFlow[i] += flow;
             residual_network.ExcessFlow[source] -= flow;
+
+            Q.push(i);
         }
     }
 }
