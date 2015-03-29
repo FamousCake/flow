@@ -14,8 +14,15 @@ namespace PushRelabel
 void run(Graph &, const int, const int);
 void init(Graph &, int);
 
-bool Push(Graph &, const int, const int);
-bool Relabel(Graph &, const int, const int);
+int FindOverflowing(Graph &, int, int);
+
+void Discharge(Graph &, int);
+
+bool CanPush(Graph &, int, int);
+bool CanRelabel(Graph &, int);
+
+void Push(Graph &, const int, const int);
+void Relabel(Graph &, int);
 
 } // PushRelabel PushRelabel
 
