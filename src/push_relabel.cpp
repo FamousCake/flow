@@ -2,89 +2,140 @@
 
 void PushRelabel::run(Graph &residual_network, const int s, const int t)
 {
-    SimpleQueue Q(residual_network.VertexCount);
+    PushRelabel::init(residual_network, s);
 
-    PushRelabel::init(residual_network, Q,  s);
+    while (true) {
 
-    while ( Q.size() > 0 ) {
+        int current = FindOverflowing(residual_network, s, t);
 
-        std::cout << "blqqqqq - " << Q.front();
-
-        // Pick any active vertex
-        int x = Q.front();
-
-        int min = std::numeric_limits<int>::max();
-
-        // For all neighbours
-        for (int y = 0; y < residual_network.VertexCount; ++y) {
-            if (CanPush(residual_network, x, y)) {
-
-                // If y will be made active with this push (THIS IS THE ONLY PLACE WE PUSH in the Q)
-                if (0 == residual_network.ExcessFlow[y] && y != s && y != t) {
-                    Q.push(y);
-                }
-
-                Push(residual_network, x, y);
-
-                // If the push was saturating X is no longer active!
-                if (0 == residual_network.ExcessFlow[x]) {
-                    Q.pop();
-
-                    // We can't go on if the vertex is inactive
-                    break;
-                }
-            }
-            else if (residual_network.Height[y] < min) {
-                min = residual_network.Height[y];
-            }
-        }
-
-        // If the vertex is still active after going through all the neigbouts
-        if (residual_network.ExcessFlow[x] > 0) {
-            Relabel(residual_network, x, min);
-
+        if (current == -1) {
+            break;
+        } else {
+            Discharge(residual_network, current);
         }
     }
 }
 
-
-bool PushRelabel::CanPush(Graph &residual_network, const int x, const int y)
+void PushRelabel::Discharge(Graph &residual_network, int i)
 {
-    return residual_network.E[x][y] > 0 && residual_network.Height[x] == (residual_network.Height[y] + 1);
+    // u is active, doesn't matter what the others are!
+    while (residual_network.ExcessFlow[i] > 0) {
+
+        // If you can relabel, go ahead
+        if (CanRelabel(residual_network, i)) {
+            Relabel(residual_network, i);
+        }
+
+        // Push to all neighbours
+        for (int j = 0; j < residual_network.VertexCount; ++j) {
+            if (residual_network.E[i][j] > 0) {
+                if (CanPush(residual_network, i, j)) {
+                    Push(residual_network, i, j);
+                }
+            }
+        }
+    }
 }
 
-void PushRelabel::Push(Graph &residual_network, const int x, const int y)
+int PushRelabel::FindOverflowing(Graph &residual_network, int s, int t)
 {
-    int min = std::min(residual_network.ExcessFlow[x], residual_network.E[x][y]);
+    for (int i = 0; i < residual_network.VertexCount; ++i) {
+        if (i != s && i != t && residual_network.ExcessFlow[i] > 0) {
+            return i;
+        }
+    }
 
-    residual_network.E[x][y] -= min;
-    residual_network.E[y][x] += min;
-
-    residual_network.ExcessFlow[x] -= min;
-    residual_network.ExcessFlow[y] += min;
+    return -1;
 }
 
-void PushRelabel::Relabel(Graph &residual_network, const int x, const int min)
+// Pushing
+bool PushRelabel::CanPush(Graph &residual_network, int i, int j)
 {
-    // Increase the height of the lowest heighbour plus one
-    residual_network.Height[x] = 1 + min;
+    // 1) Vertex i must be overflowing
+    if (residual_network.ExcessFlow[i] == 0) {
+        return false;
+    }
+
+    // 2) There must exist an edge in the residual network
+    if (residual_network.E[i][j] == 0) {
+        return false;
+    }
+
+    // 4) i.h = j.h +1
+    if (residual_network.Height[i] != residual_network.Height[j] + 1) {
+        return false;
+    }
+
+    return true;
 }
 
-
-void PushRelabel::init(Graph &residual_network, SimpleQueue &Q, int source)
+void PushRelabel::Push(Graph &residual_network, const int i, const int j)
 {
+    int min = std::min(residual_network.ExcessFlow[i], residual_network.E[i][j]);
+
+    residual_network.E[i][j] -= min;
+    residual_network.E[j][i] += min;
+
+    residual_network.ExcessFlow[i] -= min;
+    residual_network.ExcessFlow[j] += min;
+}
+
+// Relabeling
+bool PushRelabel::CanRelabel(Graph &residual_network, const int i)
+{
+    // i must be overflowing
+    if (residual_network.ExcessFlow[i] == 0) {
+        return false;
+    }
+
+    // All neighbours of u must be at the same height or heigher
+    for (int j = 0; j < residual_network.VertexCount; ++j) {
+        if (residual_network.E[i][j] > 0) {
+            if (residual_network.Height[i] > residual_network.Height[j]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void PushRelabel::Relabel(Graph &residual_network, int i)
+{
+    int min = std::numeric_limits<int>::max();
+
+    for (int j = 0; j < residual_network.VertexCount; ++j) {
+
+        if (residual_network.E[i][j] > 0) {
+
+            if (residual_network.Height[j] < min) {
+                min = residual_network.Height[j];
+            }
+        }
+    }
+
+    residual_network.Height[i] = 1 + min;
+}
+
+// Initialization
+void PushRelabel::init(Graph &residual_network, int source)
+{
+    // Making sure initial values are valied
     for (int i = 0; i < residual_network.VertexCount; ++i) {
         residual_network.ExcessFlow[i] = 0;
         residual_network.Height[i] = 0;
         residual_network.V[i] = 0;
     }
 
+    // Height of the source is |V|
     residual_network.Height[source] = residual_network.VertexCount;
 
+    // Pushing the first flow to the neighbours of the source
     for (int i = 0; i < residual_network.VertexCount; ++i) {
 
         if (residual_network.E[source][i] > 0) {
 
+            // Push the capasity of the edge
             int flow = residual_network.E[source][i];
 
             residual_network.E[i][source] += flow;
@@ -92,8 +143,6 @@ void PushRelabel::init(Graph &residual_network, SimpleQueue &Q, int source)
 
             residual_network.ExcessFlow[i] += flow;
             residual_network.ExcessFlow[source] -= flow;
-
-            Q.push(i);
         }
     }
 }

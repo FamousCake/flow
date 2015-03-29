@@ -7,20 +7,22 @@
 
 #include "graph.h"
 #include "io.h"
-#include "simple_queue.h"
 
 namespace PushRelabel
 {
 
 void run(Graph &, const int, const int);
-void init(Graph &, SimpleQueue &, int);
+void init(Graph &, int);
 
-bool CanPush(Graph &, const int, const int);
+int FindOverflowing(Graph &, int, int);
 
-bool IsActive(Graph &, const int, const int, const int );
+void Discharge(Graph &, int);
+
+bool CanPush(Graph &, int, int);
+bool CanRelabel(Graph &, int);
 
 void Push(Graph &, const int, const int);
-void Relabel(Graph &, const int, const int);
+void Relabel(Graph &, int);
 
 } // PushRelabel PushRelabel
 
