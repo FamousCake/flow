@@ -5,6 +5,7 @@ void PushRelabel::run(Graph &residual_network, const int s, const int t)
     PushRelabel::init(residual_network, s);
 
     while (true) {
+
         int current = FindOverflowing(residual_network, s, t);
 
         if (current == -1) {
@@ -55,7 +56,7 @@ bool PushRelabel::CanPush(Graph &residual_network, int i, int j)
         return false;
     }
 
-    // 2) The must exist an edge in the residual network
+    // 2) There must exist an edge in the residual network
     if (residual_network.E[i][j] == 0) {
         return false;
     }
@@ -89,8 +90,10 @@ bool PushRelabel::CanRelabel(Graph &residual_network, const int i)
 
     // All neighbours of u must be at the same height or heigher
     for (int j = 0; j < residual_network.VertexCount; ++j) {
-        if (residual_network.Height[i] > residual_network.Height[j]) {
-            return false;
+        if (residual_network.E[i][j] > 0) {
+            if (residual_network.Height[i] > residual_network.Height[j]) {
+                return false;
+            }
         }
     }
 
