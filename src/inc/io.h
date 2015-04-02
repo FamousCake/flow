@@ -6,6 +6,7 @@
 #include <iomanip>
 
 #include "graph.h"
+#include "linked_list.h"
 
 namespace io
 {
@@ -13,6 +14,7 @@ namespace io
 void printGraphV(const Graph &, const int);
 void printGraphExcessFlow(const Graph &, const int);
 void printGraphHeight(const Graph &, const int);
+void printGraphNList(const Graph &, const int);
 
 void printGraphE(const Graph &, const int);
 

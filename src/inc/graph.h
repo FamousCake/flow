@@ -7,7 +7,7 @@
 #include <cstring>
 #include <functional>
 #include <memory>
-
+#include "linked_list.h"
 // #include <algorithm>
 
 class Graph
@@ -24,6 +24,8 @@ class Graph
     int VertexCount = 0;
 
     int *V = nullptr;
+
+    LinkedList *NList = nullptr;
 
     int *Height = nullptr;
     int *ExcessFlow = nullptr;

@@ -56,6 +56,29 @@ void io::printGraphE(const Graph &g, int w)
     }
 }
 
+void io::printGraphNList(const Graph &g, const int w)
+{
+    std::cout << std::endl;
+
+    std::cout << "E pointer at : " << g.E;
+
+    ListNode *x;
+    for (int i = 0; i < g.VertexCount; ++i) {
+        x = g.NList[i].start;
+
+        std::cout << "Vertex : " << i << " - " ;
+
+        while (x != nullptr) {
+            std::cout << x->v << " ";
+            x = x->next;
+        }
+
+        std::cout << std::endl;
+    }
+
+    delete x;
+}
+
 Graph io::readGraph(const char *filename)
 {
     std::ifstream myfile(filename);

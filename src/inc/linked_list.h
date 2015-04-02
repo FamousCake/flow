@@ -4,10 +4,11 @@
 class ListNode
 {
   public:
-    ListNode(int, int, ListNode *);
+    ListNode(int, ListNode *);
+    ListNode(){}
     ~ListNode();
 
-    int v, w;
+    int v;
     ListNode *next;
 };
 
@@ -19,7 +20,7 @@ class LinkedList
 
     ListNode *start = nullptr;
 
-    void Add(int, int);
+    void Add(int);
 };
 
 #endif // LINKED_LIST_H

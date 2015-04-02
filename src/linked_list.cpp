@@ -1,9 +1,8 @@
 #include "inc/linked_list.h"
 
-ListNode::ListNode(int v, int w, ListNode *next)
+ListNode::ListNode(int v, ListNode *next)
 {
     this->v = v;
-    this->w = w;
     this->next = next;
 }
 
@@ -12,9 +11,9 @@ ListNode::~ListNode()
     delete this->next;
 }
 
-void LinkedList::Add(int v, int w)
+void LinkedList::Add(int v)
 {
-    this->start = new ListNode(v, w, start);
+    this->start = new ListNode(v, start);
 }
 
 LinkedList::~LinkedList()

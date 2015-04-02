@@ -19,7 +19,14 @@ Graph::Graph(const Graph &g)
     for (int i = 0; i < g.VertexCount; ++i) {
         for (int j = 0; j < g.VertexCount; ++j) {
             this->E[i][j] = g.E[i][j];
+
+            if (this->E[i][j] != 0) {
+                this->NList[i].Add(j);
+                this->NList[j].Add(i);
+
+            }
         }
+
     }
 }
 
@@ -37,12 +44,14 @@ void Graph::initialize(const int n)
     this->V = new int[n];
     this->ExcessFlow = new int[n];
     this->Height = new int[n];
+    this->NList = new LinkedList[n];
 
     memset(this->V, 0, sizeof(int) * n);
     memset(this->ExcessFlow, 0, sizeof(int) * n);
     memset(this->Height, 0, sizeof(int) * n);
 
     this->E = new int *[n];
+
     for (int i = 0; i < n; ++i) {
         this->E[i] = new int[n];
         memset(this->E[i], 0, sizeof(int) * n);
@@ -54,6 +63,7 @@ void Graph::initialize(const int n)
 Graph::~Graph()
 {
     delete[] this->E;
+    delete[] this->NList;
     delete[] this->V;
     delete[] this->ExcessFlow;
     delete[] this->Height;

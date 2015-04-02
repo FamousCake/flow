@@ -7,6 +7,7 @@
 
 #include "graph.h"
 #include "io.h"
+#include "dual_linked_list.h"
 
 namespace PushRelabel
 {

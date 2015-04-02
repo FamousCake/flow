@@ -26,12 +26,13 @@ int main()
     a.Start();
     t.Start();
 
-    int N = 500;
+    int N = 5;
 
-    std::cin >> N;
+    //std::cin >> N;
 
     // Vertex Count, Density, Min , Max (Flow Capasity for all edges)
-    Graph g(GraphGeneration::GenerateRandomGraph(N, 70, 1, 1000));
+    //Graph g(GraphGeneration::GenerateRandomGraph(N, 70, 1, 1000));
+    Graph g = io::readGraph("tests/test1/input");
 
     a.Stop();
     std::cout << "Generated in : " << a.GetDuration() << std::endl;
