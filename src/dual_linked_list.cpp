@@ -31,8 +31,10 @@ void DualLinkedList::MoveToFront(DualNode *x)
     if (x == start || x == nullptr)
         return;
 
-    // This is guaranteed if x is not the start
-    x->prev->next = x->next;
+    if (x->prev != nullptr) {
+        // This is guaranteed if x is not the start
+        x->prev->next = x->next;
+    }
 
     // When x i the last element
     if (x->next != nullptr) {
@@ -41,6 +43,8 @@ void DualLinkedList::MoveToFront(DualNode *x)
 
     x->next = start;
     x->prev = nullptr;
+
+    start->prev = x;
 
     start = x;
 

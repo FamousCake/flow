@@ -4,17 +4,58 @@ void PushRelabel::run(Graph &residual_network, const int s, const int t)
 {
     PushRelabel::init(residual_network, s);
 
-    while (true) {
+    DualLinkedList l;
 
-        int current = FindOverflowing(residual_network, s, t);
-
-        if (current == -1) {
-            break;
-        } else {
-            Discharge(residual_network, current);
-        }
+    for (int i = 0; i < residual_network.VertexCount; ++i)
+    {
+        if (i!=s && i!=t)
+            l.Push(i);
     }
+
+    DualNode *current = l.start;
+
+
+
+    while (current != nullptr) {
+
+        int temp = residual_network.Height[current->a];
+
+        Discharge(residual_network, current->a);
+
+        if (temp != residual_network.Height[current->a]) {
+            l.MoveToFront(current);
+        }
+
+        current = current->next;
+
+        // //int current = FindOverflowing(residual_network, s, t);
+
+        // int current = -1;
+
+        // x = l.start;
+
+        // while (x) {
+        //     if (residual_network.ExcessFlow[x->a] > 0) {
+        //         current = x->a;
+        //     }
+
+        //     x = x->next;
+        // }
+
+
+
+
+        // if (current == -1) {
+        //     break;
+        // } else {
+        //     Discharge(residual_network, current);
+        // }
+
+    }
+
+    //delete x;
 }
+
 
 void PushRelabel::Discharge(Graph &residual_network, int i)
 {
