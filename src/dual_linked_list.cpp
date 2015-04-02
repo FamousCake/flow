@@ -12,6 +12,7 @@ void DualLinkedList::Push(int a) {
 
     if (this->start == nullptr) {
         this->start = new DualNode(a, nullptr, nullptr);
+        this->last = start;
     }
     else {
 

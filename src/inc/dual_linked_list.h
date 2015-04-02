@@ -13,6 +13,7 @@ public:
 class DualLinkedList{
 public:
     DualNode *start = nullptr;
+    DualNode *last = nullptr;
 
 
     DualLinkedList(){ this->start = nullptr;}
