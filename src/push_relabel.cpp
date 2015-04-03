@@ -10,10 +10,10 @@ void PushRelabel::run(Graph &residual_network, const int s, const int t)
     {
         if (i!=s && i!=t)
             l.Push(i);
+        residual_network.Current[i] = residual_network.NList[i].start;
     }
 
     DualNode *current = l.start;
-    DualNode *x = l.start;
 
     while (current) {
 
@@ -27,8 +27,6 @@ void PushRelabel::run(Graph &residual_network, const int s, const int t)
 
         current = current->next;
     }
-
-    delete x;
 }
 
 
@@ -38,17 +36,18 @@ void PushRelabel::Discharge(Graph &residual_network, int i)
     while (residual_network.ExcessFlow[i] > 0) {
 
         // If you can relabel, go ahead
-        if (CanRelabel(residual_network, i)) {
+        if (residual_network.Current[i] == nullptr) {
             Relabel(residual_network, i);
+            residual_network.Current[i] = residual_network.NList[i].start;
         }
 
-        // Push to all neighbours
-        for (int j = 0; j < residual_network.VertexCount; ++j) {
-            if (residual_network.E[i][j] > 0) {
-                if (CanPush(residual_network, i, j)) {
-                    Push(residual_network, i, j);
-                }
-            }
+        else if (CanPush(residual_network, i, residual_network.Current[i]->v)) {
+            Push(residual_network, i, residual_network.Current[i]->v);
+        }
+
+        else {
+            //x = x->next;
+            residual_network.Current[i] = residual_network.Current[i]->next; //residual_network.Current[i]->next;
         }
     }
 }

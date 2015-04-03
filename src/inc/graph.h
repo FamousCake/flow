@@ -26,6 +26,7 @@ class Graph
     int *V = nullptr;
 
     LinkedList *NList = nullptr;
+    ListNode **Current = nullptr;
 
     int *Height = nullptr;
     int *ExcessFlow = nullptr;

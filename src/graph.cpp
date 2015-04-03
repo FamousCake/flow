@@ -45,6 +45,7 @@ void Graph::initialize(const int n)
     this->ExcessFlow = new int[n];
     this->Height = new int[n];
     this->NList = new LinkedList[n];
+    this->Current = new ListNode *[n];
 
     memset(this->V, 0, sizeof(int) * n);
     memset(this->ExcessFlow, 0, sizeof(int) * n);
@@ -64,6 +65,7 @@ Graph::~Graph()
 {
     delete[] this->E;
     delete[] this->NList;
+    delete[] this->Current;
     delete[] this->V;
     delete[] this->ExcessFlow;
     delete[] this->Height;

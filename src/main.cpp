@@ -43,17 +43,17 @@ int main()
     // FordFulkerson::Run(g, 0, N - 1);
 
     // b.Start();
-    //std::cout << "Ford-Fulkerson Flow : " << getFlow(FordFulkerson::Run(g, 0, N - 1)) << std::endl;
+    // std::cout << "Ford-Fulkerson Flow : " << getFlow(FordFulkerson::Run(g, 0, N - 1)) << std::endl;
 
     // b.Stop();
     // std::cout << "Ford-Fulkerson in : " << b.GetDuration() << std::endl;
 
-    // c.Start();
+    c.Start();
     PushRelabel::run(g1, 0, N - 1);
     std::cout << "Push Relabel   Flow : " << getFlow(g1) << std::endl;
 
-    // c.Stop();
-    // std::cout << "Push Relabel in : " << c.GetDuration() << std::endl;
+    c.Stop();
+    std::cout << "Push Relabel in : " << c.GetDuration() << std::endl;
 
     // t.Stop();
     // std::cout << "\n\nTime is : " << t.GetDuration() << std::endl;
