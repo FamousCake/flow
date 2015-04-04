@@ -8,9 +8,9 @@
 
 class GraphGeneration
 {
-public:
-
-    static inline void GenerateRandomGraph(int &E[][Globals::MaxGraphSize], int count, int sink, int density, int min, int max)
+  public:
+    static inline void GenerateRandomGraph(int E[][Globals::MaxGraphSize], int count, int density,
+                                           int min, int max)
     {
         std::random_device rd;
 
@@ -20,17 +20,14 @@ public:
         std::uniform_int_distribution<int> dist2(1, 100);
 
         // No edges can go out of the sink
-        for (int i = 0; i < count; ++i) {
-            if ( i!= sink) {
-                for (int j = 0; j < count; ++j) {
-                    if (i != j && dist2(mt) <= density && E[j][i] == 0) {
-                        E[i][j] = dist(mt);
-                    }
+        for (int i = 0; i < count - 1; ++i) {
+            for (int j = 0; j < count; ++j) {
+                if (i != j && dist2(mt) <= density && E[j][i] == 0) {
+                    E[i][j] = dist(mt);
                 }
             }
         }
     }
-
 };
 
 #endif // GRAPH_GENERATION_H

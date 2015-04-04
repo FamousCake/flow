@@ -7,8 +7,8 @@
 
 #include "globals.h"
 
-
-namespace IO {
+namespace IO
+{
 
 /**
  * @brief Print a 1D Array
@@ -30,7 +30,7 @@ void printArray(int a[], const char message[], int w, int count);
  */
 void printArrayDouble(int a[][Globals::MaxGraphSize], const char message[], int w, int count);
 
-int ReadGraph(int [][Globals::MaxGraphSize], const char[]);
+int ReadGraph(int[][Globals::MaxGraphSize], const char[]);
 
 } // IO
 

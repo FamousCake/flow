@@ -1,10 +1,10 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-namespace Globals {
+namespace Globals
+{
 
-    const unsigned int MaxGraphSize = 5;
-
+const unsigned int MaxGraphSize = 1000;
 
 } // Globals
 
