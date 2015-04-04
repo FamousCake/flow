@@ -1,6 +1,6 @@
 #include "inc/ford-fulkerson.h"
 
-FordFulkerson::FordFulkerson(int A[][Globals::MaxGraphSize], const int count, const int source,
+FordFulkerson::FordFulkerson(int A[][MAX_GRAPH_SIZE], const int count, const int source,
                              const int sink)
 {
     this->Sink = sink;
@@ -15,6 +15,17 @@ FordFulkerson::FordFulkerson(int A[][Globals::MaxGraphSize], const int count, co
     }
 }
 
+int FordFulkerson::GetFlow()
+{
+    int s = 0;
+    for (int i = 0; i < VertexCount; ++i)
+    {
+        s += E[Sink][i];
+    }
+
+    return s;
+}
+
 void FordFulkerson::Run()
 {
     while (GetPath()) {
@@ -26,6 +37,8 @@ void FordFulkerson::AugmentPath()
 {
     // Step 1 : Find the minimum flow the path can be augmented by
     int x = Sink;
+
+    // Let the initial minimum be the first edge on the augmenting path
     int min = E[V[x]][x];
 
     while (V[x] != x) {

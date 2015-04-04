@@ -13,10 +13,10 @@ class FordFulkerson
 
   public:
     // List of ancestors for every vertex after the BFS
-    int V[Globals::MaxGraphSize];
+    int V[MAX_GRAPH_SIZE];
 
     // Residual network
-    int E[Globals::MaxGraphSize][Globals::MaxGraphSize];
+    int E[MAX_GRAPH_SIZE][MAX_GRAPH_SIZE];
 
     // Total number of vertices
     int VertexCount;
@@ -33,9 +33,11 @@ class FordFulkerson
      * @param t Sink index
      */
 
-    FordFulkerson(int[][Globals::MaxGraphSize], const int, const int, const int);
+    FordFulkerson(int[][MAX_GRAPH_SIZE], const int, const int, const int);
 
     void Run();
+
+    int GetFlow();
 
   private:
     /**

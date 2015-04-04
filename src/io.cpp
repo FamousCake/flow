@@ -16,7 +16,7 @@ void IO::printArray(int A[], const char s[], int w, int count)
     cout << endl;
 }
 
-void IO::printArrayDouble(int A[][Globals::MaxGraphSize], const char s[], int w, int count)
+void IO::printArrayDouble(int A[][MAX_GRAPH_SIZE], const char s[], int w, int count)
 {
     cout << endl
          << s;
@@ -33,7 +33,7 @@ void IO::printArrayDouble(int A[][Globals::MaxGraphSize], const char s[], int w,
     cout << endl;
 }
 
-int IO::ReadGraph(int E[][Globals::MaxGraphSize], const char filename[])
+int IO::ReadGraph(int E[][MAX_GRAPH_SIZE], const char filename[])
 {
     std::ifstream myfile(filename);
 

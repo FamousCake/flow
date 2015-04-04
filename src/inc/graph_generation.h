@@ -9,7 +9,7 @@
 class GraphGeneration
 {
   public:
-    static inline void GenerateRandomGraph(int E[][Globals::MaxGraphSize], int count, int density,
+    static inline void GenerateRandomGraph(int E[][MAX_GRAPH_SIZE], int count, int density,
                                            int min, int max)
     {
         std::random_device rd;

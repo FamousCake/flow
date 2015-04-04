@@ -28,9 +28,9 @@ void printArray(int a[], const char message[], int w, int count);
  * @param w offset for each element
  * @param count [description]
  */
-void printArrayDouble(int a[][Globals::MaxGraphSize], const char message[], int w, int count);
+void printArrayDouble(int a[][MAX_GRAPH_SIZE], const char message[], int w, int count);
 
-int ReadGraph(int[][Globals::MaxGraphSize], const char[]);
+int ReadGraph(int[][MAX_GRAPH_SIZE], const char[]);
 
 } // IO
 
