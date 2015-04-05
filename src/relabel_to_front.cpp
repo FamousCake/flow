@@ -2,19 +2,19 @@
 
 void RelabelToFront::Run()
 {
-    //PushInitialFlow();
+    PushInitialFlow();
 
-    //int current = -1;
+    int current = -1;
 
-    // do
-    // {
-    //     current = FindOverflowing();
+    do
+    {
+        current = FindOverflowing();
 
-    //     if (current != -1) {
-    //         Discharge(current);
-    //     }
+        if (current != -1) {
+            Discharge(current);
+        }
 
-    // } while(current != -1);
+    } while(current != -1);
 }
 
 void RelabelToFront::Discharge(int i)
@@ -139,43 +139,43 @@ void RelabelToFront::PushInitialFlow()
 RelabelToFront::RelabelToFront(int A[][MAX_GRAPH_SIZE], const int count, const int source,
                                const int sink)
 {
-    // this->Sink = sink;
-    // this->Source = source;
-    // this->VertexCount = count;
+    this->Sink = sink;
+    this->Source = source;
+    this->VertexCount = count;
 
-    // // Initialize all the new vertices
-    // for (int i = 0; i < this->VertexCount; ++i) {
-    //     V[i].Index = i;
-    //     V[i].Height = 0;
-    //     V[i].ExcessFlow = 0;
-    //     V[i].Current = 0;
-    //     V[i].NCount = 0;
-    // }
+    // Initialize all the new vertices
+    for (int i = 0; i < this->VertexCount; ++i) {
+        V[i].Index = i;
+        V[i].Height = 0;
+        V[i].ExcessFlow = 0;
+        V[i].Current = 0;
+        V[i].NCount = 0;
+    }
 
-    // // Copy the residual network and make the possible neigbor lists
-    // for (int i = 0; i < this->VertexCount; ++i) {
-    //     for (int j = 0; j < this->VertexCount; ++j) {
+    // Copy the residual network and make the possible neigbor lists
+    for (int i = 0; i < this->VertexCount; ++i) {
+        for (int j = 0; j < this->VertexCount; ++j) {
 
-    //         this->E[i][j] = A[i][j];
+            this->E[i][j] = A[i][j];
 
-    //         // If (i,j) e E, then both (i, j) and (j, i) can appear in the residual network
-    //         if (A[i][j] > 0) {
-    //             V[i].NList[V[i].Current] = j;
-    //             V[i].Current++;
+            // If (i,j) e E, then both (i, j) and (j, i) can appear in the residual network
+            if (A[i][j] > 0) {
+                V[i].NList[V[i].Current] = j;
+                V[i].Current++;
 
-    //             V[j].NList[V[j].Current] = i;
-    //             V[j].Current++;
-    //         }
-    //     }
-    // }
+                V[j].NList[V[j].Current] = i;
+                V[j].Current++;
+            }
+        }
+    }
 
-    // // Set current to the start of the list and remember the count
-    // for (int i = 0; i < this->VertexCount; ++i) {
-    //     V[i].NCount = V[i].Current;
-    //     V[i].Current = 0;
-    // }
+    // Set current to the start of the list and remember the count
+    for (int i = 0; i < this->VertexCount; ++i) {
+        V[i].NCount = V[i].Current;
+        V[i].Current = 0;
+    }
 
-    //V[Source].Height = VertexCount;
+    V[Source].Height = VertexCount;
 }
 
 RelabelToFront::~RelabelToFront()
