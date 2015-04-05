@@ -18,8 +18,7 @@ FordFulkerson::FordFulkerson(int A[][MAX_GRAPH_SIZE], const int count, const int
 int FordFulkerson::GetFlow()
 {
     int s = 0;
-    for (int i = 0; i < VertexCount; ++i)
-    {
+    for (int i = 0; i < VertexCount; ++i) {
         s += E[Sink][i];
     }
 

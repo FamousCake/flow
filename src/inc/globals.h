@@ -3,5 +3,4 @@
 
 #define MAX_GRAPH_SIZE 1000
 
-
 #endif // GLOBALS_H

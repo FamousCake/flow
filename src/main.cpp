@@ -5,6 +5,7 @@
 #include "inc/io.h"
 #include "inc/graph_generation.h"
 #include "inc/ford-fulkerson.h"
+#include "inc/relabel_to_front.h"
 
 int main()
 {
@@ -19,17 +20,24 @@ int main()
     }
 
     IO::ReadGraph(E, "tests/test1/input");
-    //GraphGeneration::GenerateRandomGraph(E, N, 70, 0, 100);
+    // GraphGeneration::GenerateRandomGraph(E, N, 70, 0, 100);
 
     IO::printArrayDouble(E, "Here you go", 3, N);
 
-    FordFulkerson FF(E, N, 0, N - 1);
+    //FordFulkerson FF(E, N, 0, N - 1);
 
-    FF.Run();
+    //FF.Run();
 
-    IO::printArrayDouble(FF.E, "Here you go", 3, N);
+    // IO::printArrayDouble(FF.E, "Here you go", 3, N);
 
-    std::cout << "Flow is : " << FF.GetFlow();
+    // std::cout << "Flow is : " << FF.GetFlow();
+
+
+    RelabelToFront RTF(E, N, 0, N-1);
+
+    RTF.Run();
+
+    IO::printArrayDouble(RTF.E, "Here you go : ", 3, N);
 
     return 0;
 }
