@@ -26,7 +26,7 @@ int main()
 {
     //Vertex A[MAX_GRAPH_SIZE];
 
-    int N = 300;
+    int N = 500;
 
     int E[MAX_GRAPH_SIZE][MAX_GRAPH_SIZE];
 
@@ -37,7 +37,7 @@ int main()
     }
 
     //IO::ReadGraph(E, "tests/test1/input");
-    GraphGeneration::GenerateRandomGraph(E, N, 100, 0, 1000);
+    GraphGeneration::GenerateRandomGraph(E, N, 100, 1, 100000);
 
     //IO::printArrayDouble(E, "Here you go", 3, N);
 
@@ -58,5 +58,6 @@ int main()
     //IO::printArrayDouble(RTF.E, "Here you go RTF : ", 3, N);
     std::cout << std::endl << "Flow is : " << GetFlow(E, RTF.E, N);
 
+    std::cout << '\n';
     return 0;
 }
