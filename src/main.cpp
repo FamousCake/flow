@@ -24,7 +24,7 @@ int GetFlow(ResidualNetwork &B, int sink)
 int main()
 {
     // Initialization
-    int N = 100;
+    int N = 50;
 
     Stopwatch S;
     S.set_mode(REAL_TIME);

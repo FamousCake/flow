@@ -6,17 +6,29 @@ void RelabelToFront::Run()
 {
     PushInitialFlow();
 
-    int current = -1;
+    vector<int> l;
 
-    // @TODO Make this use a linked list
+    for (int i = 0; i < VertexCount; ++i) {
+        if (i != Source && i!=Sink) {
+            l.push_back(i);
+        }
+    }
+
+    vector<int>::reverse_iterator i = l.rbegin();
+
     do {
-        current = FindOverflowing();
 
-        if (current != -1) {
-            Discharge(current);
+        int oldHeight = V[*i].Height;
+
+        Discharge(*i);
+
+        if (oldHeight < V[*i].Height) {
+            l.push_back(*i);
+            i = l.rbegin();
         }
 
-    } while (current != -1);
+        i++;
+    } while (i != l.rend());
 }
 
 void RelabelToFront::Discharge(int i)
