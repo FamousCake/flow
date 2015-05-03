@@ -6,20 +6,21 @@ void RelabelToFront::Run()
 
     int current = -1;
 
-    do
-    {
+    // @TODO Make this use a linked list
+    do {
         current = FindOverflowing();
 
         if (current != -1) {
             Discharge(current);
         }
 
-    } while(current != -1);
+    } while (current != -1);
 }
 
 void RelabelToFront::Discharge(int i)
 {
     // u is active, doesn't matter what the others are!
+    // @TODO Make this a list as well
     while (V[i].ExcessFlow > 0) {
 
         if (CanRelabel(i)) {
@@ -34,6 +35,7 @@ void RelabelToFront::Discharge(int i)
     }
 }
 
+// @TODO Get rid of this entirely
 int RelabelToFront::FindOverflowing()
 {
     for (int i = 0; i < VertexCount; ++i) {
@@ -160,6 +162,7 @@ RelabelToFront::RelabelToFront(int A[][MAX_GRAPH_SIZE], const int count, const i
 
             // If (i,j) e E, then both (i, j) and (j, i) can appear in the residual network
             if (A[i][j] > 0) {
+
                 V[i].NList[V[i].Current] = j;
                 V[i].Current++;
 
@@ -180,5 +183,4 @@ RelabelToFront::RelabelToFront(int A[][MAX_GRAPH_SIZE], const int count, const i
 
 RelabelToFront::~RelabelToFront()
 {
-
 }

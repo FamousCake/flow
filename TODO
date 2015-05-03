@@ -1,0 +1,13 @@
+# Agenda
+
+    03.05.2015
+    - Replace static arrays with dynamic arrays
+    - Try out the Ford Fulkerson Algorithm with vectors instead of arrays
+
+    04.05.2015
+    - Work on graph generation
+    - Fix Relabel to fron to work exactly like in the book
+
+    09.05.2015
+    - Get the Boost Library Graph algorithms to work
+    - Start benchmarking the FF, RTL, Boost
