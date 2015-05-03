@@ -11,7 +11,9 @@
 
 namespace IO
 {
+
 // @TODO Add a write graph to file function
+
 /**
  * @brief Print a 1D Array
  *
@@ -23,15 +25,18 @@ namespace IO
 void printArray(int a[], const char message[], int w, int count);
 
 /**
- * @brief Print a 2D Array
+ * @brief Print a Residual Network
  *
- * @param a Array to be printed
  * @param message Mesage to be outputed before the array
  * @param w offset for each element
- * @param count [description]
  */
 void printResidualNetwork(ResidualNetwork &E, const char message[], int w);
 
+/**
+ * @brief Read graph from file as a 2D Vector
+ *
+ * @param filename
+ */
 std::vector<std::vector<int>> ReadGraph(const char[]);
 
 } // IO

@@ -4,9 +4,12 @@
 #define FORD_FULKERSON_H
 #include <queue>
 #include <iostream>
+#include <vector>
 
 #include "simple_queue.h"
 #include "globals.h"
+#include "residual_network.h"
+#include "io.h"
 
 class FordFulkerson
 {
@@ -16,7 +19,7 @@ class FordFulkerson
     int V[MAX_GRAPH_SIZE];
 
     // Residual network
-    int E[MAX_GRAPH_SIZE][MAX_GRAPH_SIZE];
+    ResidualNetwork E;
 
     // Total number of vertices
     int VertexCount;
@@ -33,7 +36,7 @@ class FordFulkerson
      * @param t Sink index
      */
 
-    FordFulkerson(int[][MAX_GRAPH_SIZE], const int, const int, const int);
+    FordFulkerson(std::vector<std::vector<int>>, const int, const int);
 
     void Run();
 

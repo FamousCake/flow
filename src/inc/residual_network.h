@@ -8,12 +8,26 @@
 class ResidualNetwork
 {
   public:
+    /**
+     * Construct empty residual network
+     *
+     * @param count Vertex Count
+     * @param value Initial value ot all edges
+     */
     ResidualNetwork(int, int);
+
+    /**
+     * Construct a residual network from 2D Vector
+     *
+     * @param v Raw edge data
+     */
     ResidualNetwork(const std::vector<std::vector<int>> &);
+
     ~ResidualNetwork();
 
     int getWeight(int, int);
     void setWeight(int, int, int);
+    void updateWeight(int, int, int);
 
     int getCount();
 

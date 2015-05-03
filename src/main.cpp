@@ -13,12 +13,13 @@
 
 using namespace std;
 
-int GetFlow(int A[MAX_GRAPH_SIZE][MAX_GRAPH_SIZE], int B[MAX_GRAPH_SIZE][MAX_GRAPH_SIZE], int N)
+int GetFlow(const vector<vector<int>> &A,ResidualNetwork &B)
 {
     int s = 0;
-    for (int i = 0; i < N; ++i) {
-        if (A[0][i] > 0 && B[i][0] > 0) {
-            s += B[i][0];
+    for (unsigned long i = 0; i < A.size(); ++i) {
+
+        if (A[0][i] > 0 && B.getWeight(i, 0) > 0) {
+            s += B.getWeight(i, 0);
         }
     }
 
@@ -29,26 +30,16 @@ int main()
 {
     int N = 5;
 
-    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 45, 1, 10);
+    vector<vector<int>> raw = IO::ReadGraph("tests/test1/input");
 
-    // vector<vector<int>> raw = IO::ReadGraph("tests/test1/input");
+    // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 45, 1, 10);
 
-    ResidualNetwork E(raw);
-
-    IO::printResidualNetwork(E, "This msg : ", 3);
-
-    // IO::printResidualNetwork(E, "Here you go : ", 3 );
-    // IO::ReadGraph(E, "tests/test1/input");
-    // GraphGeneration::GenerateRandomGraph(E, N, 100, 1, 100000);
+    FordFulkerson FF(raw, 0, N - 1);
     //
-    // //IO::printArrayDouble(E, "Here you go", 3, N);
+    FF.Run();
     //
-    // FordFulkerson FF(E, N, 0, N - 1);
-    //
-    // FF.Run();
-    //
-    // //IO::printArrayDouble(FF.E, "Here you go FF : ", 3, N);
-    // std::cout << std::endl << "Flow is : " << GetFlow(E, FF.E, N);
+    IO::printResidualNetwork(FF.E, "Here you go FF : ", 3);
+    // std::cout << std::endl << "Flow is : " << GetFlow(raw, FF.E);
     //
     // // std::cout << "Flow is : " << FF.GetFlow();
     //
