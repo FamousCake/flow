@@ -2,7 +2,7 @@
 
 using namespace std;
 
-FordFulkerson::FordFulkerson(vector<vector<int>> raw, const int source,
+FordFulkerson::FordFulkerson(const vector<vector<int>> &raw, const int source,
                              const int sink) : E(ResidualNetwork(raw)), Source(source), Sink(sink)
 {
     this->VertexCount = raw.size();

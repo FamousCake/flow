@@ -23,6 +23,11 @@ class ResidualNetwork
      */
     ResidualNetwork(const std::vector<std::vector<int>> &);
 
+    /**
+     * Copy Constructor
+     */
+    // ResidualNetwork(ResidualNetwork&);
+
     ~ResidualNetwork();
 
     int getWeight(int, int);

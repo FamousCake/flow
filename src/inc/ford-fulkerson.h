@@ -36,7 +36,7 @@ class FordFulkerson
      * @param t Sink index
      */
 
-    FordFulkerson(std::vector<std::vector<int>>, const int, const int);
+    FordFulkerson(const std::vector<std::vector<int>>&, const int, const int);
 
     void Run();
 

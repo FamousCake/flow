@@ -35,6 +35,23 @@ ResidualNetwork::ResidualNetwork(const std::vector<std::vector<int>> &v)
     }
 }
 
+// ResidualNetwork::ResidualNetwork(ResidualNetwork &A)
+// {
+//     this->Count = A.getCount();
+//     this->E = new int *[this->Count];
+//
+//     for (int i = 0; i < this->Count; ++i) {
+//
+//         this->E[i] = new int[this->Count];
+//
+//         // Not accessing 2D Vector elements like this might yeild better performance, but this part
+//         // isn't sensitive
+//         for (int j = 0; j < this->Count; ++j) {
+//             this->E[i][j] = A.getWeight(i, j);
+//         }
+//     }
+// }
+
 ResidualNetwork::~ResidualNetwork()
 {
     for (int i = 0; i < this->Count; ++i) {
