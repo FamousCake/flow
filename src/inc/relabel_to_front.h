@@ -3,9 +3,11 @@
 
 #include <limits>
 #include <algorithm>
+#include <vector>
 
 #include "globals.h"
 #include "vertex.h"
+#include "residual_network.h"
 
 class RelabelToFront
 {
@@ -13,7 +15,7 @@ class RelabelToFront
     Vertex V[MAX_GRAPH_SIZE];
 
     // Residual network
-    int E[MAX_GRAPH_SIZE][MAX_GRAPH_SIZE];
+    ResidualNetwork E;
 
     // Total number of vertices
     int VertexCount;
@@ -21,7 +23,7 @@ class RelabelToFront
     // Source and sink index in the network
     int Source, Sink;
 
-    RelabelToFront(int[][MAX_GRAPH_SIZE], const int, const int, const int);
+    RelabelToFront(const std::vector<std::vector<int>>&, const int, const int, const int);
     ~RelabelToFront();
 
     void Run();

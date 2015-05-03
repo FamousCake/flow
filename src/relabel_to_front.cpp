@@ -1,5 +1,7 @@
 #include "inc/relabel_to_front.h"
 
+using namespace std;
+
 void RelabelToFront::Run()
 {
     PushInitialFlow();
@@ -138,8 +140,8 @@ void RelabelToFront::PushInitialFlow()
     }
 }
 
-RelabelToFront::RelabelToFront(int A[][MAX_GRAPH_SIZE], const int count, const int source,
-                               const int sink)
+RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int count, const int source,
+                               const int sink) : E(ResidualNetwork(A))
 {
     this->Sink = sink;
     this->Source = source;
