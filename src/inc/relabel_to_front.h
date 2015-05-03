@@ -12,7 +12,7 @@
 class RelabelToFront
 {
   public:
-    Vertex V[MAX_GRAPH_SIZE];
+    Vertex *V;
 
     // Residual network
     ResidualNetwork E;

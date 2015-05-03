@@ -25,14 +25,14 @@ void RelabelToFront::Discharge(int i)
     // @TODO Make this a list as well
     while (V[i].ExcessFlow > 0) {
 
-        if (CanRelabel(i)) {
-            Relabel(i);
-        }
-
         for (int j = 0; j < VertexCount; ++j) {
             if (CanPush(i, j)) {
                 Push(i, j);
             }
+        }
+
+        if (CanRelabel(i)) {
+            Relabel(i);
         }
     }
 }
@@ -147,13 +147,14 @@ RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int source,
     this->Source = source;
     this->VertexCount = A.size();
 
+    this->V = new Vertex[VertexCount];
     // Initialize all the new vertices
     for (int i = 0; i < this->VertexCount; ++i) {
         V[i].Index = i;
         V[i].Height = 0;
         V[i].ExcessFlow = 0;
-        V[i].Current = 0;
-        V[i].NCount = 0;
+        // V[i].Current = 0;
+        // V[i].NCount = 0;
     }
 
     V[Source].Height = VertexCount;

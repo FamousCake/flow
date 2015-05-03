@@ -11,14 +11,11 @@
 
 using namespace std;
 
-int GetFlow(const vector<vector<int>> &A, ResidualNetwork &B)
+int GetFlow(ResidualNetwork &B, int sink)
 {
     int s = 0;
-    for (unsigned long i = 0; i < A.size(); ++i) {
-
-        if (A[0][i] > 0 && B.getWeight(i, 0) > 0) {
-            s += B.getWeight(i, 0);
-        }
+    for (int i = 0; i < B.getCount(); ++i) {
+        s += B.getWeight(sink ,i);
     }
 
     return s;
@@ -53,11 +50,22 @@ int main()
 
     // RESULTS
     cout << endl
-         << "FF Flow is : " << GetFlow(raw, FF.E);
-    cout << endl << "RTF Flow is : " << GetFlow(raw, RTF.E);
+         << "FF Flow is  : " << GetFlow(FF.E, N-1);
+
+    cout << endl << "RTF Flow is : " << GetFlow(RTF.E, N-1);
 
     S.report("FF");
     S.report("RTF");
+
+    // for (auto i : raw) {
+    //     cout << endl;
+    //     for(auto j: i) {
+    //         cout << j << " ";
+    //     }
+    // }
+
+    // IO::printResidualNetwork(FF.E, "FF", 3);
+    // IO::printResidualNetwork(RTF.E, "RTF", 3);
 
     std::cout << '\n';
     return 0;
