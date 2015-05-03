@@ -4,8 +4,10 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <vector>
 
 #include "globals.h"
+#include "residual_network.h"
 
 namespace IO
 {
@@ -28,9 +30,9 @@ void printArray(int a[], const char message[], int w, int count);
  * @param w offset for each element
  * @param count [description]
  */
-void printArrayDouble(int a[][MAX_GRAPH_SIZE], const char message[], int w, int count);
+void printResidualNetwork(ResidualNetwork &E, const char message[], int w);
 
-int ReadGraph(int[][MAX_GRAPH_SIZE], const char[]);
+std::vector<std::vector<int>> ReadGraph(const char[]);
 
 } // IO
 

@@ -3,17 +3,19 @@
 
 #include <random>
 #include <iostream>
+#include <vector>
 
 #include "globals.h"
 
 class GraphGeneration
 {
   public:
-    static inline void GenerateRandomGraph(int E[][MAX_GRAPH_SIZE], int count, int density, int min,
-                                           int max)
+    static inline std::vector<std::vector<int>> GenerateRandomGraph(int count, int density, int min,
+                                                                    int max)
     {
-        std::random_device rd;
+        std::vector<std::vector<int>> E(count, std::vector<int>(count, 0));
 
+        std::random_device rd;
         std::mt19937 mt(rd());
 
         std::uniform_int_distribution<int> dist(min, max);
@@ -27,6 +29,8 @@ class GraphGeneration
                 }
             }
         }
+
+        return E;
     }
 };
 

@@ -5,7 +5,7 @@ using namespace std;
 void IO::printArray(int A[], const char s[], int w, int count)
 {
     cout << endl
-         << s;
+         << s << endl;
 
     cout << "Pointer is : " << A << endl;
 
@@ -16,35 +16,38 @@ void IO::printArray(int A[], const char s[], int w, int count)
     cout << endl;
 }
 
-void IO::printArrayDouble(int A[][MAX_GRAPH_SIZE], const char s[], int w, int count)
+void IO::printResidualNetwork(ResidualNetwork &A, const char s[], int w)
 {
     cout << endl
-         << s;
+         << s << endl;
 
-    cout << "Pointer is : " << A << endl;
+    cout << "Pointer is : " << A.getRaw() << endl;
 
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < A.getCount(); ++i) {
         cout << endl;
-        for (int j = 0; j < count; ++j) {
-            cout << setw(w) << A[i][j];
+        for (int j = 0; j < A.getCount(); ++j) {
+            cout << setw(w) << A.getWeight(i, j);
         }
     }
 
     cout << endl;
 }
 
-int IO::ReadGraph(int E[][MAX_GRAPH_SIZE], const char filename[])
+vector<vector<int>> IO::ReadGraph(const char filename[])
 {
-    std::ifstream myfile(filename);
+    ifstream myfile(filename);
 
     if (!myfile.is_open()) {
-        return 0;
+        return vector<vector<int>>();
     }
 
     int vertexCount;
     myfile >> vertexCount;
 
+    vector<vector<int>> E(vertexCount, vector<int>(vertexCount, 0));
+
     for (int i = 0; i < vertexCount; ++i) {
+
         for (int j = 0; j < vertexCount; ++j) {
             int w;
             myfile >> w;
@@ -54,5 +57,5 @@ int IO::ReadGraph(int E[][MAX_GRAPH_SIZE], const char filename[])
 
     myfile.close();
 
-    return vertexCount;
+    return E;
 }
