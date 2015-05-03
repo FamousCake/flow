@@ -51,10 +51,10 @@ int RelabelToFront::FindOverflowing()
 
 void RelabelToFront::Push(int i, int j)
 {
-    int min = std::min(V[i].ExcessFlow, E[i][j]);
+    int min = std::min(V[i].ExcessFlow, E.getWeight(i, j));
 
-    E[i][j] -= min;
-    E[j][i] += min;
+    E.updateWeight(i ,j ,-min);
+    E.updateWeight(j ,i, min);
 
     V[i].ExcessFlow -= min;
     V[j].ExcessFlow += min;
@@ -66,7 +66,7 @@ void RelabelToFront::Relabel(int i)
 
     for (int j = 0; j < VertexCount; ++j) {
 
-        if (E[i][j] > 0) {
+        if (E.getWeight(i, j) > 0) {
 
             if (V[j].Height < min) {
                 min = V[j].Height;
@@ -85,7 +85,7 @@ bool RelabelToFront::CanPush(int i, int j)
     }
 
     // 2) There must exist an edge in the residual network
-    if (E[i][j] == 0) {
+    if (E.getWeight(i, j) == 0) {
         return false;
     }
 
@@ -106,7 +106,7 @@ bool RelabelToFront::CanRelabel(int i)
 
     // All neigbors must be highter than i
     for (int j = 0; j < VertexCount; ++j) {
-        if (E[i][j] > 0) {
+        if (E.getWeight(i, j) > 0) {
             if (V[i].Height > V[j].Height) {
                 return false;
             }
@@ -126,13 +126,13 @@ void RelabelToFront::PushInitialFlow()
     // Pushing the first flow to the neighbours of the Source
     for (int i = 0; i < VertexCount; ++i) {
 
-        if (E[Source][i] > 0) {
+        if (E.getWeight(Source, i) > 0) {
 
             // Push the capasity of the edge
-            int flow = E[Source][i];
+            int flow = E.getWeight(Source, i);
 
-            E[i][Source] += flow;
-            E[Source][i] -= flow;
+            E.updateWeight(i, Source, flow);
+            E.updateWeight(Source, i, -flow);
 
             V[i].ExcessFlow += flow;
             V[Source].ExcessFlow -= flow;
@@ -140,12 +140,12 @@ void RelabelToFront::PushInitialFlow()
     }
 }
 
-RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int count, const int source,
+RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int source,
                                const int sink) : E(ResidualNetwork(A))
 {
     this->Sink = sink;
     this->Source = source;
-    this->VertexCount = count;
+    this->VertexCount = A.size();
 
     // Initialize all the new vertices
     for (int i = 0; i < this->VertexCount; ++i) {
@@ -156,31 +156,30 @@ RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int count, co
         V[i].NCount = 0;
     }
 
-    // Copy the residual network and make the possible neigbor lists
-    for (int i = 0; i < this->VertexCount; ++i) {
-        for (int j = 0; j < this->VertexCount; ++j) {
-
-            this->E[i][j] = A[i][j];
-
-            // If (i,j) e E, then both (i, j) and (j, i) can appear in the residual network
-            if (A[i][j] > 0) {
-
-                V[i].NList[V[i].Current] = j;
-                V[i].Current++;
-
-                V[j].NList[V[j].Current] = i;
-                V[j].Current++;
-            }
-        }
-    }
-
-    // Set current to the start of the list and remember the count
-    for (int i = 0; i < this->VertexCount; ++i) {
-        V[i].NCount = V[i].Current;
-        V[i].Current = 0;
-    }
-
     V[Source].Height = VertexCount;
+
+    // // Copy the residual network and make the possible neigbor lists
+    // for (int i = 0; i < this->VertexCount; ++i) {
+    //     for (int j = 0; j < this->VertexCount; ++j) {
+    //
+    //         // If (i,j) e E, then both (i, j) and (j, i) can appear in the residual network
+    //         if (A[i][j] > 0) {
+    //
+    //             V[i].NList[V[i].Current] = j;
+    //             V[i].Current++;
+    //
+    //             V[j].NList[V[j].Current] = i;
+    //             V[j].Current++;
+    //         }
+    //     }
+    // }
+    //
+    // // Set current to the start of the list and remember the count
+    // for (int i = 0; i < this->VertexCount; ++i) {
+    //     V[i].NCount = V[i].Current;
+    //     V[i].Current = 0;
+    // }
+
 }
 
 RelabelToFront::~RelabelToFront()

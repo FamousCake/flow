@@ -27,13 +27,13 @@ int GetFlow(const vector<vector<int>> &A, ResidualNetwork &B)
 int main()
 {
     // Initialization
-    int N = 5;
+    int N = 100;
 
     Stopwatch S;
     S.set_mode(REAL_TIME);
 
-    vector<vector<int>> raw = IO::ReadGraph("tests/test1/input");
-    // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 75, 1, 100000);
+    // vector<vector<int>> raw = IO::ReadGraph("tests/test1/input");
+    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 75, 1, 100000);
 
     //
     // FORD FULKERSON
@@ -47,20 +47,14 @@ int main()
     // RELABEL TO FRONT
     //
     S.start("RTF");
-    RelabelToFront RTF(raw, N, 0, N-1);
+    RelabelToFront RTF(raw, 0, N-1);
     RTF.Run();
     S.stop("RTF");
 
     // RESULTS
     cout << endl
          << "FF Flow is : " << GetFlow(raw, FF.E);
-    // cout << endl << "RTF Flow is : " << GetFlow(raw, RTF.E);
-    for (int i = 0; i < N; ++i) {
-        cout << endl;
-        for (int j = 0; j < N; ++j) {
-            cout << RTF.E[i][j] << " ";
-        }
-    }
+    cout << endl << "RTF Flow is : " << GetFlow(raw, RTF.E);
 
     S.report("FF");
     S.report("RTF");
