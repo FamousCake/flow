@@ -3,17 +3,15 @@
 #include <algorithm>
 #include <vector>
 
-#include "inc/globals.h"
 #include "inc/io.h"
 #include "inc/graph_generation.h"
 #include "inc/ford-fulkerson.h"
 #include "inc/relabel_to_front.h"
-#include "inc/vertex.h"
-#include "inc/residual_network.h"
+#include "stopwatch/stopwatch.h"
 
 using namespace std;
 
-int GetFlow(const vector<vector<int>> &A,ResidualNetwork &B)
+int GetFlow(const vector<vector<int>> &A, ResidualNetwork &B)
 {
     int s = 0;
     for (unsigned long i = 0; i < A.size(); ++i) {
@@ -28,29 +26,39 @@ int GetFlow(const vector<vector<int>> &A,ResidualNetwork &B)
 
 int main()
 {
-    int N = 5;
+    // Initialization
+    int N = 1000;
 
-    vector<vector<int>> raw = IO::ReadGraph("tests/test1/input");
+    Stopwatch S;
+    S.set_mode(REAL_TIME);
 
-    // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 45, 1, 10);
+    // vector<vector<int>> raw = IO::ReadGraph("tests/test1/input");
+    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 75, 1, 100000);
 
+    //
+    // FORD FULKERSON
+    //
+    S.start("FF");
     FordFulkerson FF(raw, 0, N - 1);
-    //
     FF.Run();
+    S.stop("FF");
+
     //
-    IO::printResidualNetwork(FF.E, "Here you go FF : ", 3);
-    // std::cout << std::endl << "Flow is : " << GetFlow(raw, FF.E);
+    // RELABEL TO FRONT
     //
-    // // std::cout << "Flow is : " << FF.GetFlow();
-    //
-    //
+    S.start("RTF");
     // RelabelToFront RTF(E, N, 0, N-1);
-    //
     // RTF.Run();
-    //
-    // //IO::printArrayDouble(RTF.E, "Here you go RTF : ", 3, N);
-    // std::cout << std::endl << "Flow is : " << GetFlow(E, RTF.E, N);
-    //
+    S.stop("RTF");
+
+    // RESULTS
+    cout << endl
+         << "FF Flow is : " << GetFlow(raw, FF.E);
+    // cout << endl << "RTF Flow is : " << GetFlow(raw, RTF.E);
+
+    S.report("FF");
+    S.report("RTF");
+
     std::cout << '\n';
     return 0;
 }

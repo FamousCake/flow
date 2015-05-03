@@ -26,6 +26,7 @@ class ResidualNetwork
     /**
      * Copy Constructor
      */
+    // @TODO Make this work somehow...
     // ResidualNetwork(ResidualNetwork&);
 
     ~ResidualNetwork();

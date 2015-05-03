@@ -16,7 +16,7 @@ class FordFulkerson
 
   public:
     // List of ancestors for every vertex after the BFS
-    int V[MAX_GRAPH_SIZE];
+    int *V;
 
     // Residual network
     ResidualNetwork E;
@@ -36,7 +36,8 @@ class FordFulkerson
      * @param t Sink index
      */
 
-    FordFulkerson(const std::vector<std::vector<int>>&, const int, const int);
+    FordFulkerson(const std::vector<std::vector<int>> &, const int, const int);
+    ~FordFulkerson();
 
     void Run();
 

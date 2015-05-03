@@ -2,21 +2,16 @@
 
 using namespace std;
 
-FordFulkerson::FordFulkerson(const vector<vector<int>> &raw, const int source,
-                             const int sink) : E(ResidualNetwork(raw)), Source(source), Sink(sink)
+FordFulkerson::FordFulkerson(const vector<vector<int>> &raw, const int source, const int sink)
+    : E(ResidualNetwork(raw)), Source(source), Sink(sink)
 {
-    this->VertexCount = raw.size();
+    this->VertexCount = E.getCount();
+    this->V = new int[VertexCount];
 }
 
-int FordFulkerson::GetFlow()
+FordFulkerson::~FordFulkerson()
 {
-    int s = 0;
-    for (int i = 0; i < VertexCount; ++i) {
-        // s += E[Sink][i];
-        s += E.getWeight(Sink, i);
-    }
-
-    return s;
+    delete[] this->V;
 }
 
 void FordFulkerson::Run()
@@ -32,17 +27,11 @@ void FordFulkerson::AugmentPath()
     int x = Sink;
 
     // Let the initial minimum be the first edge on the augmenting path
-
-    // int min = E[V[x]][x];
     int min = E.getWeight(V[x], x);
 
     while (V[x] != x) {
         int u = x;
         int v = V[x];
-
-        // if (min > E[v][u]) {
-            // min = E[v][u];
-        // }
 
         if (min > E.getWeight(v, u)) {
             min = E.getWeight(v, u);
@@ -58,9 +47,6 @@ void FordFulkerson::AugmentPath()
         int u = x;
         int v = V[x];
 
-        // E[v][u] -= min;
-        // E[u][v] += min;
-
         E.updateWeight(v, u, -min);
         E.updateWeight(u, v, min);
 
@@ -75,8 +61,6 @@ bool FordFulkerson::GetPath()
         V[i] = -1;
     }
 
-    cout << VertexCount;
-
     SimpleQueue q(VertexCount);
     q.push(Source);
 
@@ -90,8 +74,6 @@ bool FordFulkerson::GetPath()
         for (int v = 0; v < VertexCount; ++v) {
 
             // Is there is an edge and V has not yet been discovered
-
-            // if (E[u][v] != 0 && V[v] == -1) {
             if (E.getWeight(u, v) != 0 && V[v] == -1) {
 
                 q.push(v);
@@ -104,6 +86,5 @@ bool FordFulkerson::GetPath()
             }
         }
     }
-
     return false;
 }
