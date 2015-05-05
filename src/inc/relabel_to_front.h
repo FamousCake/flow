@@ -23,24 +23,19 @@ class RelabelToFront
     // Source and sink index in the network
     int Source, Sink;
 
-    RelabelToFront(const std::vector<std::vector<int>>&, const int, const int);
+    RelabelToFront(const std::vector<std::vector<int>> &, const int, const int);
     ~RelabelToFront();
 
     void Run();
-
-    bool IsOverflowing(int);
-
-    int FindOverflowing();
-
     void PushInitialFlow();
-
     void Discharge(int);
-
-    bool CanPush(int, int);
-    bool CanRelabel(int);
 
     void Push(int, int);
     void Relabel(int);
+
+    bool IsOverflowing(int);
+    bool CanPush(int, int);
+    bool CanRelabel(int);
 };
 
 #endif // RELABEL_TO_FRONT_H

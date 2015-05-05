@@ -1,7 +1,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include "globals.h"
+#include <vector>
 
 // Vertex data structure used by RTF
 struct Vertex {
@@ -9,10 +9,8 @@ struct Vertex {
     int Height = 0;
     int ExcessFlow = 0;
 
-    // @TODO Think about making this a vector. Would be fast because you only iterate it.
-    // int Current = 0;
-    // int NCount = 0;
-    // int NList[MAX_GRAPH_SIZE];
+    std::vector<int> Nlist;
+    std::vector<int>::iterator NCurrent;
 };
 
 #endif // VERTEX_H

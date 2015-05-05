@@ -15,7 +15,7 @@ int GetFlow(ResidualNetwork &B, int sink)
 {
     int s = 0;
     for (int i = 0; i < B.getCount(); ++i) {
-        s += B.getWeight(sink ,i);
+        s += B.getWeight(sink, i);
     }
 
     return s;
@@ -24,7 +24,7 @@ int GetFlow(ResidualNetwork &B, int sink)
 int main()
 {
     // Initialization
-    int N = 50;
+    int N = 500;
 
     Stopwatch S;
     S.set_mode(REAL_TIME);
@@ -44,15 +44,16 @@ int main()
     // RELABEL TO FRONT
     //
     S.start("RTF");
-    RelabelToFront RTF(raw, 0, N-1);
+    RelabelToFront RTF(raw, 0, N - 1);
     RTF.Run();
     S.stop("RTF");
 
     // RESULTS
     cout << endl
-         << "FF Flow is  : " << GetFlow(FF.E, N-1);
+         << "FF Flow is  : " << GetFlow(FF.E, N - 1);
 
-    cout << endl << "RTF Flow is : " << GetFlow(RTF.E, N-1);
+    cout << endl
+         << "RTF Flow is : " << GetFlow(RTF.E, N - 1);
 
     S.report("FF");
     S.report("RTF");

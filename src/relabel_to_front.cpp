@@ -6,15 +6,21 @@ void RelabelToFront::Run()
 {
     PushInitialFlow();
 
-    vector<int> l;
+    // @TODO Think about using forward queue because of all the insertions
+
+    // List of vertices in a topologicaly sorted order of the addmissible network
+    // see Introduction, page 749
+    vector<int> sortedList;
 
     for (int i = 0; i < VertexCount; ++i) {
-        if (i != Source && i!=Sink) {
-            l.push_back(i);
+        if (i != Source && i != Sink) {
+            sortedList.push_back(i);
         }
     }
 
-    vector<int>::reverse_iterator i = l.rbegin();
+    // We iterate from end to begin, because we can only push in the end of a vector, and all other
+    // containers are slower to iterate
+    vector<int>::reverse_iterator i = sortedList.rbegin();
 
     do {
 
@@ -22,51 +28,42 @@ void RelabelToFront::Run()
 
         Discharge(*i);
 
+        // If the height has changes, we can safely push the vertex onto the back of the
+        // topologicaly sorted list
+        // see Introduction, page 755
         if (oldHeight < V[*i].Height) {
-            l.push_back(*i);
-            i = l.rbegin();
+            sortedList.push_back(*i);
+            i = sortedList.rbegin();
         }
 
         i++;
-    } while (i != l.rend());
+    } while (i != sortedList.rend());
 }
 
 void RelabelToFront::Discharge(int i)
 {
-    // u is active, doesn't matter what the others are!
-    // @TODO Make this a list as well
+    // See Introduction, page 751
     while (V[i].ExcessFlow > 0) {
 
-        for (int j = 0; j < VertexCount; ++j) {
-            if (CanPush(i, j)) {
-                Push(i, j);
-            }
-        }
+        auto v = V[i].NCurrent;
 
-        if (CanRelabel(i)) {
+        if (v == V[i].Nlist.end()) {
             Relabel(i);
+            V[i].NCurrent = V[i].Nlist.begin();
+        } else if (CanPush(i, *v)) {
+            Push(i, *v);
+        } else {
+            V[i].NCurrent++;
         }
     }
-}
-
-// @TODO Get rid of this entirely
-int RelabelToFront::FindOverflowing()
-{
-    for (int i = 0; i < VertexCount; ++i) {
-        if (IsOverflowing(i)) {
-            return i;
-        }
-    }
-
-    return -1;
 }
 
 void RelabelToFront::Push(int i, int j)
 {
     int min = std::min(V[i].ExcessFlow, E.getWeight(i, j));
 
-    E.updateWeight(i ,j ,-min);
-    E.updateWeight(j ,i, min);
+    E.updateWeight(i, j, -min);
+    E.updateWeight(j, i, min);
 
     V[i].ExcessFlow -= min;
     V[j].ExcessFlow += min;
@@ -74,6 +71,8 @@ void RelabelToFront::Push(int i, int j)
 
 void RelabelToFront::Relabel(int i)
 {
+    // If we relabel while discharging we are guaranteed to have at least one neighbour, see
+    // Introduction, page 740
     int min = std::numeric_limits<int>::max();
 
     for (int j = 0; j < VertexCount; ++j) {
@@ -91,7 +90,7 @@ void RelabelToFront::Relabel(int i)
 
 bool RelabelToFront::CanPush(int i, int j)
 {
-    // i must be overflowing
+    // 1) Must be overflowing
     if (!IsOverflowing(i)) {
         return false;
     }
@@ -111,12 +110,12 @@ bool RelabelToFront::CanPush(int i, int j)
 
 bool RelabelToFront::CanRelabel(int i)
 {
-    // i must be overflowing
+    // 1) Must be overflowing
     if (!IsOverflowing(i)) {
         return false;
     }
 
-    // All neigbors must be highter than i
+    // 2) All neigbors must be highter
     for (int j = 0; j < VertexCount; ++j) {
         if (E.getWeight(i, j) > 0) {
             if (V[i].Height > V[j].Height) {
@@ -135,12 +134,11 @@ bool RelabelToFront::IsOverflowing(int i)
 
 void RelabelToFront::PushInitialFlow()
 {
-    // Pushing the first flow to the neighbours of the Source
+    // Push the capacity of the edge for every (Source, i) e E
     for (int i = 0; i < VertexCount; ++i) {
 
         if (E.getWeight(Source, i) > 0) {
 
-            // Push the capasity of the edge
             int flow = E.getWeight(Source, i);
 
             E.updateWeight(i, Source, flow);
@@ -152,49 +150,43 @@ void RelabelToFront::PushInitialFlow()
     }
 }
 
-RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int source,
-                               const int sink) : E(ResidualNetwork(A))
+RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int source, const int sink)
+    : E(ResidualNetwork(A))
 {
     this->Sink = sink;
     this->Source = source;
     this->VertexCount = A.size();
 
+    // Initialize vertices properties
     this->V = new Vertex[VertexCount];
-    // Initialize all the new vertices
     for (int i = 0; i < this->VertexCount; ++i) {
         V[i].Index = i;
         V[i].Height = 0;
         V[i].ExcessFlow = 0;
-        // V[i].Current = 0;
-        // V[i].NCount = 0;
     }
 
+    // The source has a static height of |V|
     V[Source].Height = VertexCount;
 
-    // // Copy the residual network and make the possible neigbor lists
-    // for (int i = 0; i < this->VertexCount; ++i) {
-    //     for (int j = 0; j < this->VertexCount; ++j) {
-    //
-    //         // If (i,j) e E, then both (i, j) and (j, i) can appear in the residual network
-    //         if (A[i][j] > 0) {
-    //
-    //             V[i].NList[V[i].Current] = j;
-    //             V[i].Current++;
-    //
-    //             V[j].NList[V[j].Current] = i;
-    //             V[j].Current++;
-    //         }
-    //     }
-    // }
-    //
-    // // Set current to the start of the list and remember the count
-    // for (int i = 0; i < this->VertexCount; ++i) {
-    //     V[i].NCount = V[i].Current;
-    //     V[i].Current = 0;
-    // }
+    // Initialize Nlist of every vertix with all edges that can exist in the residual network
+    for (int i = 0; i < this->VertexCount; ++i) {
+        for (int j = 0; j < this->VertexCount; ++j) {
+            if (E.getWeight(i, j) > 0) {
 
+                V[i].Nlist.push_back(j);
+
+                V[j].Nlist.push_back(i);
+            }
+        }
+    }
+
+    // The Nlist iterator always starts at the begining
+    for (int i = 0; i < this->VertexCount; ++i) {
+        V[i].NCurrent = V[i].Nlist.begin();
+    }
 }
 
 RelabelToFront::~RelabelToFront()
 {
+    delete[] V;
 }
