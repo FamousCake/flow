@@ -150,8 +150,7 @@ void RelabelToFront::PushInitialFlow()
     }
 }
 
-RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int source, const int sink)
-    : E(ResidualNetwork(A))
+RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int source, const int sink) : E(ResidualNetwork(A))
 {
     this->Sink = sink;
     this->Source = source;

@@ -10,8 +10,7 @@
 class GraphGeneration
 {
   public:
-    static inline std::vector<std::vector<int>> GenerateRandomGraph(int count, int density, int min,
-                                                                    int max)
+    static inline std::vector<std::vector<int>> GenerateRandomGraph(int count, int density, int min, int max)
     {
         std::vector<std::vector<int>> E(count, std::vector<int>(count, 0));
 
