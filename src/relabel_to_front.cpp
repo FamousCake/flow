@@ -47,9 +47,9 @@ void RelabelToFront::Discharge(int i)
 
         auto v = V[i].NCurrent;
 
-        if (v == V[i].Nlist.end()) {
+        if (v == V[i].NList.end()) {
             Relabel(i);
-            V[i].NCurrent = V[i].Nlist.begin();
+            V[i].NCurrent = V[i].NList.begin();
         } else if (CanPush(i, *v)) {
             Push(i, *v);
         } else {
@@ -167,21 +167,21 @@ RelabelToFront::RelabelToFront(const vector<vector<int>> &A, const int source, c
     // The source has a static height of |V|
     V[Source].Height = VertexCount;
 
-    // Initialize Nlist of every vertix with all edges that can exist in the residual network
+    // Initialize NList of every vertix with all edges that can exist in the residual network
     for (int i = 0; i < this->VertexCount; ++i) {
         for (int j = 0; j < this->VertexCount; ++j) {
             if (E.getWeight(i, j) > 0) {
 
-                V[i].Nlist.push_back(j);
+                V[i].NList.push_back(j);
 
-                V[j].Nlist.push_back(i);
+                V[j].NList.push_back(i);
             }
         }
     }
 
-    // The Nlist iterator always starts at the begining
+    // The NList iterator always starts at the begining
     for (int i = 0; i < this->VertexCount; ++i) {
-        V[i].NCurrent = V[i].Nlist.begin();
+        V[i].NCurrent = V[i].NList.begin();
     }
 }
 

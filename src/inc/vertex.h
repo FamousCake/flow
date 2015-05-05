@@ -9,7 +9,7 @@ struct Vertex {
     int Height = 0;
     int ExcessFlow = 0;
 
-    std::vector<int> Nlist;
+    std::vector<int> NList;
     std::vector<int>::iterator NCurrent;
 };
 
