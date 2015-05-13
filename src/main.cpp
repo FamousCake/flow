@@ -24,13 +24,13 @@ int GetFlow(ResidualNetwork &B, int sink)
 int main()
 {
     // Initialization
-    int N = 500;
+    int N = 6;
 
     Stopwatch S;
     S.set_mode(REAL_TIME);
 
-    // vector<vector<int>> raw = IO::ReadGraph("tests/test1/input");
-    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 75, 1, 100000);
+    vector<vector<int>> raw = IO::ReadGraph();
+    // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 75, 1, 100000);
 
     //
     // FORD FULKERSON

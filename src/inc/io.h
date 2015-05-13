@@ -37,7 +37,7 @@ void printResidualNetwork(ResidualNetwork &E, const char message[], int w);
  *
  * @param filename
  */
-std::vector<std::vector<int>> ReadGraph(const char[]);
+std::vector<std::vector<int>> ReadGraph();
 
 } // IO
 
