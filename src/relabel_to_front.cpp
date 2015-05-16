@@ -33,11 +33,7 @@ void RelabelToFront::Run()
             Discharge(i);
 
             if (oldHeight < V[i].Height) {
-
-                int x = list[current];
-                list[current] = list[0];
-                list[0] = x;
-
+                swap(list[current], list[0]);
                 current = 0;
             }
         }
