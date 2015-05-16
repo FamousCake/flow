@@ -51,6 +51,18 @@ void RelabelToFront::Discharge(int i)
             V[i].NCurrent++;
         }
     }
+
+    // while (V[i].ExcessFlow > 0) {
+    //     for (int j = 0; j < VertexCount; ++j) {
+    //         if (CanPush(i, j)) {
+    //             Push(i, j);
+    //         }
+    //     }
+    //
+    //     if (CanRelabel(i)) {
+    //         Relabel(i);
+    //     }
+    // }
 }
 
 void RelabelToFront::Push(int i, int j)

@@ -31,12 +31,12 @@ int main()
     //
     //
 
-    int N = 1000;
-    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 100000);
-    ResidualNetwork E(raw, 0, N - 1);
+    // int N = 1000;
+    // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 100000);
+    // ResidualNetwork E(raw, 0, N - 1);
     //
 
-    // ResidualNetwork E = IO::ReadGraph();
+    ResidualNetwork E = IO::ReadGraph();
 
     //
     // RELABEL TO FRONT
@@ -70,7 +70,7 @@ int main()
         }
     }
 
-    IO::WriteGraph(E);
+    // IO::WriteGraph(E);
 
     // for (auto i : raw) {
     //     cout << endl;
