@@ -31,12 +31,12 @@ int main()
     //
     //
 
-    int N = 500;
-    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 1000);
-    ResidualNetwork E(raw, 0, N - 1);
+    // int N = 500;
+    // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 1000);
+    // ResidualNetwork E(raw, 0, N - 1);
     //
 
-    // ResidualNetwork E = IO::ReadGraph();
+    ResidualNetwork E = IO::ReadGraph();
 
     //
     // RELABEL TO FRONT
