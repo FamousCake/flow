@@ -6,9 +6,6 @@ void RelabelToFront::Run()
 {
     PushInitialFlow();
 
-    // List of vertices in a topologicaly sorted order of the addmissible network
-    // see Introduction, page 749
-    // vector<int> sortedList;
     int *list = new int[VertexCount];
     int current = 0;
 
@@ -18,9 +15,6 @@ void RelabelToFront::Run()
         }
     }
 
-    // We iterate from end to begin, because we can only push in the end of a vector, and all other
-    // containers are slower to iterate
-    // vector<int>::reverse_iterator i = sortedList.rbegin();
     current = 0;
 
     do {
@@ -62,18 +56,6 @@ void RelabelToFront::Discharge(int i)
             V[i].NCurrent++;
         }
     }
-
-    // while (V[i].ExcessFlow > 0) {
-    //     for (int j = 0; j < VertexCount; ++j) {
-    //         if (CanPush(i, j)) {
-    //             Push(i, j);
-    //         }
-    //     }
-    //
-    //     if (CanRelabel(i)) {
-    //         Relabel(i);
-    //     }
-    // }
 }
 
 void RelabelToFront::Push(int i, int j)
@@ -95,29 +77,15 @@ void RelabelToFront::Relabel(int i)
     this->RelabelCount++;
     this->V[i].RelabelCount++;
 
-    // If we relabel while discharging we are guaranteed to have at least one neighbour, see
-    // Introduction, page 740
-    int min = std::numeric_limits<int>::max();
+    V[i].Height = 2 * VertexCount;
 
     for (auto j : V[i].NList) {
         if (E.getWeight(i, j) > 0) {
-            if (V[j].Height < min) {
-                min = V[j].Height;
-            }
+            V[i].Height = min(V[i].Height, V[j].Height);
         }
     }
 
-    // for (int j = 0; j < VertexCount; ++j) {
-    //
-    //     if (E.getWeight(i, j) > 0) {
-    //
-    //         if (V[j].Height < min) {
-    //             min = V[j].Height;
-    //         }
-    //     }
-    // }
-
-    V[i].Height = 1 + min;
+    V[i].Height++;
 }
 
 bool RelabelToFront::CanPush(int i, int j)
