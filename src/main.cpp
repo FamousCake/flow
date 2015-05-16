@@ -1,6 +1,5 @@
 // Copyright 2015 Peter
 #include <iostream>
-#include <algorithm>
 #include <vector>
 
 #include "inc/io.h"
@@ -32,8 +31,8 @@ int main()
     //
     //
 
-    int N = 500;
-    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 2, 1, 100000);
+    int N = 50;
+    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 50, 1, 1000);
     ResidualNetwork E(raw, 0, N - 1);
     //
     // IO::WriteGraph(E);

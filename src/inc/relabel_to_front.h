@@ -3,7 +3,6 @@
 
 #include <limits>
 #include <algorithm>
-#include <vector>
 
 #include "globals.h"
 #include "vertex.h"

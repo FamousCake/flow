@@ -1,9 +1,7 @@
 #ifndef RESIDUAL_NETWORK
 #define RESIDUAL_NETWORK
 
-#include <algorithm>
 #include <vector>
-#include <iostream>
 #include <functional>
 
 class ResidualNetwork
