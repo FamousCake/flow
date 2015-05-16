@@ -9,6 +9,11 @@ FordFulkerson::FordFulkerson(const ResidualNetwork &A) : E(ResidualNetwork(A))
     this->VertexCount = E.getCount();
 
     this->V = new int[VertexCount];
+    this->testV = new int[VertexCount];
+
+    for (int i = 0; i < VertexCount; ++i) {
+        this->testV[i] = -1;
+    }
 }
 
 FordFulkerson::~FordFulkerson()
@@ -84,6 +89,7 @@ bool FordFulkerson::GetPath()
                 q.push(v);
 
                 V[v] = u;
+                testV[v] = 1;
 
                 if (v == Sink) {
                     return true;

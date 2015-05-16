@@ -32,13 +32,13 @@ int main()
     //
     //
 
-    // int N = 500;
-    // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 100000);
-    // ResidualNetwork E(raw, 0, N - 1);
+    int N = 500;
+    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 2, 1, 100000);
+    ResidualNetwork E(raw, 0, N - 1);
     //
     // IO::WriteGraph(E);
 
-    ResidualNetwork E = IO::ReadGraph();
+    // ResidualNetwork E = IO::ReadGraph();
 
     //
     // RELABEL TO FRONT
@@ -65,6 +65,12 @@ int main()
     cout << "\n";
     cout << "\nFF Time is  : " << S.get_total_time("FF");
     cout << "\nRTF Time is : " << S.get_total_time("RTF");
+
+    for (int i = 0; i < E.getCount(); ++i) {
+        if (FF.testV[i] == -1) {
+            cout << endl << i << " has not been used...";
+        }
+    }
 
     // for (auto i : raw) {
     //     cout << endl;

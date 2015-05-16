@@ -12,6 +12,7 @@ class FordFulkerson
   public:
     // List of ancestors for every vertex after the BFS
     int *V;
+    int *testV;
     int VertexCount;
     int Source, Sink;
 
