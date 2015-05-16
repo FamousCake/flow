@@ -6,8 +6,6 @@ void RelabelToFront::Run()
 {
     PushInitialFlow();
 
-    // List of vertices in a topologicaly sorted order of the addmissible network
-    // see Introduction, page 749
     vector<int> sortedList;
 
     for (int i = 0; i < VertexCount; ++i) {
@@ -16,25 +14,22 @@ void RelabelToFront::Run()
         }
     }
 
-    // We iterate from end to begin, because we can only push in the end of a vector, and all other
-    // containers are slower to iterate
-    // vector<int>::reverse_iterator i = sortedList.rbegin();
-    auto i = sortedList.end();
-
+    auto current = sortedList.end();
     do {
 
-        int oldHeight = V[*i].Height;
+        int i = *current;
 
-        Discharge(*i);
+        int oldHeight = V[i].Height;
 
-        if (oldHeight < V[*i].Height) {
-            sortedList.push_back(*i);
-            // i = sortedList.rbegin();
-            i = sortedList.end();
+        Discharge(i);
+
+        if (oldHeight < V[i].Height) {
+            sortedList.push_back(i);
+            current = sortedList.end();
         }
 
-        i--;
-    } while (i != sortedList.begin() - 1);
+        current--;
+    } while (current != sortedList.begin() - 1);
 }
 
 void RelabelToFront::Discharge(int i)
@@ -76,30 +71,14 @@ void RelabelToFront::Relabel(int i)
     this->RelabelCount++;
     this->V[i].RelabelCount++;
 
-    // If we relabel while discharging we are guaranteed to have at least one neighbour, see
-    // Introduction, page 740
-    int min = std::numeric_limits<int>::max();
-
-    // for(auto j : V[i].NList) {
-    //     if (E.getWeight(i, j) > 0) {
-    //         if (V[j].Height < min) {
-    //             min = V[j].Height;
-    //         }
-    //     }
-    // }
-
-
-    for (int j = 0; j < VertexCount; ++j) {
-
+    auto minHeight = 2 * VertexCount;
+    for (auto j : V[i].NList) {
         if (E.getWeight(i, j) > 0) {
-
-            if (V[j].Height < min) {
-                min = V[j].Height;
-            }
+            minHeight = min(minHeight, V[j].Height);
         }
     }
 
-    V[i].Height = 1 + min;
+    V[i].Height = minHeight + 1;
 }
 
 bool RelabelToFront::CanPush(int i, int j)
