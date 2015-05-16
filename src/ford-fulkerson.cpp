@@ -2,8 +2,8 @@
 
 using namespace std;
 
-FordFulkerson::FordFulkerson(const vector<vector<int>> &raw, const int source, const int sink)
-    : E(ResidualNetwork(raw)), Source(source), Sink(sink)
+FordFulkerson::FordFulkerson(const ResidualNetwork &A, const int source, const int sink)
+    : E(ResidualNetwork(A)), Source(source), Sink(sink)
 {
     this->VertexCount = E.getCount();
     this->V = new int[VertexCount];

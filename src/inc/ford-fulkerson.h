@@ -36,7 +36,7 @@ class FordFulkerson
      * @param t Sink index
      */
 
-    FordFulkerson(const std::vector<std::vector<int>> &, const int, const int);
+    FordFulkerson(const ResidualNetwork &, const int, const int);
     ~FordFulkerson();
 
     void Run();

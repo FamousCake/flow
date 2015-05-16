@@ -2,11 +2,13 @@
 
 using namespace std;
 
-ResidualNetwork::ResidualNetwork(int count, int value)
+ResidualNetwork::ResidualNetwork(int count, int value, int source, int sink)
 {
     this->Count = count;
-    this->E = new int *[this->Count];
+    this->Source = source;
+    this->Sink = sink;
 
+    this->E = new int *[this->Count];
     for (int i = 0; i < this->Count; ++i) {
 
         this->E[i] = new int[this->Count];
@@ -16,10 +18,11 @@ ResidualNetwork::ResidualNetwork(int count, int value)
     }
 }
 
-ResidualNetwork::ResidualNetwork(const std::vector<std::vector<int>> &v)
+ResidualNetwork::ResidualNetwork(const std::vector<std::vector<int>> &A, int source, int sink)
 {
-    cout << v.size();
-    this->Count = v.size();
+    this->Count = A.size();
+    this->Source = source;
+    this->Sink = sink;
 
     this->E = new int *[this->Count];
 
@@ -30,28 +33,27 @@ ResidualNetwork::ResidualNetwork(const std::vector<std::vector<int>> &v)
         // Not accessing 2D Vector elements like this might yeild better performance, but this part
         // isn't sensitive
         for (int j = 0; j < this->Count; ++j) {
-            this->E[i][j] = v[i][j];
+            this->E[i][j] = A[i][j];
         }
     }
 }
 
-// ResidualNetwork::ResidualNetwork(ResidualNetwork &A)
-// {
-//     this->Count = A.getCount();
-//     this->E = new int *[this->Count];
-//
-//     for (int i = 0; i < this->Count; ++i) {
-//
-//         this->E[i] = new int[this->Count];
-//
-//         // Not accessing 2D Vector elements like this might yeild better performance, but this
-//         part
-//         // isn't sensitive
-//         for (int j = 0; j < this->Count; ++j) {
-//             this->E[i][j] = A.getWeight(i, j);
-//         }
-//     }
-// }
+ResidualNetwork::ResidualNetwork(const ResidualNetwork &A)
+{
+    this->Count = A.Count;
+    this->Source = A.Source;
+    this->Sink = A.Sink;
+
+    this->E = new int *[this->Count];
+    for (int i = 0; i < this->Count; ++i) {
+
+        this->E[i] = new int[this->Count];
+
+        for (int j = 0; j < this->Count; ++j) {
+            this->E[i][j] = A.E[i][j];
+        }
+    }
+}
 
 ResidualNetwork::~ResidualNetwork()
 {
@@ -80,6 +82,16 @@ void ResidualNetwork::updateWeight(int i, int j, int w)
 int ResidualNetwork::getCount()
 {
     return this->Count;
+}
+
+int ResidualNetwork::getSource()
+{
+    return this->Source;
+}
+
+int ResidualNetwork::getSink()
+{
+    return this->Sink;
 }
 
 int **ResidualNetwork::getRaw()

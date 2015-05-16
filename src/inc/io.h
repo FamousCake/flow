@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
+#include <tuple>
 
 #include "globals.h"
 #include "residual_network.h"
@@ -37,7 +38,7 @@ void printResidualNetwork(ResidualNetwork &E, const char message[], int w);
  *
  * @param filename
  */
-std::vector<std::vector<int>> ReadGraph();
+ResidualNetwork ReadGraph();
 
 } // IO
 

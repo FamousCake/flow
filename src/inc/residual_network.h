@@ -14,14 +14,16 @@ class ResidualNetwork
      * @param count Vertex Count
      * @param value Initial value ot all edges
      */
-    ResidualNetwork(int, int);
+    ResidualNetwork(int, int, int, int);
 
     /**
      * Construct a residual network from 2D Vector
      *
      * @param v Raw edge data
      */
-    ResidualNetwork(const std::vector<std::vector<int>> &);
+    ResidualNetwork(const std::vector<std::vector<int>> &, int, int);
+
+    ResidualNetwork(const ResidualNetwork &);
 
     /**
      * Copy Constructor
@@ -36,12 +38,15 @@ class ResidualNetwork
     void updateWeight(int, int, int);
 
     int getCount();
+    int getSource();
+    int getSink();
 
     int **getRaw();
 
   private:
     int Count;
     int **E;
+    int Source, Sink;
 };
 
 #endif

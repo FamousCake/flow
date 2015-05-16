@@ -8,6 +8,7 @@
 #include "inc/ford-fulkerson.h"
 #include "inc/relabel_to_front.h"
 #include "stopwatch/stopwatch.h"
+#include "inc/residual_network.h"
 
 using namespace std;
 
@@ -23,20 +24,21 @@ int GetFlow(ResidualNetwork &B, int sink)
 
 int main()
 {
+    cout << " Enter you graph : " << endl;
     // Initialization
     int N = 6;
 
     Stopwatch S;
     S.set_mode(REAL_TIME);
 
-    vector<vector<int>> raw = IO::ReadGraph();
+    ResidualNetwork E = IO::ReadGraph();
     // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 75, 1, 100000);
 
     //
     // FORD FULKERSON
     //
     S.start("FF");
-    FordFulkerson FF(raw, 0, N - 1);
+    FordFulkerson FF(E, 0, N - 1);
     FF.Run();
     S.stop("FF");
 
@@ -44,7 +46,7 @@ int main()
     // RELABEL TO FRONT
     //
     S.start("RTF");
-    RelabelToFront RTF(raw, 0, N - 1);
+    RelabelToFront RTF(E, 0, N-1);
     RTF.Run();
     S.stop("RTF");
 
@@ -65,8 +67,9 @@ int main()
     //     }
     // }
 
-    // IO::printResidualNetwork(FF.E, "FF", 3);
-    // IO::printResidualNetwork(RTF.E, "RTF", 3);
+    IO::printResidualNetwork(E, "E", 3);
+    IO::printResidualNetwork(FF.E, "FF", 3);
+    IO::printResidualNetwork(RTF.E, "RTF", 3);
 
     std::cout << '\n';
     return 0;

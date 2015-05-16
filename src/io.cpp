@@ -33,56 +33,39 @@ void IO::printResidualNetwork(ResidualNetwork &A, const char s[], int w)
     cout << endl;
 }
 
-vector<vector<int>> IO::ReadGraph()
+ResidualNetwork IO::ReadGraph()
 {
     char t;
     string s;
+
     int vertexCount, edgeCount;
     int source, sink;
+
     vector<vector<int>> E;
 
-    while(cin >> t) {
+    while (cin >> t) {
 
         if (t == 'c') {
-            cin.ignore(256,'\n');
-        }
-        else if( t == 'p' ) {
+            cin.ignore(256, '\n');
+        } else if (t == 'p') {
             cin >> s >> vertexCount >> edgeCount;
             E = vector<vector<int>>(vertexCount, vector<int>(vertexCount, 0));
-        }
-        else if( t == 'n' ) {
+        } else if (t == 'n') {
             int a;
             char b;
             cin >> a >> b;
 
-            if (b=='s') {
+            if (b == 's') {
                 source = a;
-            }
-            else if (b=='t') {
+            } else if (b == 't') {
                 sink = a;
             }
-        }
-        else if( t == 'a' ) {
+        } else if (t == 'a') {
             int a, b, c;
             cin >> a >> b >> c;
-            E[a-1][b-1] = c;
+            E[a - 1][b - 1] = c;
         }
     }
 
-    return E;
-
-    // int vertexCount;
-    // cin >> vertexCount;
-    //
-    // vector<vector<int>> E(vertexCount, vector<int>(vertexCount, 0));
-    //
-    // for (int i = 0; i < vertexCount; ++i) {
-    //
-    //     for (int j = 0; j < vertexCount; ++j) {
-    //         int w;
-    //         cin >> w;
-    //         E[i][j] = w;
-    //     }
-    // }
-    // return E;
+    return ResidualNetwork(E, source, sink);
 }
