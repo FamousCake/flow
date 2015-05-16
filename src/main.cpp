@@ -28,8 +28,8 @@ long long GetStanfordFlow(ResidualNetwork &E)
 
     for (int i = 0; i < E.getCount(); ++i) {
         for (int j = 0; j < E.getCount(); ++j) {
-            if (E.getWeight(i,j) > 0) {
-                PR.AddEdge(i, j,E.getWeight(i,j));
+            if (E.getWeight(i, j) > 0) {
+                PR.AddEdge(i, j, E.getWeight(i, j));
             }
         }
     }
@@ -50,7 +50,6 @@ int main()
     int N = 1000;
     vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 1000);
     ResidualNetwork E(raw, 0, N - 1);
-
 
     // ResidualNetwork E = IO::ReadGraph();
 

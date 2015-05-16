@@ -45,8 +45,7 @@ void RelabelToFront::Discharge(int i)
 
             if (HeightCount[V[i].Height] == 1) {
                 Gap(V[i].Height);
-            }
-            else {
+            } else {
                 Relabel(i);
             }
 
@@ -96,7 +95,7 @@ void RelabelToFront::Gap(int k)
 {
     for (int i = 0; i < VertexCount; i++) {
 
-        if (i!=Source && i!=Sink) {
+        if (i != Source && i != Sink) {
 
             if (V[i].Height >= k) {
 
@@ -107,7 +106,6 @@ void RelabelToFront::Gap(int k)
                 HeightCount[V[i].Height]++;
             }
         }
-
     }
 }
 
@@ -190,7 +188,7 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
 
     std::fill(this->HeightCount, (this->HeightCount + 2 * VertexCount), 0);
     this->HeightCount[VertexCount] = 1;
-    this->HeightCount[0] = VertexCount-1;
+    this->HeightCount[0] = VertexCount - 1;
 
     // The source has a static height of |V|
     V[Source].Height = VertexCount;
