@@ -127,18 +127,18 @@ bool RelabelToFront::IsOverflowing(int i)
 
 void RelabelToFront::PushInitialFlow()
 {
-    // Push the capacity of the edge for every (Source, i) e E
+    // Push the capacity of the cut {s, V-s}
     for (int i = 0; i < VertexCount; ++i) {
 
-        int flow = E.getWeight(Source, i);
+        int capacity = E.getWeight(Source, i);
 
-        if (flow > 0) {
+        if (capacity > 0) {
 
-            E.updateWeight(i, Source, flow);
-            E.updateWeight(Source, i, -flow);
+            E.updateWeight(i, Source, capacity);
+            E.updateWeight(Source, i, -capacity);
 
-            V[i].ExcessFlow += flow;
-            V[Source].ExcessFlow -= flow;
+            V[i].ExcessFlow += capacity;
+            V[Source].ExcessFlow -= capacity;
         }
     }
 }
@@ -155,11 +155,6 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
 
     // Initialize vertices properties
     this->V = new Vertex[VertexCount];
-    for (int i = 0; i < this->VertexCount; ++i) {
-        V[i].Index = i;
-        V[i].Height = 0;
-        V[i].ExcessFlow = 0;
-    }
 
     // The source has a static height of |V|
     V[Source].Height = VertexCount;

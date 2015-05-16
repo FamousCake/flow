@@ -5,7 +5,6 @@
 
 // Vertex data structure used by RTF
 struct Vertex {
-    int Index = 0;
     int Height = 0;
     int ExcessFlow = 0;
 
