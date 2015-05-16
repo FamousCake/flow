@@ -31,11 +31,10 @@ int main()
     //
     //
 
-    int N = 50;
-    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 50, 1, 1000);
+    int N = 1000;
+    vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 100000);
     ResidualNetwork E(raw, 0, N - 1);
     //
-    // IO::WriteGraph(E);
 
     // ResidualNetwork E = IO::ReadGraph();
 
@@ -58,18 +57,20 @@ int main()
     //
     // RESULTS
     //
-    cout << "\nFF Flow is  : " << GetFlow(FF.E);
-    cout << "\nRTF Flow is : " << GetFlow(RTF.E);
+    cout << "c FF Flow is  : " << GetFlow(FF.E);
+    cout << "\nc RTF Flow is : " << GetFlow(RTF.E);
 
-    cout << "\n";
-    cout << "\nFF Time is  : " << S.get_total_time("FF");
-    cout << "\nRTF Time is : " << S.get_total_time("RTF");
+    cout << "\nc";
+    cout << "\nc FF Time is  : " << S.get_total_time("FF");
+    cout << "\nc RTF Time is : " << S.get_total_time("RTF");
 
     for (int i = 0; i < E.getCount(); ++i) {
         if (FF.testV[i] == -1) {
-            cout << endl << i << " has not been used...";
+            cout << "\nc " << i << " has not been used...";
         }
     }
+
+    IO::WriteGraph(E);
 
     // for (auto i : raw) {
     //     cout << endl;

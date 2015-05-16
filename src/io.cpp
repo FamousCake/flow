@@ -87,11 +87,10 @@ void IO::WriteGraph(ResidualNetwork &E)
     cout << "n " << E.getSource() + 1 << " s" << endl;
     cout << "n " << E.getSink() + 1 << " t" << endl;
 
-
     for (int i = 0; i < E.getCount(); ++i) {
         for (int j = 0; j < E.getCount(); ++j) {
             if (E.getWeight(i, j)) {
-                cout <<"a " << i+1 << " " << j+1 << " " << E.getWeight(i, j) << endl;
+                cout << "a " << i + 1 << " " << j + 1 << " " << E.getWeight(i, j) << endl;
             }
         }
     }

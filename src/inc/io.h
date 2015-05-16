@@ -34,7 +34,7 @@ void printResidualNetwork(ResidualNetwork &E, int w, const char message[]);
  */
 ResidualNetwork ReadGraph();
 
-void WriteGraph(ResidualNetwork&);
+void WriteGraph(ResidualNetwork &);
 
 } // IO
 
