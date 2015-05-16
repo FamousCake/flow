@@ -22,15 +22,14 @@ class GraphGeneration
         std::uniform_int_distribution<int> dist3(1, 2);
 
         // No edges can go out of the sink
-        for (int i = 0; i < count-1; ++i) {
+        for (int i = 0; i < count - 1; ++i) {
             for (int j = i + 1; j < count; ++j) {
                 if (dist2(mt) <= density) {
 
                     // the Source and Sink are special cases
-                    if ( i == 0 ) {
+                    if (i == 0) {
                         E[i][j] = dist(mt);
-                    }
-                    else if (j == count-1) {
+                    } else if (j == count - 1) {
                         E[i][j] = dist(mt);
                     }
 

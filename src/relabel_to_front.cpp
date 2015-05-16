@@ -12,8 +12,8 @@ void RelabelToFront::Run()
     int *list = new int[VertexCount];
     int current = 0;
 
-    for (int i = 1; i < VertexCount-1; ++i) {
-        if (i!=Source && i!=Sink) {
+    for (int i = 1; i < VertexCount - 1; ++i) {
+        if (i != Source && i != Sink) {
             list[current++] = i;
         }
     }
@@ -27,7 +27,7 @@ void RelabelToFront::Run()
 
         int i = list[current];
 
-        if( V[i].ExcessFlow > 0 ) {
+        if (V[i].ExcessFlow > 0) {
             int oldHeight = V[i].Height;
 
             Discharge(i);
@@ -39,11 +39,10 @@ void RelabelToFront::Run()
         }
 
         current++;
-    } while (current != VertexCount-2);
+    } while (current != VertexCount - 2);
 
-    delete []list;
+    delete[] list;
 }
-
 
 void RelabelToFront::Discharge(int i)
 {
@@ -100,14 +99,13 @@ void RelabelToFront::Relabel(int i)
     // Introduction, page 740
     int min = std::numeric_limits<int>::max();
 
-    for(auto j : V[i].NList) {
+    for (auto j : V[i].NList) {
         if (E.getWeight(i, j) > 0) {
             if (V[j].Height < min) {
                 min = V[j].Height;
             }
         }
     }
-
 
     // for (int j = 0; j < VertexCount; ++j) {
     //
