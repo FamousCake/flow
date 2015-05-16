@@ -3,42 +3,38 @@
 
 #include <iostream>
 #include <iomanip>
-#include <fstream>
 #include <vector>
-#include <tuple>
 
-#include "globals.h"
 #include "residual_network.h"
 
 namespace IO
 {
 
-// @TODO Add a write graph to file function
-
 /**
  * @brief Print a 1D Array
  *
- * @param a Array to be printed
- * @param message Mesage to be outputed before the array
- * @param w offset for each element
- * @param count arracy lenght
+ * @param a     - array to be printed
+ * @param count - arracy lenght
+ * @param w     - offset for each element
+ * @param msg   - mesage to be outputed before the array
  */
-void printArray(int a[], const char message[], int w, int count);
+void printArray(int a[], int count, int w, const char msg[]);
 
 /**
  * @brief Print a Residual Network
  *
- * @param message Mesage to be outputed before the array
- * @param w offset for each element
+ * @param E     - residual network to be printed
+ * @param w     - offset for each element
+ * @param msg   - mesage to be outputed before the output
  */
-void printResidualNetwork(ResidualNetwork &E, const char message[], int w);
+void printResidualNetwork(ResidualNetwork &E, int w, const char message[]);
 
 /**
- * @brief Read graph from file as a 2D Vector
- *
- * @param filename
+ * @brief Read DMACS graph from STDIN
  */
 ResidualNetwork ReadGraph();
+
+void WriteGraph(ResidualNetwork&);
 
 } // IO
 

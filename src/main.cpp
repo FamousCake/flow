@@ -24,16 +24,29 @@ int GetFlow(ResidualNetwork &B)
 
 int main()
 {
-    cout << " Enter you graph : " << endl;
-    // Initialization
-    int N = 6000;
-
     Stopwatch S;
     S.set_mode(REAL_TIME);
 
-    ResidualNetwork E = IO::ReadGraph();
-    // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 75, 1, 100000);
+    //
+    // Initialization
+    //
+    //
+
+    // int N = 500;
+    // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 100000);
     // ResidualNetwork E(raw, 0, N - 1);
+    //
+    // IO::WriteGraph(E);
+
+    ResidualNetwork E = IO::ReadGraph();
+
+    //
+    // RELABEL TO FRONT
+    //
+    S.start("RTF");
+    RelabelToFront RTF(E);
+    RTF.Run();
+    S.stop("RTF");
 
     //
     // FORD FULKERSON
@@ -44,22 +57,14 @@ int main()
     S.stop("FF");
 
     //
-    // RELABEL TO FRONT
-    //
-    S.start("RTF");
-    RelabelToFront RTF(E);
-    RTF.Run();
-    S.stop("RTF");
-
     // RESULTS
-    cout << endl
-         << "FF Flow is  : " << GetFlow(FF.E);
+    //
+    cout << "\nFF Flow is  : " << GetFlow(FF.E);
+    cout << "\nRTF Flow is : " << GetFlow(RTF.E);
 
-    cout << endl
-         << "RTF Flow is : " << GetFlow(RTF.E);
-
-    S.report("FF");
-    S.report("RTF");
+    cout << "\n";
+    cout << "\nFF Time is  : " << S.get_total_time("FF");
+    cout << "\nRTF Time is : " << S.get_total_time("RTF");
 
     // for (auto i : raw) {
     //     cout << endl;
@@ -68,10 +73,10 @@ int main()
     //     }
     // }
 
-    // IO::printResidualNetwork(E, "E", 3);
+    // IO::printResidualNetwork(E, 3, "E");
     // IO::printResidualNetwork(FF.E, "FF", 3);
     // IO::printResidualNetwork(RTF.E, "RTF", 3);
 
-    std::cout << '\n';
+    cout << endl;
     return 0;
 }

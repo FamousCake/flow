@@ -6,8 +6,6 @@ void RelabelToFront::Run()
 {
     PushInitialFlow();
 
-    // @TODO Think about using forward queue because of all the insertions
-
     // List of vertices in a topologicaly sorted order of the addmissible network
     // see Introduction, page 749
     vector<int> sortedList;
@@ -28,9 +26,6 @@ void RelabelToFront::Run()
 
         Discharge(*i);
 
-        // If the height has changes, we can safely push the vertex onto the back of the
-        // topologicaly sorted list
-        // see Introduction, page 755
         if (oldHeight < V[*i].Height) {
             sortedList.push_back(*i);
             i = sortedList.rbegin();
@@ -137,9 +132,9 @@ void RelabelToFront::PushInitialFlow()
     // Push the capacity of the edge for every (Source, i) e E
     for (int i = 0; i < VertexCount; ++i) {
 
-        if (E.getWeight(Source, i) > 0) {
+        int flow = E.getWeight(Source, i);
 
-            int flow = E.getWeight(Source, i);
+        if (flow > 0) {
 
             E.updateWeight(i, Source, flow);
             E.updateWeight(Source, i, -flow);

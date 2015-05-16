@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <iostream>
+#include <functional>
 
 class ResidualNetwork
 {
@@ -42,6 +43,9 @@ class ResidualNetwork
     int getSink();
 
     int **getRaw();
+
+    // I don't use this, but just in case
+    void eachEdge(std::function<void(int, int, int)>);
 
   private:
     int Count;

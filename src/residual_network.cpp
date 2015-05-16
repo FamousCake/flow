@@ -98,3 +98,12 @@ int **ResidualNetwork::getRaw()
 {
     return this->E;
 }
+
+void ResidualNetwork::eachEdge(function<void(int, int, int)> callback)
+{
+    for (int i = 0; i < Count; ++i) {
+        for (int j = 0; j < Count; ++j) {
+            callback(E[i][j], i, j);
+        }
+    }
+}

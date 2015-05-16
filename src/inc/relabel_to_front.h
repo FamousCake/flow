@@ -13,20 +13,17 @@ class RelabelToFront
 {
   public:
     Vertex *V;
-
-    // Residual network
-    ResidualNetwork E;
-
-    // Total number of vertices
     int VertexCount;
-
-    // Source and sink index in the network
     int Source, Sink;
+
+    ResidualNetwork E;
 
     RelabelToFront(const ResidualNetwork &);
     ~RelabelToFront();
 
     void Run();
+
+  private:
     void PushInitialFlow();
     void Discharge(int);
 

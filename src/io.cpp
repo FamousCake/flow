@@ -2,10 +2,9 @@
 
 using namespace std;
 
-void IO::printArray(int A[], const char s[], int w, int count)
+void IO::printArray(int A[], int count, int w, const char msg[])
 {
-    cout << endl
-         << s << endl;
+    cout << '\n' << msg << '\n';
 
     cout << "Pointer is : " << A << endl;
 
@@ -16,10 +15,9 @@ void IO::printArray(int A[], const char s[], int w, int count)
     cout << endl;
 }
 
-void IO::printResidualNetwork(ResidualNetwork &A, const char s[], int w)
+void IO::printResidualNetwork(ResidualNetwork &A, int w, const char msg[])
 {
-    cout << endl
-         << s << endl;
+    cout << '\n' << msg << '\n';
 
     cout << "Pointer is : " << A.getRaw() << endl;
 
@@ -36,7 +34,6 @@ void IO::printResidualNetwork(ResidualNetwork &A, const char s[], int w)
 ResidualNetwork IO::ReadGraph()
 {
     char t;
-    string s;
 
     int vertexCount, edgeCount;
     int source, sink;
@@ -48,6 +45,7 @@ ResidualNetwork IO::ReadGraph()
         if (t == 'c') {
             cin.ignore(256, '\n');
         } else if (t == 'p') {
+            string s;
             cin >> s >> vertexCount >> edgeCount;
             E = vector<vector<int>>(vertexCount, vector<int>(vertexCount, 0));
         } else if (t == 'n') {
@@ -68,4 +66,35 @@ ResidualNetwork IO::ReadGraph()
     }
 
     return ResidualNetwork(E, source, sink);
+}
+
+void IO::WriteGraph(ResidualNetwork &E)
+{
+    int edgeCount = 0;
+
+    for (int i = 0; i < E.getCount(); ++i) {
+        for (int j = 0; j < E.getCount(); ++j) {
+            if (E.getWeight(i, j)) {
+                edgeCount++;
+            }
+        }
+    }
+
+    cout << "c" << endl;
+    cout << "c This is a generated graph" << endl;
+    cout << "c" << endl;
+    cout << "p max " << E.getCount() << " " << edgeCount << endl;
+    cout << "n " << E.getSource() + 1 << " s" << endl;
+    cout << "n " << E.getSink() + 1 << " t" << endl;
+
+
+    for (int i = 0; i < E.getCount(); ++i) {
+        for (int j = 0; j < E.getCount(); ++j) {
+            if (E.getWeight(i, j)) {
+                cout <<"a " << i+1 << " " << j+1 << " " << E.getWeight(i, j) << endl;
+            }
+        }
+    }
+
+    cout << "c End of file;";
 }

@@ -2,14 +2,9 @@
 
 #ifndef FORD_FULKERSON_H
 #define FORD_FULKERSON_H
-#include <queue>
-#include <iostream>
-#include <vector>
 
 #include "simple_queue.h"
-#include "globals.h"
 #include "residual_network.h"
-#include "io.h"
 
 class FordFulkerson
 {
@@ -17,33 +12,19 @@ class FordFulkerson
   public:
     // List of ancestors for every vertex after the BFS
     int *V;
-
-    // Residual network
-    ResidualNetwork E;
-
-    // Total number of vertices
     int VertexCount;
-
-    // Source and sink index in the network
     int Source, Sink;
 
-    /**
-     * @brief Constructor
-     *
-     * @param t Original Flow network
-     * @param t Number ot vertices
-     */
+    ResidualNetwork E;
 
     FordFulkerson(const ResidualNetwork &);
     ~FordFulkerson();
 
     void Run();
 
-    int GetFlow();
-
   private:
     /**
-     * @brief Use BFS to find a path sink -> source
+     * @brief Use BFS to find a path sink ~> source
      * @details The path is saved in the lsit of ancestors (this->V)
      *
      * @return True if a path exists, false if it does not
@@ -51,16 +32,10 @@ class FordFulkerson
     bool GetPath();
 
     /**
-     * @brief Augment flow along a path sink -> source
-     * @details Use the list of ancestors to go along the path and augment it with the minimum flow
+     * @brief Augment flow along a path sink ~> source
+     * @details Use the list of ancestors to go along the path found by GetPath and augment it with the minimum flow possible
      */
     void AugmentPath();
-
-    /**
-     * @brief Resets the list of ancestors (V)
-     * @details [long description]
-     */
-    void resetVertices();
 };
 
 #endif // FORD_FULKERSON_H

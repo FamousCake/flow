@@ -25,7 +25,9 @@ void FordFulkerson::Run()
 
 void FordFulkerson::AugmentPath()
 {
+    //
     // Step 1 : Find the minimum flow the path can be augmented by
+    //
     int x = Sink;
 
     // Let the initial minimum be the first edge on the augmenting path
@@ -42,7 +44,9 @@ void FordFulkerson::AugmentPath()
         x = V[x];
     }
 
+    //
     // Step 2: Augment every edge on the path by the minimum flow
+    //
     x = Sink;
     while (V[x] != x) {
 
@@ -75,7 +79,6 @@ bool FordFulkerson::GetPath()
 
         for (int v = 0; v < VertexCount; ++v) {
 
-            // Is there is an edge and V has not yet been discovered
             if (E.getWeight(u, v) != 0 && V[v] == -1) {
 
                 q.push(v);
