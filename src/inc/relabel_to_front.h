@@ -14,6 +14,7 @@ class RelabelToFront
 {
   public:
     Vertex *V;
+    int *HeightCount;
     int VertexCount;
     int Source, Sink;
 
@@ -32,6 +33,7 @@ class RelabelToFront
 
     void Push(int, int);
     void Relabel(int);
+    void Gap(int);
 
     bool IsOverflowing(int);
     bool CanPush(int, int);

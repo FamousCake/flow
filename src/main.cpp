@@ -47,7 +47,7 @@ int main()
     //
     //
 
-    int N = 300;
+    int N = 1000;
     vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 1000);
     ResidualNetwork E(raw, 0, N - 1);
 

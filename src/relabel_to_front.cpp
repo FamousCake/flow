@@ -42,7 +42,14 @@ void RelabelToFront::Discharge(int i)
         auto v = V[i].NCurrent;
 
         if (v == V[i].NList.end()) {
-            Relabel(i);
+
+            if (HeightCount[V[i].Height] == 1) {
+                Gap(V[i].Height);
+            }
+            else {
+                Relabel(i);
+            }
+
             V[i].NCurrent = V[i].NList.begin();
         } else if (CanPush(i, *v)) {
             Push(i, *v);
@@ -71,6 +78,8 @@ void RelabelToFront::Relabel(int i)
     this->RelabelCount++;
     this->V[i].RelabelCount++;
 
+    HeightCount[V[i].Height]--;
+
     auto minHeight = 2 * VertexCount;
     for (auto j : V[i].NList) {
         if (E.getWeight(i, j) > 0) {
@@ -79,6 +88,27 @@ void RelabelToFront::Relabel(int i)
     }
 
     V[i].Height = minHeight + 1;
+
+    HeightCount[V[i].Height]++;
+}
+
+void RelabelToFront::Gap(int k)
+{
+    for (int i = 0; i < VertexCount; i++) {
+
+        if (i!=Source && i!=Sink) {
+
+            if (V[i].Height >= k) {
+
+                HeightCount[V[i].Height]--;
+
+                V[i].Height = std::max(V[i].Height, VertexCount + 1);
+
+                HeightCount[V[i].Height]++;
+            }
+        }
+
+    }
 }
 
 bool RelabelToFront::CanPush(int i, int j)
@@ -156,6 +186,12 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
     // Initialize vertices properties
     this->V = new Vertex[VertexCount];
 
+    this->HeightCount = new int[2 * VertexCount];
+
+    std::fill(this->HeightCount, (this->HeightCount + 2 * VertexCount), 0);
+    this->HeightCount[VertexCount] = 1;
+    this->HeightCount[0] = VertexCount-1;
+
     // The source has a static height of |V|
     V[Source].Height = VertexCount;
 
@@ -180,4 +216,5 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
 RelabelToFront::~RelabelToFront()
 {
     delete[] V;
+    delete[] HeightCount;
 }
