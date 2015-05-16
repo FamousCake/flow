@@ -8,35 +8,51 @@ void RelabelToFront::Run()
 
     // List of vertices in a topologicaly sorted order of the addmissible network
     // see Introduction, page 749
-    vector<int> sortedList;
+    // vector<int> sortedList;
+    int *list = new int[VertexCount];
+    int current = 0;
 
-    for (int i = 0; i < VertexCount; ++i) {
-        if (i != Source && i != Sink) {
-            sortedList.push_back(i);
+    for (int i = 1; i < VertexCount-1; ++i) {
+        if (i!=Source && i!=Sink) {
+            list[current++] = i;
         }
     }
 
     // We iterate from end to begin, because we can only push in the end of a vector, and all other
     // containers are slower to iterate
-    vector<int>::reverse_iterator i = sortedList.rbegin();
+    // vector<int>::reverse_iterator i = sortedList.rbegin();
+    current = 0;
 
     do {
 
-        int oldHeight = V[*i].Height;
+        int i = list[current];
 
-        Discharge(*i);
+        if( V[i].ExcessFlow > 0 ) {
+            int oldHeight = V[i].Height;
 
-        if (oldHeight < V[*i].Height) {
-            sortedList.push_back(*i);
-            i = sortedList.rbegin();
+            Discharge(i);
+
+            if (oldHeight < V[i].Height) {
+
+                int x = list[current];
+                list[current] = list[0];
+                list[0] = x;
+
+                current = 0;
+            }
         }
 
-        i++;
-    } while (i != sortedList.rend());
+        current++;
+    } while (current != VertexCount-2);
+
+    delete []list;
 }
+
 
 void RelabelToFront::Discharge(int i)
 {
+    this->DischargeCount++;
+
     // See Introduction, page 751
     while (V[i].ExcessFlow > 0) {
 
@@ -67,6 +83,9 @@ void RelabelToFront::Discharge(int i)
 
 void RelabelToFront::Push(int i, int j)
 {
+    this->PushCount++;
+    this->V[i].PushCount++;
+
     int min = std::min(V[i].ExcessFlow, E.getWeight(i, j));
 
     E.updateWeight(i, j, -min);
@@ -78,19 +97,31 @@ void RelabelToFront::Push(int i, int j)
 
 void RelabelToFront::Relabel(int i)
 {
+    this->RelabelCount++;
+    this->V[i].RelabelCount++;
+
     // If we relabel while discharging we are guaranteed to have at least one neighbour, see
     // Introduction, page 740
     int min = std::numeric_limits<int>::max();
 
-    for (int j = 0; j < VertexCount; ++j) {
-
+    for(auto j : V[i].NList) {
         if (E.getWeight(i, j) > 0) {
-
             if (V[j].Height < min) {
                 min = V[j].Height;
             }
         }
     }
+
+
+    // for (int j = 0; j < VertexCount; ++j) {
+    //
+    //     if (E.getWeight(i, j) > 0) {
+    //
+    //         if (V[j].Height < min) {
+    //             min = V[j].Height;
+    //         }
+    //     }
+    // }
 
     V[i].Height = 1 + min;
 }
@@ -162,6 +193,10 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
     this->Source = E.getSource();
     this->Sink = E.getSink();
     this->VertexCount = E.getCount();
+
+    this->PushCount = 0;
+    this->RelabelCount = 0;
+    this->DischargeCount = 0;
 
     // Initialize vertices properties
     this->V = new Vertex[VertexCount];

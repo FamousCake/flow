@@ -2,6 +2,7 @@
 #define RELABEL_TO_FRONT_H
 
 #include <limits>
+#include <iostream>
 #include <algorithm>
 
 #include "globals.h"
@@ -14,6 +15,8 @@ class RelabelToFront
     Vertex *V;
     int VertexCount;
     int Source, Sink;
+
+    int PushCount, RelabelCount, DischargeCount;
 
     ResidualNetwork E;
 

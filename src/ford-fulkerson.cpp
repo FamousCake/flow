@@ -25,6 +25,7 @@ void FordFulkerson::Run()
 {
     while (GetPath()) {
         AugmentPath();
+        this->IterationsCount++;
     }
 }
 
@@ -58,6 +59,8 @@ void FordFulkerson::AugmentPath()
         int u = x;
         int v = V[x];
 
+        testV[x] = 1;
+
         E.updateWeight(v, u, -min);
         E.updateWeight(u, v, min);
 
@@ -89,7 +92,6 @@ bool FordFulkerson::GetPath()
                 q.push(v);
 
                 V[v] = u;
-                testV[v] = 1;
 
                 if (v == Sink) {
                     return true;

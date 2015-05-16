@@ -9,6 +9,9 @@ struct Vertex {
     int Height = 0;
     int ExcessFlow = 0;
 
+    int RelabelCount = 0;
+    int PushCount = 0;
+
     std::vector<int> NList;
     std::vector<int>::iterator NCurrent;
 };

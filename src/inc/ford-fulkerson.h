@@ -16,6 +16,8 @@ class FordFulkerson
     int VertexCount;
     int Source, Sink;
 
+    int IterationsCount = 0;
+
     ResidualNetwork E;
 
     FordFulkerson(const ResidualNetwork &);

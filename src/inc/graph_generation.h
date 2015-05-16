@@ -35,11 +35,12 @@ class GraphGeneration
                     }
 
                     else {
-                        if (dist3(mt) == 1) {
-                            E[i][j] = dist(mt);
-                        } else {
-                            E[j][i] = dist(mt);
-                        }
+                        E[i][j] = dist(mt);
+                        // if (dist3(mt) == 1) {
+                        //     E[i][j] = dist(mt);
+                        // } else {
+                        //     E[j][i] = dist(mt);
+                        // }
                     }
                 }
             }
