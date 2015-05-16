@@ -77,15 +77,30 @@ void RelabelToFront::Relabel(int i)
     this->RelabelCount++;
     this->V[i].RelabelCount++;
 
-    V[i].Height = 2 * VertexCount;
+    // If we relabel while discharging we are guaranteed to have at least one neighbour, see
+    // Introduction, page 740
+    int min = std::numeric_limits<int>::max();
 
-    for (auto j : V[i].NList) {
+    for(auto j : V[i].NList) {
         if (E.getWeight(i, j) > 0) {
-            V[i].Height = min(V[i].Height, V[j].Height);
+            if (V[j].Height < min) {
+                min = V[j].Height;
+            }
         }
     }
 
-    V[i].Height++;
+
+    // for (int j = 0; j < VertexCount; ++j) {
+    //
+    //     if (E.getWeight(i, j) > 0) {
+    //
+    //         if (V[j].Height < min) {
+    //             min = V[j].Height;
+    //         }
+    //     }
+    // }
+
+    V[i].Height = 1 + min;
 }
 
 bool RelabelToFront::CanPush(int i, int j)

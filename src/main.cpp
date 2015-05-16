@@ -8,6 +8,7 @@
 #include "inc/relabel_to_front.h"
 #include "stopwatch/stopwatch.h"
 #include "inc/residual_network.h"
+#include "stanford.cpp"
 
 using namespace std;
 
@@ -19,6 +20,21 @@ int GetFlow(ResidualNetwork &B)
     }
 
     return s;
+}
+
+long long GetStanfordFlow(ResidualNetwork &E)
+{
+    PushRelabel PR(E.getCount());
+
+    for (int i = 0; i < E.getCount(); ++i) {
+        for (int j = 0; j < E.getCount(); ++j) {
+            if (E.getWeight(i,j) > 0) {
+                PR.AddEdge(i, j,E.getWeight(i,j));
+            }
+        }
+    }
+
+    return PR.GetMaxFlow(E.getSource(), E.getSink());
 }
 
 int main()
@@ -55,15 +71,26 @@ int main()
     S.stop("FF");
 
     //
+    // Stanford
+    //
+    S.start("S");
+    long long flowS = GetStanfordFlow(E);
+    S.stop("S");
+
+    //
     // RESULTS
     //
     cout << "c FF Flow is  : " << GetFlow(FF.E);
     cout << "\nc RTF Flow is : " << GetFlow(RTF.E);
+    cout << "\nc Sta Flow is : " << flowS;
 
     cout << "\nc";
     cout << "\nc FF Time is  : " << S.get_total_time("FF");
     cout << "\nc RTF Time is : " << S.get_total_time("RTF");
+    cout << "\nc Sta Time is : " << S.get_total_time("S");
 
+    cout << "\nc";
+    cout << "\nc";
     cout << "\nc Iterations Count: " << FF.IterationsCount;
     cout << "\nc Relabel Count : " << RTF.RelabelCount;
     cout << "\nc Push Count : " << RTF.PushCount;
