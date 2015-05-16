@@ -2,10 +2,12 @@
 
 using namespace std;
 
-FordFulkerson::FordFulkerson(const ResidualNetwork &A, const int source, const int sink)
-    : E(ResidualNetwork(A)), Source(source), Sink(sink)
+FordFulkerson::FordFulkerson(const ResidualNetwork &A) : E(ResidualNetwork(A))
 {
+    this->Source = E.getSource();
+    this->Sink = E.getSink();
     this->VertexCount = E.getCount();
+
     this->V = new int[VertexCount];
 }
 

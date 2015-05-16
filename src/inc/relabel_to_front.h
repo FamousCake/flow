@@ -23,7 +23,7 @@ class RelabelToFront
     // Source and sink index in the network
     int Source, Sink;
 
-    RelabelToFront(const ResidualNetwork&, const int, const int);
+    RelabelToFront(const ResidualNetwork &);
     ~RelabelToFront();
 
     void Run();

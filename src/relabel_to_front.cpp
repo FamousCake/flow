@@ -150,10 +150,10 @@ void RelabelToFront::PushInitialFlow()
     }
 }
 
-RelabelToFront::RelabelToFront(const ResidualNetwork &A, const int source, const int sink) : E(ResidualNetwork(A))
+RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
 {
-    this->Sink = sink;
-    this->Source = source;
+    this->Source = E.getSource();
+    this->Sink = E.getSink();
     this->VertexCount = E.getCount();
 
     // Initialize vertices properties

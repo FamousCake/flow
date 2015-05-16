@@ -56,9 +56,9 @@ ResidualNetwork IO::ReadGraph()
             cin >> a >> b;
 
             if (b == 's') {
-                source = a;
+                source = a - 1;
             } else if (b == 't') {
-                sink = a;
+                sink = a - 1;
             }
         } else if (t == 'a') {
             int a, b, c;

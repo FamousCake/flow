@@ -32,11 +32,9 @@ class FordFulkerson
      *
      * @param t Original Flow network
      * @param t Number ot vertices
-     * @param t Source index
-     * @param t Sink index
      */
 
-    FordFulkerson(const ResidualNetwork &, const int, const int);
+    FordFulkerson(const ResidualNetwork &);
     ~FordFulkerson();
 
     void Run();
