@@ -27,14 +27,16 @@ using namespace std;
 
 typedef long long LL;
 
-struct Edge {
+struct Edge
+{
     int from, to, cap, flow, index;
     Edge(int from, int to, int cap, int flow, int index) : from(from), to(to), cap(cap), flow(flow), index(index)
     {
     }
 };
 
-struct PushRelabel {
+struct PushRelabel
+{
     int N;
     vector<vector<Edge>> G;
     vector<LL> excess;
@@ -55,7 +57,8 @@ struct PushRelabel {
 
     void Enqueue(int v)
     {
-        if (!active[v] && excess[v] > 0) {
+        if (!active[v] && excess[v] > 0)
+        {
             active[v] = true;
             Q.push(v);
         }
@@ -75,7 +78,8 @@ struct PushRelabel {
 
     void Gap(int k)
     {
-        for (int v = 0; v < N; v++) {
+        for (int v = 0; v < N; v++)
+        {
             if (dist[v] < k)
                 continue;
             count[dist[v]]--;
@@ -100,7 +104,8 @@ struct PushRelabel {
     {
         for (int i = 0; excess[v] > 0 && i < G[v].size(); i++)
             Push(G[v][i]);
-        if (excess[v] > 0) {
+        if (excess[v] > 0)
+        {
             if (count[dist[v]] == 1)
                 Gap(dist[v]);
             else
@@ -114,12 +119,14 @@ struct PushRelabel {
         count[N] = 1;
         dist[s] = N;
         active[s] = active[t] = true;
-        for (int i = 0; i < G[s].size(); i++) {
+        for (int i = 0; i < G[s].size(); i++)
+        {
             excess[s] += G[s][i].cap;
             Push(G[s][i]);
         }
 
-        while (!Q.empty()) {
+        while (!Q.empty())
+        {
             int v = Q.front();
             Q.pop();
             active[v] = false;

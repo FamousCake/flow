@@ -4,7 +4,8 @@
 #include <vector>
 
 // Vertex data structure used by RTF
-struct Vertex {
+struct Vertex
+{
     int Height = 0;
     int ExcessFlow = 0;
 

@@ -9,7 +9,8 @@ ResidualNetwork::ResidualNetwork(int count, int value, int source, int sink)
     this->Sink = sink;
 
     this->E = new int *[this->Count];
-    for (int i = 0; i < this->Count; ++i) {
+    for (int i = 0; i < this->Count; ++i)
+    {
 
         this->E[i] = new int[this->Count];
 
@@ -26,13 +27,15 @@ ResidualNetwork::ResidualNetwork(const std::vector<std::vector<int>> &A, int sou
 
     this->E = new int *[this->Count];
 
-    for (int i = 0; i < this->Count; ++i) {
+    for (int i = 0; i < this->Count; ++i)
+    {
 
         this->E[i] = new int[this->Count];
 
         // Not accessing 2D Vector elements like this might yeild better performance, but this part
         // isn't sensitive
-        for (int j = 0; j < this->Count; ++j) {
+        for (int j = 0; j < this->Count; ++j)
+        {
             this->E[i][j] = A[i][j];
         }
     }
@@ -45,11 +48,13 @@ ResidualNetwork::ResidualNetwork(const ResidualNetwork &A)
     this->Sink = A.Sink;
 
     this->E = new int *[this->Count];
-    for (int i = 0; i < this->Count; ++i) {
+    for (int i = 0; i < this->Count; ++i)
+    {
 
         this->E[i] = new int[this->Count];
 
-        for (int j = 0; j < this->Count; ++j) {
+        for (int j = 0; j < this->Count; ++j)
+        {
             this->E[i][j] = A.E[i][j];
         }
     }
@@ -57,7 +62,8 @@ ResidualNetwork::ResidualNetwork(const ResidualNetwork &A)
 
 ResidualNetwork::~ResidualNetwork()
 {
-    for (int i = 0; i < this->Count; ++i) {
+    for (int i = 0; i < this->Count; ++i)
+    {
         delete[] this->E[i];
     }
 
@@ -101,8 +107,10 @@ int **ResidualNetwork::getRaw()
 
 void ResidualNetwork::eachEdge(function<void(int, int, int)> callback)
 {
-    for (int i = 0; i < Count; ++i) {
-        for (int j = 0; j < Count; ++j) {
+    for (int i = 0; i < Count; ++i)
+    {
+        for (int j = 0; j < Count; ++j)
+        {
             callback(E[i][j], i, j);
         }
     }

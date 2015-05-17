@@ -11,7 +11,8 @@ FordFulkerson::FordFulkerson(const ResidualNetwork &A) : E(ResidualNetwork(A))
     this->V = new int[VertexCount];
     this->testV = new int[VertexCount];
 
-    for (int i = 0; i < VertexCount; ++i) {
+    for (int i = 0; i < VertexCount; ++i)
+    {
         this->testV[i] = -1;
     }
 }
@@ -23,7 +24,8 @@ FordFulkerson::~FordFulkerson()
 
 void FordFulkerson::Run()
 {
-    while (GetPath()) {
+    while (GetPath())
+    {
         AugmentPath();
         this->IterationsCount++;
     }
@@ -39,11 +41,13 @@ void FordFulkerson::AugmentPath()
     // Let the initial minimum be the first edge on the augmenting path
     int min = E.getWeight(V[x], x);
 
-    while (V[x] != x) {
+    while (V[x] != x)
+    {
         int u = x;
         int v = V[x];
 
-        if (min > E.getWeight(v, u)) {
+        if (min > E.getWeight(v, u))
+        {
             min = E.getWeight(v, u);
         }
 
@@ -54,7 +58,8 @@ void FordFulkerson::AugmentPath()
     // Step 2: Augment every edge on the path by the minimum flow
     //
     x = Sink;
-    while (V[x] != x) {
+    while (V[x] != x)
+    {
 
         int u = x;
         int v = V[x];
@@ -71,7 +76,8 @@ void FordFulkerson::AugmentPath()
 bool FordFulkerson::GetPath()
 {
     // Reset the list of ancestors for every BFS search
-    for (int i = 0; i < VertexCount; ++i) {
+    for (int i = 0; i < VertexCount; ++i)
+    {
         V[i] = -1;
     }
 
@@ -81,19 +87,23 @@ bool FordFulkerson::GetPath()
     // The source is the only vertex that is it's own ancestor
     V[Source] = Source;
 
-    while (q.size() > 0) {
+    while (q.size() > 0)
+    {
 
         const int u = q.pop();
 
-        for (int v = 0; v < VertexCount; ++v) {
+        for (int v = 0; v < VertexCount; ++v)
+        {
 
-            if (E.getWeight(u, v) != 0 && V[v] == -1) {
+            if (E.getWeight(u, v) != 0 && V[v] == -1)
+            {
 
                 q.push(v);
 
                 V[v] = u;
 
-                if (v == Sink) {
+                if (v == Sink)
+                {
                     return true;
                 }
             }

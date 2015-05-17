@@ -8,14 +8,17 @@ void RelabelToFront::Run()
 
     vector<int> sortedList;
 
-    for (int i = 0; i < VertexCount; ++i) {
-        if (i != Source && i != Sink) {
+    for (int i = 0; i < VertexCount; ++i)
+    {
+        if (i != Source && i != Sink)
+        {
             sortedList.push_back(i);
         }
     }
 
     auto current = sortedList.end();
-    do {
+    do
+    {
 
         int i = *current;
 
@@ -23,7 +26,8 @@ void RelabelToFront::Run()
 
         Discharge(i);
 
-        if (oldHeight < V[i].Height) {
+        if (oldHeight < V[i].Height)
+        {
             sortedList.push_back(i);
             current = sortedList.end();
         }
@@ -37,22 +41,31 @@ void RelabelToFront::Discharge(int i)
     this->DischargeCount++;
 
     // See Introduction, page 751
-    while (V[i].ExcessFlow > 0) {
+    while (V[i].ExcessFlow > 0)
+    {
 
         auto v = V[i].NCurrent;
 
-        if (v == V[i].NList.end()) {
+        if (v == V[i].NList.end())
+        {
 
-            if (HeightCount[V[i].Height] == 1) {
+            if (HeightCount[V[i].Height] == 1)
+            {
                 Gap(V[i].Height);
-            } else {
+            }
+            else
+            {
                 Relabel(i);
             }
 
             V[i].NCurrent = V[i].NList.begin();
-        } else if (CanPush(i, *v)) {
+        }
+        else if (CanPush(i, *v))
+        {
             Push(i, *v);
-        } else {
+        }
+        else
+        {
             V[i].NCurrent++;
         }
     }
@@ -80,8 +93,10 @@ void RelabelToFront::Relabel(int i)
     HeightCount[V[i].Height]--;
 
     auto minHeight = 2 * VertexCount;
-    for (auto j : V[i].NList) {
-        if (E.getWeight(i, j) > 0) {
+    for (auto j : V[i].NList)
+    {
+        if (E.getWeight(i, j) > 0)
+        {
             minHeight = min(minHeight, V[j].Height);
         }
     }
@@ -93,11 +108,13 @@ void RelabelToFront::Relabel(int i)
 
 void RelabelToFront::Gap(int k)
 {
-    for (int i = 0; i < VertexCount; i++) {
+    for (int i = 0; i < VertexCount; i++)
+    {
+        if (i != Source && i != Sink)
+        {
 
-        if (i != Source && i != Sink) {
-
-            if (V[i].Height >= k) {
+            if (V[i].Height >= k)
+            {
 
                 HeightCount[V[i].Height]--;
 
@@ -112,17 +129,20 @@ void RelabelToFront::Gap(int k)
 bool RelabelToFront::CanPush(int i, int j)
 {
     // 1) Must be overflowing
-    if (!IsOverflowing(i)) {
+    if (!IsOverflowing(i))
+    {
         return false;
     }
 
     // 2) There must exist an edge in the residual network
-    if (E.getWeight(i, j) == 0) {
+    if (E.getWeight(i, j) == 0)
+    {
         return false;
     }
 
     // 4) i.h = j.h +1
-    if (V[i].Height != V[j].Height + 1) {
+    if (V[i].Height != V[j].Height + 1)
+    {
         return false;
     }
 
@@ -132,14 +152,18 @@ bool RelabelToFront::CanPush(int i, int j)
 bool RelabelToFront::CanRelabel(int i)
 {
     // 1) Must be overflowing
-    if (!IsOverflowing(i)) {
+    if (!IsOverflowing(i))
+    {
         return false;
     }
 
     // 2) All neigbors must be highter
-    for (int j = 0; j < VertexCount; ++j) {
-        if (E.getWeight(i, j) > 0) {
-            if (V[i].Height > V[j].Height) {
+    for (int j = 0; j < VertexCount; ++j)
+    {
+        if (E.getWeight(i, j) > 0)
+        {
+            if (V[i].Height > V[j].Height)
+            {
                 return false;
             }
         }
@@ -156,11 +180,13 @@ bool RelabelToFront::IsOverflowing(int i)
 void RelabelToFront::PushInitialFlow()
 {
     // Push the capacity of the cut {s, V-s}
-    for (int i = 0; i < VertexCount; ++i) {
+    for (int i = 0; i < VertexCount; ++i)
+    {
 
         int capacity = E.getWeight(Source, i);
 
-        if (capacity > 0) {
+        if (capacity > 0)
+        {
 
             E.updateWeight(i, Source, capacity);
             E.updateWeight(Source, i, -capacity);
@@ -194,9 +220,12 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
     V[Source].Height = VertexCount;
 
     // Initialize NList of every vertix with all edges that can exist in the residual network
-    for (int i = 0; i < this->VertexCount; ++i) {
-        for (int j = 0; j < this->VertexCount; ++j) {
-            if (E.getWeight(i, j) > 0) {
+    for (int i = 0; i < this->VertexCount; ++i)
+    {
+        for (int j = 0; j < this->VertexCount; ++j)
+        {
+            if (E.getWeight(i, j) > 0)
+            {
 
                 V[i].NList.push_back(j);
 
@@ -206,7 +235,8 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
     }
 
     // The NList iterator always starts at the begining
-    for (int i = 0; i < this->VertexCount; ++i) {
+    for (int i = 0; i < this->VertexCount; ++i)
+    {
         V[i].NCurrent = V[i].NList.begin();
     }
 }

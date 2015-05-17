@@ -15,7 +15,8 @@ using namespace std;
 int GetFlow(ResidualNetwork &B)
 {
     int s = 0;
-    for (int i = 0; i < B.getCount(); ++i) {
+    for (int i = 0; i < B.getCount(); ++i)
+    {
         s += B.getWeight(B.getSink(), i);
     }
 
@@ -26,9 +27,12 @@ long long GetStanfordFlow(ResidualNetwork &E)
 {
     PushRelabel PR(E.getCount());
 
-    for (int i = 0; i < E.getCount(); ++i) {
-        for (int j = 0; j < E.getCount(); ++j) {
-            if (E.getWeight(i, j) > 0) {
+    for (int i = 0; i < E.getCount(); ++i)
+    {
+        for (int j = 0; j < E.getCount(); ++j)
+        {
+            if (E.getWeight(i, j) > 0)
+            {
                 PR.AddEdge(i, j, E.getWeight(i, j));
             }
         }
@@ -47,7 +51,8 @@ int main()
     //
     //
 
-    int N = 1000;
+    int N = 10000;
+    cin >> N;
     vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 1000);
     ResidualNetwork E(raw, 0, N - 1);
 
@@ -65,8 +70,8 @@ int main()
     // FORD FULKERSON
     //
     S.start("FF");
-    FordFulkerson FF(E);
-    FF.Run();
+    // FordFulkerson FF(E);
+    // FF.Run();
     S.stop("FF");
 
     //
@@ -79,7 +84,7 @@ int main()
     //
     // RESULTS
     //
-    cout << "c FF Flow is  : " << GetFlow(FF.E);
+    // cout << "c FF Flow is  : " << GetFlow(FF.E);
     cout << "\nc RTF Flow is : " << GetFlow(RTF.E);
     cout << "\nc Sta Flow is : " << flowS;
 
@@ -90,7 +95,7 @@ int main()
 
     cout << "\nc";
     cout << "\nc";
-    cout << "\nc Iterations Count: " << FF.IterationsCount;
+    // cout << "\nc Iterations Count: " << FF.IterationsCount;
     cout << "\nc Relabel Count : " << RTF.RelabelCount;
     cout << "\nc Push Count : " << RTF.PushCount;
     cout << "\nc Discharge Count : " << RTF.DischargeCount;
