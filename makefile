@@ -13,3 +13,6 @@ analyze:
 format:
 	clang-format ./src/*.cpp ./src/inc/*.h -i
 
+graph_generation:
+	clang++ -Wc++11-extensions -std=c++14 ./utils/generate_graph.cpp -o ./bin/gen.out
+
