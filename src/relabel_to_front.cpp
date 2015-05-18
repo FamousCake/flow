@@ -12,28 +12,18 @@ void RelabelToFront::Run()
     {
         if (i != Source && i != Sink)
         {
-            sortedList.push_back(i);
+            Q.push(i);
         }
     }
 
-    auto current = sortedList.end();
     do
     {
-
-        int i = *current;
-
-        int oldHeight = V[i].Height;
+        int i = Q.front();
+        Q.pop();
 
         Discharge(i);
 
-        if (oldHeight < V[i].Height)
-        {
-            sortedList.push_back(i);
-            current = sortedList.end();
-        }
-
-        current--;
-    } while (current != sortedList.begin() - 1);
+    } while (!Q.empty());
 }
 
 void RelabelToFront::Discharge(int i)
@@ -43,7 +33,6 @@ void RelabelToFront::Discharge(int i)
     // See Introduction, page 751
     while (V[i].ExcessFlow > 0)
     {
-
         auto v = V[i].NCurrent;
 
         if (v == V[i].NList.end())
@@ -62,6 +51,10 @@ void RelabelToFront::Discharge(int i)
         }
         else if (CanPush(i, *v))
         {
+            if (V[*v].ExcessFlow == 0 && *v != Source && *v != Sink)
+            {
+                Q.push(*v);
+            }
             Push(i, *v);
         }
         else

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include <utility>
+#include <queue>
 
 #include "globals.h"
 #include "vertex.h"
@@ -15,6 +16,7 @@ class RelabelToFront
   public:
     Vertex *V;
     int *HeightCount;
+    std::queue<int> Q;
     int VertexCount;
     int Source, Sink;
 
