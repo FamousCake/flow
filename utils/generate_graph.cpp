@@ -69,15 +69,40 @@ void writeGraph(int vCount, long eCount, int min, int max, int source, int sink)
     }
 }
 
+void writeSparseGraph(int vCount, long eCount, int min, int max, int source, int sink)
+{
+    std::vector<std::vector<bool>> E(vCount, std::vector<bool>(vCount, false));
+
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_int_distribution<int> dist(min, max);
+    std::uniform_int_distribution<int> distI(0, vCount-2);
+    std::uniform_int_distribution<int> distJ(1, vCount-1);
+
+    while (eCount > 0) {
+        int i = distI(mt);
+        int j = distJ(mt);
+
+        if (E[i][j] == true || E[j][i] == true || i == j) {
+            continue;
+        }
+
+        E[i][j] = true;
+        cout << "a " << i + 1 << " " << j + 1 << " " << dist(mt) << endl;
+        eCount--;
+    }
+}
+
 int main()
 {
     long n;
     cin >> n;
 
-    long density;
-    cin >> density;
+    // long density;
+    // cin >> density;
 
-    long edgeCount = (density * ((n * n) - n)) / 100;
+    long edgeCount;// = (density * ((n * n) - n)) / 100;
+    cin >> edgeCount;
 
     cout << "c" << endl;
     cout << "c This is a generated graph" << endl;
@@ -90,7 +115,7 @@ int main()
     cout << "c" << endl;
     cout << "c" << endl;
 
-    writeGraph(n, edgeCount, 1, 1000, 0, n - 1);
+    writeSparseGraph(n, edgeCount, 1, 1000, 0, n - 1);
 
     return 0;
 }
