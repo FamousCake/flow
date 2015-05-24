@@ -71,7 +71,7 @@ int main()
     //
     S.start("FF");
     FordFulkerson FF(E);
-    FF.Run();
+    // FF.Run();
     S.stop("FF");
 
     //

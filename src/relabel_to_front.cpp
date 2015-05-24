@@ -30,13 +30,19 @@ void RelabelToFront::Discharge(int i)
 {
     this->DischargeCount++;
 
-    // See Introduction, page 751
-    while (V[i].ExcessFlow > 0)
+    while(true)
     {
-        auto v = V[i].NCurrent;
+        for (int j = 0; j < VertexCount; ++j) {
+            if (CanPush(i, j)) {
+                if (V[j].ExcessFlow == 0 && j != Source && j != Sink)
+                {
+                    Q.push(j);
+                }
+                Push(i, j);
+            }
+        }
 
-        if (v == V[i].NList.end())
-        {
+        if (V[i].ExcessFlow > 0) {
 
             if (HeightCount[V[i].Height] == 1)
             {
@@ -47,21 +53,45 @@ void RelabelToFront::Discharge(int i)
                 Relabel(i);
             }
 
-            V[i].NCurrent = V[i].NList.begin();
         }
-        else if (CanPush(i, *v))
-        {
-            if (V[*v].ExcessFlow == 0 && *v != Source && *v != Sink)
-            {
-                Q.push(*v);
-            }
-            Push(i, *v);
+        else {
+            break;
         }
-        else
-        {
-            V[i].NCurrent++;
-        }
+
     }
+
+    // See Introduction, page 751
+    // while (V[i].ExcessFlow > 0)
+    // {
+    //     auto v = V[i].NCurrent;
+    //
+    //     if (v == V[i].NList.end())
+    //     {
+    //
+    //         if (HeightCount[V[i].Height] == 1)
+    //         {
+    //             Gap(V[i].Height);
+    //         }
+    //         else
+    //         {
+    //             Relabel(i);
+    //         }
+    //
+    //         V[i].NCurrent = V[i].NList.begin();
+    //     }
+    //     else if (CanPush(i, *v))
+    //     {
+    //         if (V[*v].ExcessFlow == 0 && *v != Source && *v != Sink)
+    //         {
+    //             Q.push(*v);
+    //         }
+    //         Push(i, *v);
+    //     }
+    //     else
+    //     {
+    //         V[i].NCurrent++;
+    //     }
+    // }
 }
 
 void RelabelToFront::Push(int i, int j)
@@ -86,7 +116,9 @@ void RelabelToFront::Relabel(int i)
     HeightCount[V[i].Height]--;
 
     auto minHeight = 2 * VertexCount;
-    for (auto j : V[i].NList)
+    // for (auto j : V[i].NList)
+
+    for (int j = 0; j < VertexCount; ++j)
     {
         if (E.getWeight(i, j) > 0)
         {
@@ -213,25 +245,25 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
     V[Source].Height = VertexCount;
 
     // Initialize NList of every vertix with all edges that can exist in the residual network
-    for (int i = 0; i < this->VertexCount; ++i)
-    {
-        for (int j = 0; j < this->VertexCount; ++j)
-        {
-            if (E.getWeight(i, j) > 0)
-            {
-
-                V[i].NList.push_back(j);
-
-                V[j].NList.push_back(i);
-            }
-        }
-    }
-
-    // The NList iterator always starts at the begining
-    for (int i = 0; i < this->VertexCount; ++i)
-    {
-        V[i].NCurrent = V[i].NList.begin();
-    }
+    // for (int i = 0; i < this->VertexCount; ++i)
+    // {
+    //     for (int j = 0; j < this->VertexCount; ++j)
+    //     {
+    //         if (E.getWeight(i, j) > 0)
+    //         {
+    //
+    //             V[i].NList.push_back(j);
+    //
+    //             V[j].NList.push_back(i);
+    //         }
+    //     }
+    // }
+    //
+    // // The NList iterator always starts at the begining
+    // for (int i = 0; i < this->VertexCount; ++i)
+    // {
+    //     V[i].NCurrent = V[i].NList.begin();
+    // }
 }
 
 RelabelToFront::~RelabelToFront()

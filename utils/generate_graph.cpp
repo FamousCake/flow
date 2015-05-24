@@ -115,7 +115,8 @@ int main()
     cout << "c" << endl;
     cout << "c" << endl;
 
-    writeSparseGraph(n, edgeCount, 1, 1000, 0, n - 1);
+    // writeSparseGraph(n, edgeCount, 1, 1000, 0, n - 1);
+    writeGraph(n, edgeCount, 1, 1000, 0, n-1);
 
     return 0;
 }
