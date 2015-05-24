@@ -6,7 +6,7 @@
 
 #include "residual_network.h"
 
-class ResidualNetworkMatrix : public ResidualNetwork
+class ResidualNetworkMatrix
 {
   public:
     /**
@@ -22,7 +22,7 @@ class ResidualNetworkMatrix : public ResidualNetwork
      *
      * @param v Raw edge data
      */
-    ResidualNetworkMatrix(const std::vector<std::vector<int>> &, int, int);
+    ResidualNetworkMatrix(const std::vector<std::vector<std::pair<int,int>>> &, int, int);
 
     ResidualNetworkMatrix(const ResidualNetworkMatrix &);
 
@@ -43,15 +43,15 @@ class ResidualNetworkMatrix : public ResidualNetwork
     int getSource();
     int getSink();
 
-    std::vector<std::vector<int>> getRaw();
+    // std::vector<std::vector<int>> getRaw();
+    std::vector<std::vector<std::pair<int,int>>> E;
 
     // I don't use this, but just in case
-    void eachEdge(std::function<void(int, int, int)>);
+    // void eachEdge(std::function<void(int, int, int)>);
 
   private:
     int Count;
     // int **E;
-    std::vector<std::vector<int>> E;
     int Source, Sink;
 };
 

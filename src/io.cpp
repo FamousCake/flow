@@ -41,7 +41,7 @@ ResidualNetworkMatrix IO::ReadGraph()
     int vertexCount, edgeCount;
     int source, sink;
 
-    vector<vector<int>> E;
+    vector<vector<pair<int,int>>> E;
 
     while (cin >> t)
     {
@@ -54,7 +54,7 @@ ResidualNetworkMatrix IO::ReadGraph()
         {
             string s;
             cin >> s >> vertexCount >> edgeCount;
-            E = vector<vector<int>>(vertexCount, vector<int>(vertexCount, 0));
+            E = vector<vector<pair<int,int>>>(vertexCount, vector<pair<int,int>>(vertexCount, pair<int,int>(0, 0)));
         }
         else if (t == 'n')
         {
@@ -75,7 +75,8 @@ ResidualNetworkMatrix IO::ReadGraph()
         {
             int a, b, c;
             cin >> a >> b >> c;
-            E[a - 1][b - 1] = c;
+            E[a - 1][b - 1].second = c;
+            E[a - 1][b - 1].first = b-1;
         }
     }
 
