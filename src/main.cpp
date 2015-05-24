@@ -56,8 +56,8 @@ int main()
     // vector<vector<int>> raw = GraphGeneration::GenerateRandomGraph(N, 80, 1, 1000);
     // ResidualNetwork E(raw, 0, N - 1);
 
-    ResidualNetworkMatrix E = IO::ReadGraph();
-
+    // ResidualNetworkMatrix E = IO::ReadGraph();
+    ResidualNetworkList E = IO::ReadGraphList();
     int edgeCount = E.getEdgesCount();
 
     //
@@ -72,7 +72,7 @@ int main()
     // FORD FULKERSON
     //
     S.start("FF");
-    FordFulkerson FF(E);
+    // FordFulkerson FF(E);
     // FF.Run();
     S.stop("FF");
 
@@ -80,7 +80,7 @@ int main()
     // Stanford
     //
     S.start("S");
-    long long flowS = GetStanfordFlow(E);
+    // long long flowS = GetStanfordFlow(E);
     S.stop("S");
 
     //
@@ -91,17 +91,17 @@ int main()
     cout << "\n";
     cout << "\n V = " << E.getCount();
     cout << "\n E = " << edgeCount;
-    cout << "\n RTF Flow is : " << GetFlow(RTF.E);
-    cout << "\n Sta Flow is : " << flowS;
+    cout << "\n RTF Flow is : " << RTF.E.getFlow();
+    // cout << "\n Sta Flow is : " << flowS;
 
     cout << "\n";
     // cout << "\nc FF Time is  : " << S.get_total_time("FF");
     cout << "\n RTF Time is : " << S.get_total_time("RTF");
-    cout << "\n Sta Time is : " << S.get_total_time("S");
+    // cout << "\n Sta Time is : " << S.get_total_time("S");
 
     // cout << "\nc";
     // cout << "\nc";
-    // // cout << "\nc Iterations Count: " << FF.IterationsCount;
+    // cout << "\nc Iterations Count: " << FF.IterationsCount;
     // cout << "\nc Relabel Count : " << RTF.RelabelCount;
     // cout << "\nc Push Count : " << RTF.PushCount;
     // cout << "\nc Discharge Count : " << RTF.DischargeCount;

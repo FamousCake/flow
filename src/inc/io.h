@@ -4,8 +4,10 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <utility>
 
 #include "residual_network_matrix.h"
+#include "residual_network_list.h"
 
 namespace IO
 {
@@ -33,6 +35,8 @@ void printResidualNetwork(ResidualNetwork &E, int w, const char message[]);
  * @brief Read DMACS graph from STDIN
  */
 ResidualNetworkMatrix ReadGraph();
+
+ResidualNetworkList ReadGraphList();
 
 void WriteGraph(ResidualNetwork &);
 

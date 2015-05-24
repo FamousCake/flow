@@ -92,3 +92,8 @@ int ResidualNetworkList::getFlow()
 
     return flow;
 }
+
+// std::vector<std::pair<int,int>> ResidualNetworkList::getNeighbours(int i)
+// {
+//     return E[i];
+// }

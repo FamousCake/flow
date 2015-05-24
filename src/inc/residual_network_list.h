@@ -5,7 +5,7 @@
 
 #include "residual_network.h"
 
-class ResidualNetworkList : ResidualNetwork
+class ResidualNetworkList
 {
   public:
     ResidualNetworkList(const std::vector<std::vector<std::pair<int,int>>> &, int, int);
@@ -20,6 +20,8 @@ class ResidualNetworkList : ResidualNetwork
     int getSource();
     int getSink();
     int getFlow();
+
+    // std::vector<std::pair<int,int>> getNeighbours(int);
 
     std::vector<std::vector<std::pair<int, int>>> E;
 

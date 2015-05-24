@@ -82,6 +82,56 @@ ResidualNetworkMatrix IO::ReadGraph()
     return ResidualNetworkMatrix(E, source, sink);
 }
 
+ResidualNetworkList IO::ReadGraphList()
+{
+    char t;
+
+    int vertexCount, edgeCount;
+    int source, sink;
+
+    vector<vector<pair<int,int>>> E;
+
+    while (cin >> t)
+    {
+
+        if (t == 'c')
+        {
+            cin.ignore(256, '\n');
+        }
+        else if (t == 'p')
+        {
+            string s;
+            cin >> s >> vertexCount >> edgeCount;
+            E = vector<vector<pair<int,int>>>(vertexCount, vector<pair<int,int>>());
+        }
+        else if (t == 'n')
+        {
+            int a;
+            char b;
+            cin >> a >> b;
+
+            if (b == 's')
+            {
+                source = a - 1;
+            }
+            else if (b == 't')
+            {
+                sink = a - 1;
+            }
+        }
+        else if (t == 'a')
+        {
+            int a, b, c;
+            cin >> a >> b >> c;
+            // E[a - 1][b - 1] = c;
+            E[a-1].push_back(pair<int,int>(b-1, c));
+            E[b-1].push_back(pair<int,int>(a-1, 0));
+        }
+    }
+
+    return ResidualNetworkList(E, source, sink);
+}
+
 void IO::WriteGraph(ResidualNetwork &E)
 {
     int edgeCount = 0;

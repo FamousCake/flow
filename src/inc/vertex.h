@@ -2,6 +2,7 @@
 #define VERTEX_H
 
 #include <vector>
+#include <utility>
 
 // Vertex data structure used by RTF
 struct Vertex
@@ -12,8 +13,7 @@ struct Vertex
     int RelabelCount = 0;
     int PushCount = 0;
 
-    std::vector<int> NList;
-    std::vector<int>::iterator NCurrent;
+    std::vector<std::pair<int, int>>::iterator NCurrent;
 };
 
 #endif // VERTEX_H
