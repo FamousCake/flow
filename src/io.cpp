@@ -20,7 +20,7 @@ void IO::printResidualNetwork(ResidualNetwork &A, int w, const char msg[])
 {
     cout << '\n' << msg << '\n';
 
-    cout << "Pointer is : " << A.getRaw() << endl;
+    cout << "Pointer is : " << &A << endl;
 
     for (int i = 0; i < A.getCount(); ++i)
     {

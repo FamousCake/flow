@@ -41,14 +41,15 @@ class ResidualNetwork
     int getSource();
     int getSink();
 
-    int **getRaw();
+    std::vector<std::vector<int>> getRaw();
 
     // I don't use this, but just in case
     void eachEdge(std::function<void(int, int, int)>);
 
   private:
     int Count;
-    int **E;
+    // int **E;
+    std::vector<std::vector<int>> E;
     int Source, Sink;
 };
 
