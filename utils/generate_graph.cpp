@@ -93,16 +93,18 @@ void writeSparseGraph(int vCount, long eCount, int min, int max, int source, int
     }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     long n;
-    cin >> n;
-
-    // long density;
-    // cin >> density;
-
     long edgeCount;// = (density * ((n * n) - n)) / 100;
-    cin >> edgeCount;
+    string type;
+    int min, max;
+
+    type = argv[1];
+    n = std::stol(argv[2]);
+    edgeCount = std::stol(argv[3]);
+    min = std::stoi(argv[4]);
+    max = std::stoi(argv[5]);
 
     cout << "c" << endl;
     cout << "c This is a generated graph" << endl;
@@ -115,8 +117,12 @@ int main()
     cout << "c" << endl;
     cout << "c" << endl;
 
-    // writeSparseGraph(n, edgeCount, 1, 1000, 0, n - 1);
-    writeGraph(n, edgeCount, 1, 1000, 0, n-1);
+    if (type.compare("shuffle") == 0) {
+        writeGraph(n, edgeCount, min, max, 0, n-1);
+    }
+    else if (type.compare("random") == 0) {
+        writeSparseGraph(n, edgeCount, min, max, 0, n-1);
+    }
 
     return 0;
 }
