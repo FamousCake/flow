@@ -37,6 +37,7 @@ class ResidualNetwork
     void updateWeight(int, int, int);
 
     int getCount();
+    int getEdgesCount();
     int getSource();
     int getSink();
 

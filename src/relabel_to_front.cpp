@@ -6,8 +6,6 @@ void RelabelToFront::Run()
 {
     PushInitialFlow();
 
-    vector<int> sortedList;
-
     for (int i = 0; i < VertexCount; ++i)
     {
         if (i != Source && i != Sink)
@@ -30,10 +28,12 @@ void RelabelToFront::Discharge(int i)
 {
     this->DischargeCount++;
 
-    while(true)
+    while (true)
     {
-        for (int j = 0; j < VertexCount; ++j) {
-            if (CanPush(i, j)) {
+        for (int j = 0; j < VertexCount; ++j)
+        {
+            if (CanPush(i, j))
+            {
                 if (V[j].ExcessFlow == 0 && j != Source && j != Sink)
                 {
                     Q.push(j);
@@ -42,7 +42,8 @@ void RelabelToFront::Discharge(int i)
             }
         }
 
-        if (V[i].ExcessFlow > 0) {
+        if (V[i].ExcessFlow > 0)
+        {
 
             if (HeightCount[V[i].Height] == 1)
             {
@@ -52,12 +53,11 @@ void RelabelToFront::Discharge(int i)
             {
                 Relabel(i);
             }
-
         }
-        else {
+        else
+        {
             break;
         }
-
     }
 
     // See Introduction, page 751

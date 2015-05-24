@@ -58,6 +58,8 @@ int main()
 
     ResidualNetwork E = IO::ReadGraph();
 
+    int edgeCount = E.getEdgesCount();
+
     //
     // RELABEL TO FRONT
     //
@@ -84,21 +86,25 @@ int main()
     //
     // RESULTS
     //
-    cout << "c FF Flow is  : " << GetFlow(FF.E);
-    cout << "\nc RTF Flow is : " << GetFlow(RTF.E);
-    cout << "\nc Sta Flow is : " << flowS;
+    // cout << "c FF Flow is  : " << GetFlow(FF.E);
+    cout << "\n";
+    cout << "\n";
+    cout << "\n V = " << E.getCount();
+    cout << "\n E = " << edgeCount;
+    cout << "\n RTF Flow is : " << GetFlow(RTF.E);
+    cout << "\n Sta Flow is : " << flowS;
 
-    cout << "\nc";
-    cout << "\nc FF Time is  : " << S.get_total_time("FF");
-    cout << "\nc RTF Time is : " << S.get_total_time("RTF");
-    cout << "\nc Sta Time is : " << S.get_total_time("S");
+    cout << "\n";
+    // cout << "\nc FF Time is  : " << S.get_total_time("FF");
+    cout << "\n RTF Time is : " << S.get_total_time("RTF");
+    cout << "\n Sta Time is : " << S.get_total_time("S");
 
-    cout << "\nc";
-    cout << "\nc";
-    // cout << "\nc Iterations Count: " << FF.IterationsCount;
-    cout << "\nc Relabel Count : " << RTF.RelabelCount;
-    cout << "\nc Push Count : " << RTF.PushCount;
-    cout << "\nc Discharge Count : " << RTF.DischargeCount;
+    // cout << "\nc";
+    // cout << "\nc";
+    // // cout << "\nc Iterations Count: " << FF.IterationsCount;
+    // cout << "\nc Relabel Count : " << RTF.RelabelCount;
+    // cout << "\nc Push Count : " << RTF.PushCount;
+    // cout << "\nc Discharge Count : " << RTF.DischargeCount;
 
     // for (int i = 0; i < E.getCount(); ++i) {
     //     if (FF.testV[i] == -1) {

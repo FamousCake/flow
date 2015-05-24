@@ -90,6 +90,23 @@ int ResidualNetwork::getCount()
     return this->Count;
 }
 
+int ResidualNetwork::getEdgesCount()
+{
+    int S = 0;
+    for (int i = 0; i < Count; ++i)
+    {
+        for (int j = 0; j < Count; ++j)
+        {
+            if (E[i][j] > 0)
+            {
+                S++;
+            }
+        }
+    }
+
+    return S;
+}
+
 int ResidualNetwork::getSource()
 {
     return this->Source;
