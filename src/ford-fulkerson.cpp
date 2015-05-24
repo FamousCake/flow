@@ -2,7 +2,7 @@
 
 using namespace std;
 
-FordFulkerson::FordFulkerson(const ResidualNetwork &A) : E(ResidualNetwork(A))
+FordFulkerson::FordFulkerson(const ResidualNetworkMatrix &A) : E(ResidualNetworkMatrix(A))
 {
     this->Source = E.getSource();
     this->Sink = E.getSink();

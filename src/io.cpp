@@ -34,7 +34,7 @@ void IO::printResidualNetwork(ResidualNetwork &A, int w, const char msg[])
     cout << endl;
 }
 
-ResidualNetwork IO::ReadGraph()
+ResidualNetworkMatrix IO::ReadGraph()
 {
     char t;
 
@@ -79,7 +79,7 @@ ResidualNetwork IO::ReadGraph()
         }
     }
 
-    return ResidualNetwork(E, source, sink);
+    return ResidualNetworkMatrix(E, source, sink);
 }
 
 void IO::WriteGraph(ResidualNetwork &E)

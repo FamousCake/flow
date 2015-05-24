@@ -222,7 +222,7 @@ void RelabelToFront::PushInitialFlow()
     }
 }
 
-RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
+RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetworkMatrix(A))
 {
     this->Source = E.getSource();
     this->Sink = E.getSink();

@@ -1,8 +1,8 @@
-#include "./inc/residual_network.h"
+#include "./inc/residual_network_matrix.h"
 
 using namespace std;
 
-ResidualNetwork::ResidualNetwork(int count, int value, int source, int sink)
+ResidualNetworkMatrix::ResidualNetworkMatrix(int count, int value, int source, int sink)
 {
     this->Count = count;
     this->Source = source;
@@ -10,7 +10,7 @@ ResidualNetwork::ResidualNetwork(int count, int value, int source, int sink)
     this->E = vector<vector<int>>(Count, vector<int>(Count, value));
 }
 
-ResidualNetwork::ResidualNetwork(const std::vector<std::vector<int>> &A, int source, int sink)
+ResidualNetworkMatrix::ResidualNetworkMatrix(const std::vector<std::vector<int>> &A, int source, int sink)
 {
     this->Count = A.size();
     this->Source = source;
@@ -18,7 +18,7 @@ ResidualNetwork::ResidualNetwork(const std::vector<std::vector<int>> &A, int sou
     this->E = vector<vector<int>>(A);
 }
 
-ResidualNetwork::ResidualNetwork(const ResidualNetwork &A)
+ResidualNetworkMatrix::ResidualNetworkMatrix(const ResidualNetworkMatrix &A)
 {
     this->Count = A.Count;
     this->Source = A.Source;
@@ -26,27 +26,32 @@ ResidualNetwork::ResidualNetwork(const ResidualNetwork &A)
     this->E = vector<vector<int>>(A.E);
 }
 
-int ResidualNetwork::getWeight(int i, int j)
+ResidualNetworkMatrix::~ResidualNetworkMatrix()
+{
+
+}
+
+int ResidualNetworkMatrix::getWeight(int i, int j)
 {
     return this->E[i][j];
 }
 
-void ResidualNetwork::setWeight(int i, int j, int w)
+void ResidualNetworkMatrix::setWeight(int i, int j, int w)
 {
     this->E[i][j] = w;
 }
 
-void ResidualNetwork::updateWeight(int i, int j, int w)
+void ResidualNetworkMatrix::updateWeight(int i, int j, int w)
 {
     this->E[i][j] += w;
 }
 
-int ResidualNetwork::getCount()
+int ResidualNetworkMatrix::getCount()
 {
     return this->Count;
 }
 
-int ResidualNetwork::getEdgesCount()
+int ResidualNetworkMatrix::getEdgesCount()
 {
     int count = 0;
     for (int i = 0; i < Count; ++i)
@@ -63,22 +68,22 @@ int ResidualNetwork::getEdgesCount()
     return count;
 }
 
-int ResidualNetwork::getSource()
+int ResidualNetworkMatrix::getSource()
 {
     return this->Source;
 }
 
-int ResidualNetwork::getSink()
+int ResidualNetworkMatrix::getSink()
 {
     return this->Sink;
 }
 
-vector<vector<int>> ResidualNetwork::getRaw()
+vector<vector<int>> ResidualNetworkMatrix::getRaw()
 {
     return this->E;
 }
 
-void ResidualNetwork::eachEdge(function<void(int, int, int)> callback)
+void ResidualNetworkMatrix::eachEdge(function<void(int, int, int)> callback)
 {
     for (int i = 0; i < Count; ++i)
     {

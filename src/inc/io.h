@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <vector>
 
-#include "residual_network.h"
+#include "residual_network_matrix.h"
 
 namespace IO
 {
@@ -32,7 +32,7 @@ void printResidualNetwork(ResidualNetwork &E, int w, const char message[]);
 /**
  * @brief Read DMACS graph from STDIN
  */
-ResidualNetwork ReadGraph();
+ResidualNetworkMatrix ReadGraph();
 
 void WriteGraph(ResidualNetwork &);
 

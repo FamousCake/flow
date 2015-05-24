@@ -4,7 +4,7 @@
 #define FORD_FULKERSON_H
 
 #include "simple_queue.h"
-#include "residual_network.h"
+#include "residual_network_matrix.h"
 
 class FordFulkerson
 {
@@ -17,9 +17,9 @@ class FordFulkerson
 
     int IterationsCount = 0;
 
-    ResidualNetwork E;
+    ResidualNetworkMatrix E;
 
-    FordFulkerson(const ResidualNetwork &);
+    FordFulkerson(const ResidualNetworkMatrix &);
     ~FordFulkerson();
 
     void Run();
