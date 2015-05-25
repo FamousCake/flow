@@ -1,13 +1,14 @@
 #ifndef RELABEL_TO_FRONT_H
 #define RELABEL_TO_FRONT_H
 
+#include <iostream>
 #include <algorithm>
 #include <utility>
 #include <queue>
 
 #include "vertex.hpp"
 #include "simple_queue.hpp"
-#include "residual_network_matrix.h"
+#include "residual_network_list.h"
 
 class RelabelToFront
 {
@@ -22,9 +23,9 @@ class RelabelToFront
 
     int PushCount, RelabelCount, DischargeCount;
 
-    ResidualNetworkMatrix E;
+    ResidualNetworkList E;
 
-    RelabelToFront(const ResidualNetworkMatrix &);
+    RelabelToFront(const ResidualNetworkList &);
     ~RelabelToFront();
 
     void Run();

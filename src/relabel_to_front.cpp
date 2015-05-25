@@ -2,7 +2,7 @@
 
 using namespace std;
 
-RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetworkMatrix(A))
+RelabelToFront::RelabelToFront(const ResidualNetworkList &A) : E(ResidualNetworkList(A))
 {
     this->Source = E.getSource();
     this->Sink = E.getSink();
@@ -37,7 +37,7 @@ RelabelToFront::~RelabelToFront()
 void RelabelToFront::Run()
 {
     PushInitialFlow();
-    SetInitialLabels();
+    // SetInitialLabels();
 
     for (int i = 0; i < VertexCount; ++i)
     {
@@ -90,6 +90,8 @@ void RelabelToFront::Discharge(const int i)
                 ActiveQueue.push(j);
             }
             Push(i, j);
+
+            current++;
         }
         else
         {

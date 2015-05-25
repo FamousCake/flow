@@ -112,7 +112,7 @@ ResidualNetworkList IO::ReadGraphList()
         {
             string s;
             cin >> s >> vertexCount >> edgeCount;
-            E = vector<vector<ResidualEdge>>(vertexCount, vector<ResidualEdge>());
+            E = vector<vector<ResidualEdge>>(vertexCount);
         }
         else if (t == 'n')
         {
@@ -133,9 +133,8 @@ ResidualNetworkList IO::ReadGraphList()
         {
             int a, b, c;
             cin >> a >> b >> c;
-            // E[a - 1][b - 1] = c;
-            E[a - 1].push_back(ResidualEdge(a-1, b - 1, c));
-            E[b - 1].push_back(ResidualEdge(b-1, a - 1, 0));
+            E[a - 1].push_back(ResidualEdge(a - 1, b - 1, c));
+            E[b - 1].push_back(ResidualEdge(b - 1, a - 1, 0));
         }
     }
 

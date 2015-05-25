@@ -22,6 +22,7 @@ class ResidualNetworkList
     int getSink();
     int getFlow();
 
+    ResidualEdge &getEdge(int, int);
     std::vector<ResidualEdge> &getNeighbours(int);
 
     std::vector<std::vector<ResidualEdge>> E;
