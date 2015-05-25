@@ -81,20 +81,17 @@ bool FordFulkerson::GetPath()
 
     while (q.size() > 0)
     {
-
         const int u = q.pop();
 
-        for (int v = 0; v < VertexCount; ++v)
+        for (auto edge : E.getNeighbours(u))
         {
-
-            if (E.getWeight(u, v) != 0 && V[v] == -1)
+            if (edge.weight != 0 && V[edge.to] == -1)
             {
+                q.push(edge.to);
 
-                q.push(v);
+                V[edge.to] = u;
 
-                V[v] = u;
-
-                if (v == Sink)
+                if (edge.to == Sink)
                 {
                     return true;
                 }

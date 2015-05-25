@@ -10,12 +10,12 @@ ResidualNetworkMatrix::ResidualNetworkMatrix(int count, int value, int source, i
     // this->E = vector<vector<pair<int,int>>>(Count, vector<pair<int,int>>(Count, value));
 }
 
-ResidualNetworkMatrix::ResidualNetworkMatrix(const std::vector<std::vector<pair<int, int>>> &A, int source, int sink)
+ResidualNetworkMatrix::ResidualNetworkMatrix(const std::vector<std::vector<ResidualEdge>> &A, int source, int sink)
 {
     this->Count = A.size();
     this->Source = source;
     this->Sink = sink;
-    this->E = vector<vector<pair<int, int>>>(A);
+    this->E = vector<vector<ResidualEdge>>(A);
 }
 
 ResidualNetworkMatrix::ResidualNetworkMatrix(const ResidualNetworkMatrix &A)
@@ -23,26 +23,30 @@ ResidualNetworkMatrix::ResidualNetworkMatrix(const ResidualNetworkMatrix &A)
     this->Count = A.Count;
     this->Source = A.Source;
     this->Sink = A.Sink;
-    this->E = vector<vector<pair<int, int>>>(A.E);
+    this->E = vector<vector<ResidualEdge>>(A.E);
 }
 
 ResidualNetworkMatrix::~ResidualNetworkMatrix()
 {
 }
 
-int ResidualNetworkMatrix::getWeight(int i, int j)
+ResidualEdge &ResidualNetworkMatrix::getEdge(int i, int j)
 {
-    return this->E[i][j].second;
+    return this->E[i][j];
 }
 
+int ResidualNetworkMatrix::getWeight(int i, int j)
+{
+    return this->E[i][j].weight;
+}
 void ResidualNetworkMatrix::setWeight(int i, int j, int w)
 {
-    this->E[i][j].second = w;
+    this->E[i][j].weight = w;
 }
 
 void ResidualNetworkMatrix::updateWeight(int i, int j, int w)
 {
-    this->E[i][j].second += w;
+    this->E[i][j].weight += w;
 }
 
 int ResidualNetworkMatrix::getCount()
@@ -57,7 +61,7 @@ int ResidualNetworkMatrix::getEdgesCount()
     {
         for (int j = 0; j < Count; ++j)
         {
-            if (E[i][j].second > 0)
+            if (E[i][j].weight > 0)
             {
                 count++;
             }
@@ -73,9 +77,9 @@ int ResidualNetworkMatrix::getFlow()
 
     for (auto x : E[Sink])
     {
-        if (x.second > 0)
+        if (x.weight > 0)
         {
-            flow += x.second;
+            flow += x.weight;
         }
     }
 
@@ -92,18 +96,7 @@ int ResidualNetworkMatrix::getSink()
     return this->Sink;
 }
 
-// vector<vector<int>> ResidualNetworkMatrix::getRaw()
-// {
-//     return this->E;
-// }
-//
-// void ResidualNetworkMatrix::eachEdge(function<void(int, int, int)> callback)
-// {
-//     for (int i = 0; i < Count; ++i)
-//     {
-//         for (int j = 0; j < Count; ++j)
-//         {
-//             callback(E[i][j], i, j);
-//         }
-//     }
-// }
+vector<ResidualEdge> &ResidualNetworkMatrix::getNeighbours(int i)
+{
+    return this->E[i];
+}

@@ -4,6 +4,8 @@
 #include <vector>
 #include <utility>
 
+#include "residual_edge.h"
+
 // Vertex data structure used by RTF
 struct Vertex
 {
@@ -13,7 +15,7 @@ struct Vertex
     int RelabelCount = 0;
     int PushCount = 0;
 
-    std::vector<std::pair<int, int>>::const_iterator NCurrent;
+    std::vector<ResidualEdge>::const_iterator NCurrent;
 };
 
 #endif // VERTEX_H

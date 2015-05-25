@@ -8,6 +8,7 @@
 
 #include "residual_network_matrix.h"
 #include "residual_network_list.h"
+#include "residual_edge.h"
 
 namespace IO
 {

@@ -6,6 +6,8 @@ void RelabelToFront::Run()
 {
     PushInitialFlow();
 
+    this->GetPath();
+
     for (int i = 0; i < VertexCount; ++i)
     {
         if (i != Source && i != Sink)
@@ -13,10 +15,6 @@ void RelabelToFront::Run()
             Q.push(i);
         }
     }
-
-    this->RelabelCount++;
-
-    this->GetPath();
 
     do
     {
@@ -32,14 +30,13 @@ void RelabelToFront::Discharge(int i)
 {
     this->DischargeCount++;
 
-    auto begin = E.E[i].cbegin();
-    auto end = E.E[i].cend();
+    auto begin = E.getNeighbours(i).cbegin();
+    auto end = E.getNeighbours(i).cend();
     auto current = V[i].NCurrent;
 
-    // See Introduction, page 751
     while (V[i].ExcessFlow > 0)
     {
-        int j = (*current).first;
+        int j = (*current).to;
 
         if (current == end)
         {
@@ -70,41 +67,6 @@ void RelabelToFront::Discharge(int i)
     }
 
     V[i].NCurrent = current;
-
-    // while (true)
-    // {
-    //     // for (int j = 0; j < VertexCount; ++j)
-    //     for ( auto t : E.E[i] )
-    //     {
-    //         int j = t.first;
-    //
-    //         if (CanPush(i, j))
-    //         {
-    //             if (V[j].ExcessFlow == 0 && j != Source && j != Sink)
-    //             {
-    //                 Q.push(j);
-    //             }
-    //             Push(i, j);
-    //         }
-    //     }
-    //
-    //     if (V[i].ExcessFlow > 0)
-    //     {
-    //
-    //         if (HeightCount[V[i].Height] == 1)
-    //         {
-    //             Gap(V[i].Height);
-    //         }
-    //         else
-    //         {
-    //             Relabel(i);
-    //         }
-    //     }
-    //     else
-    //     {
-    //         break;
-    //     }
-    // }
 }
 
 void RelabelToFront::Push(int i, int j)
@@ -112,10 +74,10 @@ void RelabelToFront::Push(int i, int j)
     this->PushCount++;
     this->V[i].PushCount++;
 
-    int min = std::min(V[i].ExcessFlow, E.getWeight(i, j));
+    int min = std::min(V[i].ExcessFlow, E.getEdge(i, j).weight);
 
-    E.updateWeight(i, j, -min);
-    E.updateWeight(j, i, min);
+    E.getEdge(i, j).weight -= min;
+    E.getEdge(j, i).weight += min;
 
     V[i].ExcessFlow -= min;
     V[j].ExcessFlow += min;
@@ -126,25 +88,17 @@ void RelabelToFront::Relabel(int i)
     this->RelabelCount++;
     this->V[i].RelabelCount++;
 
-    HeightCount[V[i].Height]--;
-
     auto minHeight = 2 * VertexCount;
-    // for (auto j : V[i].NList)
-
-    // for (int j = 0; j < VertexCount; ++j)
-    for (auto t : E.E[i])
+    for (auto edge : E.getNeighbours(i))
     {
-        int j = t.first;
-        int w = t.second;
-
-        if (w > 0)
+        if (edge.weight > 0)
         {
-            minHeight = min(minHeight, V[j].Height);
+            minHeight = min(minHeight, V[edge.to].Height);
         }
     }
 
+    HeightCount[V[i].Height]--;
     V[i].Height = minHeight + 1;
-
     HeightCount[V[i].Height]++;
 }
 
@@ -152,18 +106,11 @@ void RelabelToFront::Gap(int k)
 {
     for (int i = 0; i < VertexCount; i++)
     {
-        if (i != Source && i != Sink)
+        if (i != Source && i != Sink && V[i].Height >= k)
         {
-
-            if (V[i].Height >= k)
-            {
-
-                HeightCount[V[i].Height]--;
-
-                V[i].Height = std::max(V[i].Height, VertexCount + 1);
-
-                HeightCount[V[i].Height]++;
-            }
+            HeightCount[V[i].Height]--;
+            V[i].Height = std::max(V[i].Height, VertexCount + 1);
+            HeightCount[V[i].Height]++;
         }
     }
 }
@@ -251,7 +198,7 @@ RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetwo
     this->V = new Vertex[VertexCount];
     for (int i = 0; i < VertexCount; ++i)
     {
-        V[i].NCurrent = E.E[i].cbegin();
+        V[i].NCurrent = E.getNeighbours(i).cbegin();
     }
 
     this->HeightCount = new int[2 * VertexCount];
@@ -318,7 +265,7 @@ void RelabelToFront::GetPath()
 
         for (int v = 0; v < VertexCount; ++v)
         {
-            if (E.getWeight(v, u) > 0 && A[v] == false && v != Source)
+            if (E.getEdge(v, u).weight > 0 && A[v] == false && v != Source)
             {
                 q.push(v);
 
