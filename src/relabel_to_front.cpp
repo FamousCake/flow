@@ -67,7 +67,6 @@ void RelabelToFront::Discharge(int i)
 
         if (v == E.E[i].end())
         {
-
             if (HeightCount[V[i].Height] == 1)
             {
                 Gap(V[i].Height);
@@ -226,7 +225,7 @@ void RelabelToFront::PushInitialFlow()
     }
 }
 
-RelabelToFront::RelabelToFront(const ResidualNetworkList &A) : E(ResidualNetworkList(A))
+RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetworkMatrix(A))
 {
     this->Source = E.getSource();
     this->Sink = E.getSink();

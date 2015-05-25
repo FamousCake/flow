@@ -68,6 +68,17 @@ int ResidualNetworkMatrix::getEdgesCount()
     return count;
 }
 
+int ResidualNetworkMatrix::getFlow()
+{
+    int flow = 0;
+
+    for(auto x : E[Sink]) {
+        flow += x.second;
+    }
+
+    return flow;
+}
+
 int ResidualNetworkMatrix::getSource()
 {
     return this->Source;

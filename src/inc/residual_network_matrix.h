@@ -42,6 +42,7 @@ class ResidualNetworkMatrix
     int getEdgesCount();
     int getSource();
     int getSink();
+    int getFlow();
 
     // std::vector<std::vector<int>> getRaw();
     std::vector<std::vector<std::pair<int,int>>> E;

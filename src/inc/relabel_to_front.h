@@ -9,7 +9,7 @@
 
 #include "globals.h"
 #include "vertex.h"
-#include "residual_network_list.h"
+#include "residual_network_matrix.h"
 
 class RelabelToFront
 {
@@ -22,9 +22,9 @@ class RelabelToFront
 
     int PushCount, RelabelCount, DischargeCount;
 
-    ResidualNetworkList E;
+    ResidualNetworkMatrix E;
 
-    RelabelToFront(const ResidualNetworkList &);
+    RelabelToFront(const ResidualNetworkMatrix &);
     ~RelabelToFront();
 
     void Run();
