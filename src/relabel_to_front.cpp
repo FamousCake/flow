@@ -16,19 +16,14 @@ void RelabelToFront::Run()
 
     this->RelabelCount++;
 
+    this->GetPath();
+
     do
     {
         int i = Q.front();
         Q.pop();
 
         Discharge(i);
-
-        if (this->RelabelCount % 10000 == 0)
-        {
-            this->GetPath();
-            // cout << "here";
-            this->RelabelCount++;
-        }
 
     } while (!Q.empty());
 }
@@ -37,10 +32,52 @@ void RelabelToFront::Discharge(int i)
 {
     this->DischargeCount++;
 
+    auto begin = E.E[i].cbegin();
+    auto end = E.E[i].cend();
+    auto current = V[i].NCurrent;
+
+    // See Introduction, page 751
+    while (V[i].ExcessFlow > 0)
+    {
+        int j = (*current).first;
+
+        if (current == end)
+        {
+            int oldHeight = V[i].Height;
+
+            Relabel(i);
+
+            // We have a gap
+            if (HeightCount[oldHeight] == 0)
+            {
+                Gap(oldHeight);
+            }
+
+            current = begin;
+        }
+        else if (CanPush(i, j))
+        {
+            if (V[j].ExcessFlow == 0 && j != Source && j != Sink)
+            {
+                Q.push(j);
+            }
+            Push(i, j);
+        }
+        else
+        {
+            current++;
+        }
+    }
+
+    V[i].NCurrent = current;
+
     // while (true)
     // {
-    //     for (int j = 0; j < VertexCount; ++j)
+    //     // for (int j = 0; j < VertexCount; ++j)
+    //     for ( auto t : E.E[i] )
     //     {
+    //         int j = t.first;
+    //
     //         if (CanPush(i, j))
     //         {
     //             if (V[j].ExcessFlow == 0 && j != Source && j != Sink)
@@ -68,41 +105,6 @@ void RelabelToFront::Discharge(int i)
     //         break;
     //     }
     // }
-
-    // See Introduction, page 751
-    while (V[i].ExcessFlow > 0)
-    {
-        auto v = V[i].NCurrent;
-
-        if (v == E.E[i].end())
-        {
-            if (HeightCount[V[i].Height] == 1)
-            {
-                int h = V[i].Height;
-                // Gap(V[i].Height);
-                Relabel(i);
-                // Gap(h);
-            }
-            else
-            {
-                Relabel(i);
-            }
-
-            V[i].NCurrent = E.E[i].begin();
-        }
-        else if (CanPush(i, (*v).first))
-        {
-            if (V[(*v).first].ExcessFlow == 0 && (*v).first != Source && (*v).first != Sink)
-            {
-                Q.push((*v).first);
-            }
-            Push(i, (*v).first);
-        }
-        else
-        {
-            V[i].NCurrent++;
-        }
-    }
 }
 
 void RelabelToFront::Push(int i, int j)
@@ -222,12 +224,10 @@ void RelabelToFront::PushInitialFlow()
     // Push the capacity of the cut {s, V-s}
     for (int i = 0; i < VertexCount; ++i)
     {
-
         int capacity = E.getWeight(Source, i);
 
         if (capacity > 0)
         {
-
             E.updateWeight(i, Source, capacity);
             E.updateWeight(Source, i, -capacity);
 
@@ -251,7 +251,7 @@ RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetwo
     this->V = new Vertex[VertexCount];
     for (int i = 0; i < VertexCount; ++i)
     {
-        V[i].NCurrent = E.E[i].begin();
+        V[i].NCurrent = E.E[i].cbegin();
     }
 
     this->HeightCount = new int[2 * VertexCount];

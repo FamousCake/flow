@@ -13,7 +13,7 @@ struct Vertex
     int RelabelCount = 0;
     int PushCount = 0;
 
-    std::vector<std::pair<int, int>>::iterator NCurrent;
+    std::vector<std::pair<int, int>>::const_iterator NCurrent;
 };
 
 #endif // VERTEX_H
