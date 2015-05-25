@@ -21,6 +21,7 @@ void FordFulkerson::Run()
     while (GetPath())
     {
         AugmentPath();
+
         this->IterationsCount++;
     }
 }
@@ -68,15 +69,11 @@ void FordFulkerson::AugmentPath()
 bool FordFulkerson::GetPath()
 {
     // Reset the list of ancestors for every BFS search
-    for (int i = 0; i < VertexCount; ++i)
-    {
-        V[i] = -1;
-    }
+    std::fill(this->V, this->V + VertexCount, -1);
 
     SimpleQueue q(VertexCount);
     q.push(Source);
 
-    // The source is the only vertex that is it's own ancestor
     V[Source] = Source;
 
     while (q.size() > 0)

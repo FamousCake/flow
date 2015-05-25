@@ -12,17 +12,6 @@
 
 using namespace std;
 
-int GetFlow(ResidualNetwork &B)
-{
-    int s = 0;
-    for (int i = 0; i < B.getCount(); ++i)
-    {
-        s += B.getWeight(B.getSink(), i);
-    }
-
-    return s;
-}
-
 long long GetStanfordFlow(ResidualNetwork &E)
 {
     PushRelabel PR(E.getCount());
@@ -63,48 +52,49 @@ int main()
     //
     // RELABEL TO FRONT
     //
-    S.start("RTF");
-    RelabelToFront RTF(E);
-    RTF.Run();
-    S.stop("RTF");
+    // S.start("RTF");
+    // RelabelToFront RTF(E);
+    // RTF.Run();
+    // S.stop("RTF");
 
     //
     // FORD FULKERSON
     //
     S.start("FF");
-    // FordFulkerson FF(E);
-    // FF.Run();
+    FordFulkerson FF(E);
+    FF.Run();
     S.stop("FF");
 
     //
     // Stanford
     //
-    S.start("S");
+    // S.start("S");
     // long long flowS = GetStanfordFlow(E);
-    S.stop("S");
+    // S.stop("S");
 
     //
     // RESULTS
     //
     // cout << "c FF Flow is  : " << GetFlow(FF.E);
-    cout << "\n";
-    cout << "\n";
-    cout << "\n V = " << E.getCount();
-    cout << "\n E = " << edgeCount;
-    cout << "\n RTF Flow is : " << RTF.E.getFlow();
-    // cout << "\n Sta Flow is : " << flowS;
+    cout << "V = " << E.getCount() << endl;
+    cout << "E = " << edgeCount << endl;
+    cout << "FF Flow is : " << FF.E.getFlow() << endl;
+    // cout << "\n RTF Flow is : " << RTF.E.getFlow() << endl;
+    // cout << "\n Sta Flow is : " << flowS << endl;
 
-    cout << "\n";
-    // cout << "\nc FF Time is  : " << S.get_total_time("FF");
-    cout << "\n RTF Time is : " << S.get_total_time("RTF");
-    // cout << "\n Sta Time is : " << S.get_total_time("S");
+    cout << "FF Time is  : " << S.get_total_time("FF") << endl;
+    // cout << "RTF Time is : " << S.get_total_time("RTF") << endl;
+    // cout << "Sta Time is : " << S.get_total_time("S") << endl;
 
     // cout << "\nc";
     // cout << "\nc";
     // cout << "\nc Iterations Count: " << FF.IterationsCount;
-    cout << "\nc Relabel Count : " << RTF.RelabelCount;
+    // cout << "\nc Relabel Count : " << RTF.RelabelCount;
     // cout << "\nc Push Count : " << RTF.PushCount;
     // cout << "\nc Discharge Count : " << RTF.DischargeCount;
+
+    cout << "\n";
+    cout << "\n";
 
     // for (int i = 0; i < E.getCount(); ++i) {
     //     if (FF.testV[i] == -1) {

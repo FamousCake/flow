@@ -2,31 +2,62 @@
 
 using namespace std;
 
+RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetworkMatrix(A))
+{
+    this->Source = E.getSource();
+    this->Sink = E.getSink();
+    this->VertexCount = E.getCount();
+
+    this->PushCount = 0;
+    this->RelabelCount = 0;
+    this->DischargeCount = 0;
+
+    this->A = new bool[VertexCount];
+
+    this->V = vector<Vertex>(VertexCount);
+    for (int i = 0; i < VertexCount; ++i)
+    {
+        V[i].NCurrent = E.getNeighbours(i).cbegin();
+    }
+
+    this->HeightCount = vector<int>(2 * VertexCount, 0);
+
+    this->HeightCount[VertexCount] = 1;
+    this->HeightCount[0] = VertexCount - 1;
+
+    // The source has a static height of |V|
+    V[Source].Height = VertexCount;
+}
+
+RelabelToFront::~RelabelToFront()
+{
+    delete[] A;
+}
+
 void RelabelToFront::Run()
 {
     PushInitialFlow();
-
-    this->GetPath();
+    SetInitialLabels();
 
     for (int i = 0; i < VertexCount; ++i)
     {
         if (i != Source && i != Sink)
         {
-            Q.push(i);
+            ActiveQueue.push(i);
         }
     }
 
     do
     {
-        int i = Q.front();
-        Q.pop();
+        int i = ActiveQueue.front();
+        ActiveQueue.pop();
 
         Discharge(i);
 
-    } while (!Q.empty());
+    } while (!ActiveQueue.empty());
 }
 
-void RelabelToFront::Discharge(int i)
+void RelabelToFront::Discharge(const int i)
 {
     this->DischargeCount++;
 
@@ -56,7 +87,7 @@ void RelabelToFront::Discharge(int i)
         {
             if (V[j].ExcessFlow == 0 && j != Source && j != Sink)
             {
-                Q.push(j);
+                ActiveQueue.push(j);
             }
             Push(i, j);
         }
@@ -69,7 +100,7 @@ void RelabelToFront::Discharge(int i)
     V[i].NCurrent = current;
 }
 
-void RelabelToFront::Push(int i, int j)
+void RelabelToFront::Push(const int i, const int j)
 {
     this->PushCount++;
     this->V[i].PushCount++;
@@ -83,13 +114,13 @@ void RelabelToFront::Push(int i, int j)
     V[j].ExcessFlow += min;
 }
 
-void RelabelToFront::Relabel(int i)
+void RelabelToFront::Relabel(const int i)
 {
     this->RelabelCount++;
     this->V[i].RelabelCount++;
 
     auto minHeight = 2 * VertexCount;
-    for (auto edge : E.getNeighbours(i))
+    for (const auto &edge : E.getNeighbours(i))
     {
         if (edge.weight > 0)
         {
@@ -102,7 +133,7 @@ void RelabelToFront::Relabel(int i)
     HeightCount[V[i].Height]++;
 }
 
-void RelabelToFront::Gap(int k)
+void RelabelToFront::Gap(const int k)
 {
     for (int i = 0; i < VertexCount; i++)
     {
@@ -115,7 +146,7 @@ void RelabelToFront::Gap(int k)
     }
 }
 
-bool RelabelToFront::CanPush(int i, int j)
+bool RelabelToFront::CanPush(const int i, const int j)
 {
     // 1) Must be overflowing
     if (!IsOverflowing(i))
@@ -138,7 +169,7 @@ bool RelabelToFront::CanPush(int i, int j)
     return true;
 }
 
-bool RelabelToFront::CanRelabel(int i)
+bool RelabelToFront::CanRelabel(const int i)
 {
     // 1) Must be overflowing
     if (!IsOverflowing(i))
@@ -161,7 +192,7 @@ bool RelabelToFront::CanRelabel(int i)
     return true;
 }
 
-bool RelabelToFront::IsOverflowing(int i)
+bool RelabelToFront::IsOverflowing(const int i)
 {
     return V[i].ExcessFlow > 0 && i != Source && i != Sink;
 }
@@ -184,91 +215,26 @@ void RelabelToFront::PushInitialFlow()
     }
 }
 
-RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetworkMatrix(A))
+void RelabelToFront::SetInitialLabels()
 {
-    this->Source = E.getSource();
-    this->Sink = E.getSink();
-    this->VertexCount = E.getCount();
+    std::fill(this->A, this->A + VertexCount, false);
 
-    this->PushCount = 0;
-    this->RelabelCount = 0;
-    this->DischargeCount = 0;
-
-    // Initialize vertices properties
-    this->V = new Vertex[VertexCount];
-    for (int i = 0; i < VertexCount; ++i)
-    {
-        V[i].NCurrent = E.getNeighbours(i).cbegin();
-    }
-
-    this->HeightCount = new int[2 * VertexCount];
-
-    std::fill(this->HeightCount, (this->HeightCount + 2 * VertexCount), 0);
-    this->HeightCount[VertexCount] = 1;
-    this->HeightCount[0] = VertexCount - 1;
-
-    // The source has a static height of |V|
-    V[Source].Height = VertexCount;
-
-    // Initialize NList of every vertix with all edges that can exist in the residual network
-    // for (int i = 0; i < this->VertexCount; ++i)
-    // {
-    //     for (int j = 0; j < this->VertexCount; ++j)
-    //     {
-    //         if (E.getWeight(i, j) > 0)
-    //         {
-    //
-    //             V[i].NList.push_back(j);
-    //
-    //             V[j].NList.push_back(i);
-    //         }
-    //     }
-    // }
-    //
-    // // The NList iterator always starts at the begining
-    // for (int i = 0; i < this->VertexCount; ++i)
-    // {
-    //     V[i].NCurrent = V[i].NList.begin();
-    // }
-}
-
-RelabelToFront::~RelabelToFront()
-{
-    delete[] V;
-    delete[] HeightCount;
-}
-
-void RelabelToFront::GetPath()
-{
-    bool *A = new bool[VertexCount];
-    // Reset the list of ancestors for every BFS search
-    for (int i = 0; i < VertexCount; ++i)
-    {
-        A[i] = false;
-
-        if (i != Sink && i != Source)
-        {
-            // V[i].Height = VertexCount;
-        }
-    }
+    A[Sink] = true;
+    A[Source] = true;
 
     SimpleQueue q(VertexCount);
     q.push(Sink);
 
-    // The source is the only vertex that is it's own ancestor
-    A[Sink] = true;
-
     while (q.size() > 0)
     {
         const int u = q.pop();
-        int dist = V[u].Height + 1;
+        const int dist = V[u].Height + 1;
 
         for (int v = 0; v < VertexCount; ++v)
         {
-            if (E.getEdge(v, u).weight > 0 && A[v] == false && v != Source)
+            if (E.getEdge(v, u).weight > 0 && A[v] == false)
             {
                 q.push(v);
-
                 A[v] = true;
                 V[v].Height = dist;
             }

@@ -3,7 +3,7 @@
 #ifndef FORD_FULKERSON_H
 #define FORD_FULKERSON_H
 
-#include "simple_queue.h"
+#include "simple_queue.hpp"
 #include "residual_network_matrix.h"
 
 class FordFulkerson

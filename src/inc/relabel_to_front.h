@@ -1,23 +1,22 @@
 #ifndef RELABEL_TO_FRONT_H
 #define RELABEL_TO_FRONT_H
 
-#include <limits>
-#include <iostream>
 #include <algorithm>
 #include <utility>
 #include <queue>
 
-#include "globals.h"
-#include "vertex.h"
+#include "vertex.hpp"
+#include "simple_queue.hpp"
 #include "residual_network_matrix.h"
-#include "simple_queue.h"
 
 class RelabelToFront
 {
   public:
-    Vertex *V;
-    int *HeightCount;
-    std::queue<int> Q;
+    std::vector<Vertex> V;
+    bool *A;
+    std::vector<int> HeightCount;
+    std::queue<int> ActiveQueue;
+
     int VertexCount;
     int Source, Sink;
 
@@ -32,16 +31,17 @@ class RelabelToFront
 
   private:
     void PushInitialFlow();
-    void Discharge(int);
+    void SetInitialLabels();
 
-    void Push(int, int);
-    void Relabel(int);
-    void Gap(int);
+    void Discharge(const int);
 
-    bool IsOverflowing(int);
-    bool CanPush(int, int);
-    bool CanRelabel(int);
-    void GetPath();
+    void Push(const int, const int);
+    void Relabel(const int);
+    void Gap(const int);
+
+    bool CanPush(const int, const int);
+    bool CanRelabel(const int);
+    bool IsOverflowing(const int);
 };
 
 #endif // RELABEL_TO_FRONT_H

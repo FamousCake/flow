@@ -2,7 +2,6 @@
 #define RESIDUAL_NETWORK_MATRIX
 
 #include <vector>
-#include <functional>
 
 #include "residual_network.h"
 #include "residual_edge.h"
@@ -31,9 +30,8 @@ class ResidualNetworkMatrix
     ResidualEdge &getEdge(int, int);
     std::vector<ResidualEdge> &getNeighbours(int);
 
-    std::vector<std::vector<ResidualEdge>> E;
-
   private:
+    std::vector<std::vector<ResidualEdge>> E;
     int Count;
     int Source, Sink;
 };
