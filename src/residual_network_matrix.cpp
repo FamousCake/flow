@@ -73,7 +73,10 @@ int ResidualNetworkMatrix::getFlow()
 
     for (auto x : E[Sink])
     {
-        flow += x.second;
+        if (x.second > 0)
+        {
+            flow += x.second;
+        }
     }
 
     return flow;
