@@ -46,7 +46,7 @@ int main()
     // ResidualNetwork E(raw, 0, N - 1);
 
     // ResidualNetworkMatrix E = IO::ReadGraph();
-    ResidualNetworkMatrix E = IO::ReadGraph();
+    ResidualNetworkList E = IO::ReadGraphList();
     int edgeCount = E.getEdgesCount();
 
     //
@@ -76,19 +76,19 @@ int main()
     // RESULTS
     //
     // cout << "c FF Flow is  : " << GetFlow(FF.E);
-    cout << "V = " << E.getCount() << endl;
-    cout << "E = " << edgeCount << endl;
+    cout << "V : " << E.getCount() << endl;
+    cout << "E : " << edgeCount << endl;
     cout << "FF Flow is : " << FF.E.getFlow() << endl;
     // cout << "\n RTF Flow is : " << RTF.E.getFlow() << endl;
     // cout << "\n Sta Flow is : " << flowS << endl;
 
-    cout << "FF Time is  : " << S.get_total_time("FF") << endl;
+    cout << "FF Time is : " << S.get_total_time("FF") << endl;
     // cout << "RTF Time is : " << S.get_total_time("RTF") << endl;
     // cout << "Sta Time is : " << S.get_total_time("S") << endl;
 
     // cout << "\nc";
     // cout << "\nc";
-    // cout << "\nc Iterations Count: " << FF.IterationsCount;
+    cout << "Iterations : " << FF.IterationsCount << endl;
     // cout << "\nc Relabel Count : " << RTF.RelabelCount;
     // cout << "\nc Push Count : " << RTF.PushCount;
     // cout << "\nc Discharge Count : " << RTF.DischargeCount;

@@ -3,23 +3,25 @@
 #ifndef FORD_FULKERSON_H
 #define FORD_FULKERSON_H
 
+#include <vector>
+
 #include "simple_queue.hpp"
-#include "residual_network_matrix.h"
+#include "residual_network_list.h"
 
 class FordFulkerson
 {
 
   public:
     // List of ancestors for every vertex after the BFS
-    int *V;
+    std::vector<int> V;
     int VertexCount;
     int Source, Sink;
 
     int IterationsCount = 0;
 
-    ResidualNetworkMatrix E;
+    ResidualNetworkList E;
 
-    FordFulkerson(const ResidualNetworkMatrix &);
+    FordFulkerson(const ResidualNetworkList &);
     ~FordFulkerson();
 
     void Run();

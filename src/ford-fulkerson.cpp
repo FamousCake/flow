@@ -2,18 +2,17 @@
 
 using namespace std;
 
-FordFulkerson::FordFulkerson(const ResidualNetworkMatrix &A) : E(ResidualNetworkMatrix(A))
+FordFulkerson::FordFulkerson(const ResidualNetworkList &A) : E(ResidualNetworkList(A))
 {
     this->Source = E.getSource();
     this->Sink = E.getSink();
     this->VertexCount = E.getCount();
 
-    this->V = new int[VertexCount];
+    this->V = vector<int>(VertexCount);
 }
 
 FordFulkerson::~FordFulkerson()
 {
-    delete[] this->V;
 }
 
 void FordFulkerson::Run()
@@ -69,7 +68,7 @@ void FordFulkerson::AugmentPath()
 bool FordFulkerson::GetPath()
 {
     // Reset the list of ancestors for every BFS search
-    std::fill(this->V, this->V + VertexCount, -1);
+    std::fill(this->V.begin(), this->V.end(), -1);
 
     SimpleQueue q(VertexCount);
     q.push(Source);
@@ -82,7 +81,7 @@ bool FordFulkerson::GetPath()
 
         for (auto edge : E.getNeighbours(u))
         {
-            if (edge.weight != 0 && V[edge.to] == -1)
+            if (edge.weight > 0 && V[edge.to] == -1)
             {
                 q.push(edge.to);
 

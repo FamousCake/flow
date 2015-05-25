@@ -2,13 +2,13 @@
 
 using namespace std;
 
-ResidualNetworkList::ResidualNetworkList(const vector<vector<pair<int, int>>> &v, int source, int sink)
+ResidualNetworkList::ResidualNetworkList(const vector<vector<ResidualEdge>> &v, int source, int sink)
 {
     this->Count = v.size();
     this->Source = source;
     this->Sink = sink;
 
-    this->E = vector<vector<pair<int, int>>>(v);
+    this->E = vector<vector<ResidualEdge>>(v);
 }
 
 ResidualNetworkList::ResidualNetworkList(const ResidualNetworkList &v)
@@ -17,7 +17,7 @@ ResidualNetworkList::ResidualNetworkList(const ResidualNetworkList &v)
     this->Source = v.Source;
     this->Sink = v.Sink;
 
-    this->E = vector<vector<pair<int, int>>>(v.E);
+    this->E = vector<vector<ResidualEdge>>(v.E);
 }
 
 int ResidualNetworkList::getWeight(int i, int j)
@@ -26,9 +26,9 @@ int ResidualNetworkList::getWeight(int i, int j)
 
     for (const auto &x : E[i])
     {
-        if (x.first == j)
+        if (x.to == j)
         {
-            w = x.second;
+            w = x.weight;
         }
     }
 
@@ -39,9 +39,9 @@ void ResidualNetworkList::setWeight(int i, int j, int w)
 {
     for (auto &x : E[i])
     {
-        if (x.first == j)
+        if (x.to == j)
         {
-            x.second = w;
+            x.weight = w;
         }
     }
 }
@@ -50,9 +50,9 @@ void ResidualNetworkList::updateWeight(int i, int j, int w)
 {
     for (auto &x : E[i])
     {
-        if (x.first == j)
+        if (x.to == j)
         {
-            x.second += w;
+            x.weight += w;
         }
     }
 }
@@ -70,7 +70,7 @@ int ResidualNetworkList::getEdgesCount()
         for (const auto &y : x)
         {
 
-            if (y.second > 0)
+            if (y.weight > 0)
             {
                 s++;
             }
@@ -95,13 +95,13 @@ int ResidualNetworkList::getFlow()
 
     for (auto x : E[Sink])
     {
-        flow += x.second;
+        flow += x.weight;
     }
 
     return flow;
 }
 
-// std::vector<std::pair<int,int>> ResidualNetworkList::getNeighbours(int i)
-// {
-//     return E[i];
-// }
+vector<ResidualEdge> &ResidualNetworkList::getNeighbours(int i)
+{
+    return this->E[i];
+}

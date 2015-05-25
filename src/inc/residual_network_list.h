@@ -4,11 +4,12 @@
 #include <vector>
 
 #include "residual_network.h"
+#include "residual_edge.h"
 
 class ResidualNetworkList
 {
   public:
-    ResidualNetworkList(const std::vector<std::vector<std::pair<int, int>>> &, int, int);
+    ResidualNetworkList(const std::vector<std::vector<ResidualEdge>> &, int, int);
     ResidualNetworkList(const ResidualNetworkList &);
 
     int getWeight(int, int);
@@ -21,9 +22,9 @@ class ResidualNetworkList
     int getSink();
     int getFlow();
 
-    // std::vector<std::pair<int,int>> getNeighbours(int);
+    std::vector<ResidualEdge> &getNeighbours(int);
 
-    std::vector<std::vector<std::pair<int, int>>> E;
+    std::vector<std::vector<ResidualEdge>> E;
 
   private:
     int Count;
