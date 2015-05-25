@@ -118,7 +118,7 @@ void RelabelToFront::Relabel(int i)
     // for (auto j : V[i].NList)
 
     // for (int j = 0; j < VertexCount; ++j)
-    for(auto t : E.E[i])
+    for (auto t : E.E[i])
     {
         int j = t.first;
         int w = t.second;
@@ -237,7 +237,8 @@ RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetwo
 
     // Initialize vertices properties
     this->V = new Vertex[VertexCount];
-    for (int i = 0; i < VertexCount; ++i) {
+    for (int i = 0; i < VertexCount; ++i)
+    {
         V[i].NCurrent = E.E[i].begin();
     }
 

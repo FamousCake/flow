@@ -10,12 +10,12 @@ ResidualNetworkMatrix::ResidualNetworkMatrix(int count, int value, int source, i
     // this->E = vector<vector<pair<int,int>>>(Count, vector<pair<int,int>>(Count, value));
 }
 
-ResidualNetworkMatrix::ResidualNetworkMatrix(const std::vector<std::vector<pair<int,int>>> &A, int source, int sink)
+ResidualNetworkMatrix::ResidualNetworkMatrix(const std::vector<std::vector<pair<int, int>>> &A, int source, int sink)
 {
     this->Count = A.size();
     this->Source = source;
     this->Sink = sink;
-    this->E = vector<vector<pair<int,int>>>(A);
+    this->E = vector<vector<pair<int, int>>>(A);
 }
 
 ResidualNetworkMatrix::ResidualNetworkMatrix(const ResidualNetworkMatrix &A)
@@ -23,12 +23,11 @@ ResidualNetworkMatrix::ResidualNetworkMatrix(const ResidualNetworkMatrix &A)
     this->Count = A.Count;
     this->Source = A.Source;
     this->Sink = A.Sink;
-    this->E = vector<vector<pair<int,int>>>(A.E);
+    this->E = vector<vector<pair<int, int>>>(A.E);
 }
 
 ResidualNetworkMatrix::~ResidualNetworkMatrix()
 {
-
 }
 
 int ResidualNetworkMatrix::getWeight(int i, int j)
@@ -72,7 +71,8 @@ int ResidualNetworkMatrix::getFlow()
 {
     int flow = 0;
 
-    for(auto x : E[Sink]) {
+    for (auto x : E[Sink])
+    {
         flow += x.second;
     }
 

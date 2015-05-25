@@ -22,7 +22,7 @@ class ResidualNetworkMatrix
      *
      * @param v Raw edge data
      */
-    ResidualNetworkMatrix(const std::vector<std::vector<std::pair<int,int>>> &, int, int);
+    ResidualNetworkMatrix(const std::vector<std::vector<std::pair<int, int>>> &, int, int);
 
     ResidualNetworkMatrix(const ResidualNetworkMatrix &);
 
@@ -45,7 +45,7 @@ class ResidualNetworkMatrix
     int getFlow();
 
     // std::vector<std::vector<int>> getRaw();
-    std::vector<std::vector<std::pair<int,int>>> E;
+    std::vector<std::vector<std::pair<int, int>>> E;
 
     // I don't use this, but just in case
     // void eachEdge(std::function<void(int, int, int)>);

@@ -8,7 +8,7 @@
 class ResidualNetworkList
 {
   public:
-    ResidualNetworkList(const std::vector<std::vector<std::pair<int,int>>> &, int, int);
+    ResidualNetworkList(const std::vector<std::vector<std::pair<int, int>>> &, int, int);
     ResidualNetworkList(const ResidualNetworkList &);
 
     int getWeight(int, int);

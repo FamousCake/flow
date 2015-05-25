@@ -2,8 +2,7 @@
 
 using namespace std;
 
-
-ResidualNetworkList::ResidualNetworkList(const vector<vector<pair<int,int>>> &v, int source, int sink)
+ResidualNetworkList::ResidualNetworkList(const vector<vector<pair<int, int>>> &v, int source, int sink)
 {
     this->Count = v.size();
     this->Source = source;
@@ -25,8 +24,10 @@ int ResidualNetworkList::getWeight(int i, int j)
 {
     int w = -1;
 
-    for(const auto &x : E[i]) {
-        if (x.first == j) {
+    for (const auto &x : E[i])
+    {
+        if (x.first == j)
+        {
             w = x.second;
         }
     }
@@ -36,8 +37,10 @@ int ResidualNetworkList::getWeight(int i, int j)
 
 void ResidualNetworkList::setWeight(int i, int j, int w)
 {
-    for(auto &x : E[i]) {
-        if (x.first == j) {
+    for (auto &x : E[i])
+    {
+        if (x.first == j)
+        {
             x.second = w;
         }
     }
@@ -45,13 +48,14 @@ void ResidualNetworkList::setWeight(int i, int j, int w)
 
 void ResidualNetworkList::updateWeight(int i, int j, int w)
 {
-    for(auto &x : E[i]) {
-        if (x.first == j) {
+    for (auto &x : E[i])
+    {
+        if (x.first == j)
+        {
             x.second += w;
         }
     }
 }
-
 
 int ResidualNetworkList::getCount()
 {
@@ -61,10 +65,13 @@ int ResidualNetworkList::getCount()
 int ResidualNetworkList::getEdgesCount()
 {
     int s = 0;
-    for(const auto &x : this->E) {
-        for(const auto &y : x) {
+    for (const auto &x : this->E)
+    {
+        for (const auto &y : x)
+        {
 
-            if (y.second > 0) {
+            if (y.second > 0)
+            {
                 s++;
             }
         }
@@ -86,7 +93,8 @@ int ResidualNetworkList::getFlow()
 {
     int flow = 0;
 
-    for(auto x : E[Sink]) {
+    for (auto x : E[Sink])
+    {
         flow += x.second;
     }
 

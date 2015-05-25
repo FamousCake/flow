@@ -6,7 +6,6 @@
 class ResidualNetwork
 {
   public:
-
     virtual int getWeight(int, int) = 0;
     virtual void setWeight(int, int, int) = 0;
     virtual void updateWeight(int, int, int) = 0;
