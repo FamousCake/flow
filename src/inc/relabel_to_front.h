@@ -10,6 +10,7 @@
 #include "globals.h"
 #include "vertex.h"
 #include "residual_network_matrix.h"
+#include "simple_queue.h"
 
 class RelabelToFront
 {
@@ -40,6 +41,7 @@ class RelabelToFront
     bool IsOverflowing(int);
     bool CanPush(int, int);
     bool CanRelabel(int);
+    void GetPath();
 };
 
 #endif // RELABEL_TO_FRONT_H

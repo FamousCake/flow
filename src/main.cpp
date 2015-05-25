@@ -102,7 +102,7 @@ int main()
     // cout << "\nc";
     // cout << "\nc";
     // cout << "\nc Iterations Count: " << FF.IterationsCount;
-    // cout << "\nc Relabel Count : " << RTF.RelabelCount;
+    cout << "\nc Relabel Count : " << RTF.RelabelCount;
     // cout << "\nc Push Count : " << RTF.PushCount;
     // cout << "\nc Discharge Count : " << RTF.DischargeCount;
 

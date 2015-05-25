@@ -14,12 +14,21 @@ void RelabelToFront::Run()
         }
     }
 
+    this->RelabelCount++;
+
     do
     {
         int i = Q.front();
         Q.pop();
 
         Discharge(i);
+
+        if (this->RelabelCount % 10000 == 0)
+        {
+            this->GetPath();
+            // cout << "here";
+            this->RelabelCount++;
+        }
 
     } while (!Q.empty());
 }
@@ -69,7 +78,10 @@ void RelabelToFront::Discharge(int i)
         {
             if (HeightCount[V[i].Height] == 1)
             {
-                Gap(V[i].Height);
+                int h = V[i].Height;
+                // Gap(V[i].Height);
+                Relabel(i);
+                // Gap(h);
             }
             else
             {
@@ -277,4 +289,42 @@ RelabelToFront::~RelabelToFront()
 {
     delete[] V;
     delete[] HeightCount;
+}
+
+void RelabelToFront::GetPath()
+{
+    bool *A = new bool[VertexCount];
+    // Reset the list of ancestors for every BFS search
+    for (int i = 0; i < VertexCount; ++i)
+    {
+        A[i] = false;
+
+        if (i != Sink && i != Source)
+        {
+            // V[i].Height = VertexCount;
+        }
+    }
+
+    SimpleQueue q(VertexCount);
+    q.push(Sink);
+
+    // The source is the only vertex that is it's own ancestor
+    A[Sink] = true;
+
+    while (q.size() > 0)
+    {
+        const int u = q.pop();
+        int dist = V[u].Height + 1;
+
+        for (int v = 0; v < VertexCount; ++v)
+        {
+            if (E.getWeight(v, u) > 0 && A[v] == false && v != Source)
+            {
+                q.push(v);
+
+                A[v] = true;
+                V[v].Height = dist;
+            }
+        }
+    }
 }
