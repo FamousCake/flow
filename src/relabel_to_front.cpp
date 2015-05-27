@@ -12,8 +12,6 @@ RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetwo
     this->RelabelCount = 0;
     this->DischargeCount = 0;
 
-    this->A = new bool[VertexCount];
-
     this->V = vector<Vertex>(VertexCount);
     for (int i = 0; i < VertexCount; ++i)
     {
@@ -31,13 +29,12 @@ RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetwo
 
 RelabelToFront::~RelabelToFront()
 {
-    delete[] A;
 }
 
 void RelabelToFront::Run()
 {
     PushInitialFlow();
-    // SetInitialLabels();
+    SetInitialLabels();
 
     for (int i = 0; i < VertexCount; ++i)
     {
@@ -219,10 +216,10 @@ void RelabelToFront::PushInitialFlow()
 
 void RelabelToFront::SetInitialLabels()
 {
-    std::fill(this->A, this->A + VertexCount, false);
-
-    A[Sink] = true;
-    A[Source] = true;
+    for (int i = 0; i < VertexCount; ++i) {
+        V[i].Height = VertexCount;
+    }
+    V[Sink].Height = 0;
 
     SimpleQueue q(VertexCount);
     q.push(Sink);
@@ -234,10 +231,9 @@ void RelabelToFront::SetInitialLabels()
 
         for (int v = 0; v < VertexCount; ++v)
         {
-            if (E.getEdge(v, u).weight > 0 && A[v] == false)
+            if (E.getEdge(v, u).weight > 0 && V[v].Height == VertexCount)
             {
                 q.push(v);
-                A[v] = true;
                 V[v].Height = dist;
             }
         }

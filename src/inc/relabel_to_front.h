@@ -14,7 +14,6 @@ class RelabelToFront
 {
   public:
     std::vector<Vertex> V;
-    bool *A;
     std::vector<int> HeightCount;
     std::queue<int> ActiveQueue;
 
