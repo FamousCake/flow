@@ -2,7 +2,7 @@
 
 using namespace std;
 
-RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetworkMatrix(A))
+RelabelToFront::RelabelToFront(const ResidualNetworkList &A) : E(ResidualNetworkList(A))
 {
     this->Source = E.getSource();
     this->Sink = E.getSink();
@@ -15,7 +15,7 @@ RelabelToFront::RelabelToFront(const ResidualNetworkMatrix &A) : E(ResidualNetwo
     this->V = vector<Vertex>(VertexCount);
     for (int i = 0; i < VertexCount; ++i)
     {
-        V[i].NCurrent = E.getNeighbours(i).cbegin();
+        V[i].NCurrent = E.getNeighbours(i).begin();
     }
 
     this->HeightCount = vector<int>(2 * VertexCount, 0);
@@ -58,8 +58,8 @@ void RelabelToFront::Discharge(const int i)
 {
     this->DischargeCount++;
 
-    auto begin = E.getNeighbours(i).cbegin();
-    auto end = E.getNeighbours(i).cend();
+    auto begin = E.getNeighbours(i).begin();
+    auto end = E.getNeighbours(i).end();
     auto current = V[i].NCurrent;
 
     while (V[i].ExcessFlow > 0)
@@ -80,13 +80,13 @@ void RelabelToFront::Discharge(const int i)
 
             current = begin;
         }
-        else if (CanPush(i, j))
+        else if (CanPush(*current))
         {
             if (V[j].ExcessFlow == 0 && j != Source && j != Sink)
             {
                 ActiveQueue.push(j);
             }
-            Push(i, j);
+            Push(*current);
 
             current++;
         }
@@ -99,18 +99,20 @@ void RelabelToFront::Discharge(const int i)
     V[i].NCurrent = current;
 }
 
-void RelabelToFront::Push(const int i, const int j)
+void RelabelToFront::Push(ResidualEdge &edge)
 {
     this->PushCount++;
-    this->V[i].PushCount++;
 
-    int min = std::min(V[i].ExcessFlow, E.getEdge(i, j).weight);
+    int min = std::min(V[edge.from].ExcessFlow, edge.weight);
 
-    E.getEdge(i, j).weight -= min;
-    E.getEdge(j, i).weight += min;
+    // E.getEdge(i, j).weight -= min;
+    // E.getEdge(j, i).weight += min;
 
-    V[i].ExcessFlow -= min;
-    V[j].ExcessFlow += min;
+    edge.weight -= min;
+    E.E[edge.to][edge.index].weight +=min;
+
+    V[edge.from].ExcessFlow -= min;
+    V[edge.to].ExcessFlow += min;
 }
 
 void RelabelToFront::Relabel(const int i)
@@ -145,22 +147,22 @@ void RelabelToFront::Gap(const int k)
     }
 }
 
-bool RelabelToFront::CanPush(const int i, const int j)
+bool RelabelToFront::CanPush(const ResidualEdge &edge)
 {
     // 1) Must be overflowing
-    if (!IsOverflowing(i))
+    if (!IsOverflowing(edge.from))
     {
         return false;
     }
 
     // 2) There must exist an edge in the residual network
-    if (E.getWeight(i, j) == 0)
+    if (edge.weight == 0)
     {
         return false;
     }
 
     // 4) i.h = j.h +1
-    if (V[i].Height != V[j].Height + 1)
+    if (V[edge.from].Height != V[edge.to].Height + 1)
     {
         return false;
     }
@@ -229,12 +231,14 @@ void RelabelToFront::SetInitialLabels()
         const int u = q.pop();
         const int dist = V[u].Height + 1;
 
-        for (int v = 0; v < VertexCount; ++v)
+        // for (int v = 0; v < VertexCount; ++v)
+        for ( auto edge : E.getNeighbours(u) )
         {
-            if (E.getEdge(v, u).weight > 0 && V[v].Height == VertexCount)
+
+            if (E.E[edge.to][edge.index].weight > 0 && V[edge.to].Height == VertexCount)
             {
-                q.push(v);
-                V[v].Height = dist;
+                q.push(edge.to);
+                V[edge.to].Height = dist;
             }
         }
     }

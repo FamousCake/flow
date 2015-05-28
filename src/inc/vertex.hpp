@@ -15,7 +15,7 @@ struct Vertex
     int RelabelCount = 0;
     int PushCount = 0;
 
-    std::vector<ResidualEdge>::const_iterator NCurrent;
+    std::vector<ResidualEdge>::iterator NCurrent;
 };
 
 #endif // VERTEX_H

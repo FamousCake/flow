@@ -8,7 +8,8 @@
 
 #include "vertex.hpp"
 #include "simple_queue.hpp"
-#include "residual_network_matrix.h"
+#include "residual_edge.h"
+#include "residual_network_list.h"
 
 class RelabelToFront
 {
@@ -22,9 +23,9 @@ class RelabelToFront
 
     int PushCount, RelabelCount, DischargeCount;
 
-    ResidualNetworkMatrix E;
+    ResidualNetworkList E;
 
-    RelabelToFront(const ResidualNetworkMatrix &);
+    RelabelToFront(const ResidualNetworkList &);
     ~RelabelToFront();
 
     void Run();
@@ -35,11 +36,11 @@ class RelabelToFront
 
     void Discharge(const int);
 
-    void Push(const int, const int);
+    void Push(ResidualEdge&);
     void Relabel(const int);
     void Gap(const int);
 
-    bool CanPush(const int, const int);
+    bool CanPush(const ResidualEdge&);
     bool CanRelabel(const int);
     bool IsOverflowing(const int);
 };

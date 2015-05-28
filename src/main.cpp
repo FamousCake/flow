@@ -46,7 +46,7 @@ int main()
     // ResidualNetwork E(raw, 0, N - 1);
 
     // ResidualNetworkMatrix E = IO::ReadGraph();
-    ResidualNetworkMatrix E = IO::ReadGraph();
+    ResidualNetworkList E = IO::ReadGraphList();
     int edgeCount = E.getEdgesCount();
 
     //
