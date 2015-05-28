@@ -7,9 +7,8 @@
 #include <queue>
 
 #include "vertex.hpp"
-#include "simple_queue.hpp"
-#include "residual_edge.h"
-#include "residual_network_list.h"
+#include "residual_edge.hpp"
+#include "residual_network.h"
 
 class RelabelToFront
 {
@@ -23,9 +22,9 @@ class RelabelToFront
 
     int PushCount, RelabelCount, DischargeCount;
 
-    ResidualNetworkList E;
+    ResidualNetwork E;
 
-    RelabelToFront(const ResidualNetworkList &);
+    RelabelToFront(const ResidualNetwork &);
     ~RelabelToFront();
 
     void Run();

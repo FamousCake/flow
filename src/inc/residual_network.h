@@ -3,19 +3,30 @@
 
 #include <vector>
 
+#include "residual_network.h"
+#include "residual_edge.hpp"
+
 class ResidualNetwork
 {
   public:
-    virtual int getWeight(int, int) = 0;
-    virtual void setWeight(int, int, int) = 0;
-    virtual void updateWeight(int, int, int) = 0;
+    ResidualNetwork(const std::vector<std::vector<ResidualEdge>> &, int, int);
+    ResidualNetwork(const ResidualNetwork &);
 
-    virtual int getCount() = 0;
-    virtual int getEdgesCount() = 0;
-    virtual int getSource() = 0;
-    virtual int getSink() = 0;
+    int getCount();
+    int getEdgesCount();
 
-    virtual std::vector<std::vector<int>> getRaw() = 0;
+    int getSource();
+    int getSink();
+    int getFlow();
+
+    ResidualEdge &getEdge(int, int);
+    std::vector<ResidualEdge> &getOutgoingEdges(int);
+
+    std::vector<std::vector<ResidualEdge>> E;
+
+  private:
+    int Count;
+    int Source, Sink;
 };
 
 #endif

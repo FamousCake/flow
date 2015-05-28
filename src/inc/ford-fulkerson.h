@@ -5,12 +5,11 @@
 
 #include <iostream>
 #include <vector>
-#include <memory>
+#include <queue>
 #include <algorithm>
 
-#include "simple_queue.hpp"
-#include "residual_edge.h"
-#include "residual_network_list.h"
+#include "residual_edge.hpp"
+#include "residual_network.h"
 
 class FordFulkerson
 {
@@ -24,9 +23,9 @@ class FordFulkerson
 
     int IterationsCount = 0;
 
-    ResidualNetworkList E;
+    ResidualNetwork E;
 
-    FordFulkerson(const ResidualNetworkList &);
+    FordFulkerson(const ResidualNetwork &);
     ~FordFulkerson();
 
     void Run();

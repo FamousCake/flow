@@ -2,7 +2,7 @@
 
 using namespace std;
 
-RelabelToFront::RelabelToFront(const ResidualNetworkList &A) : E(ResidualNetworkList(A))
+RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
 {
     this->Source = E.getSource();
     this->Sink = E.getSink();

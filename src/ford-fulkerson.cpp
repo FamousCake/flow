@@ -2,7 +2,7 @@
 
 using namespace std;
 
-FordFulkerson::FordFulkerson(const ResidualNetworkList &A) : E(ResidualNetworkList(A))
+FordFulkerson::FordFulkerson(const ResidualNetwork &A) : E(ResidualNetwork(A))
 {
     this->Source = E.getSource();
     this->Sink = E.getSink();
@@ -14,8 +14,6 @@ FordFulkerson::FordFulkerson(const ResidualNetworkList &A) : E(ResidualNetworkLi
 
 FordFulkerson::~FordFulkerson()
 {
-    // DON'T DO THIS!
-    // std::for_each(A.begin(), A.end(), [](ResidualEdge const *ptr) { delete ptr;});
 }
 
 void FordFulkerson::Run()
@@ -55,14 +53,15 @@ bool FordFulkerson::GetPath()
 {
     std::fill(this->V.begin(), this->V.end(), -1);
 
-    SimpleQueue q(VertexCount);
+    queue<int> q;
     q.push(Source);
 
     V[Source] = Source;
 
-    while (q.size() > 0)
+    while (!q.empty())
     {
-        const int u = q.pop();
+        const int u = q.front();
+        q.pop();
 
         for (auto &edge : E.getOutgoingEdges(u))
         {

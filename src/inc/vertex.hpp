@@ -4,7 +4,7 @@
 #include <vector>
 #include <utility>
 
-#include "residual_edge.h"
+#include "residual_edge.hpp"
 
 // Vertex data structure used by RTF
 struct Vertex

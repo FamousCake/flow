@@ -1,8 +1,8 @@
-#include "./inc/residual_network_list.h"
+#include "./inc/residual_network.h"
 
 using namespace std;
 
-ResidualNetworkList::ResidualNetworkList(const vector<vector<ResidualEdge>> &v, int source, int sink)
+ResidualNetwork::ResidualNetwork(const vector<vector<ResidualEdge>> &v, int source, int sink)
 {
     this->Count = v.size();
     this->Source = source;
@@ -11,7 +11,7 @@ ResidualNetworkList::ResidualNetworkList(const vector<vector<ResidualEdge>> &v, 
     this->E = vector<vector<ResidualEdge>>(v);
 }
 
-ResidualNetworkList::ResidualNetworkList(const ResidualNetworkList &v)
+ResidualNetwork::ResidualNetwork(const ResidualNetwork &v)
 {
     this->Count = v.Count;
     this->Source = v.Source;
@@ -20,7 +20,12 @@ ResidualNetworkList::ResidualNetworkList(const ResidualNetworkList &v)
     this->E = vector<vector<ResidualEdge>>(v.E);
 }
 
-ResidualEdge &ResidualNetworkList::getEdge(int i, int j)
+vector<ResidualEdge> &ResidualNetwork::getOutgoingEdges(int i)
+{
+    return this->E[i];
+}
+
+ResidualEdge &ResidualNetwork::getEdge(int i, int j)
 {
     int temp = 0;
 
@@ -36,12 +41,12 @@ ResidualEdge &ResidualNetworkList::getEdge(int i, int j)
     return E[i][temp];
 }
 
-int ResidualNetworkList::getCount()
+int ResidualNetwork::getCount()
 {
     return this->Count;
 }
 
-int ResidualNetworkList::getEdgesCount()
+int ResidualNetwork::getEdgesCount()
 {
     int s = 0;
     for (const auto &x : this->E)
@@ -58,17 +63,17 @@ int ResidualNetworkList::getEdgesCount()
     return s;
 }
 
-int ResidualNetworkList::getSource()
+int ResidualNetwork::getSource()
 {
     return this->Source;
 }
 
-int ResidualNetworkList::getSink()
+int ResidualNetwork::getSink()
 {
     return this->Sink;
 }
 
-int ResidualNetworkList::getFlow()
+int ResidualNetwork::getFlow()
 {
     int flow = 0;
 
@@ -78,9 +83,4 @@ int ResidualNetworkList::getFlow()
     }
 
     return flow;
-}
-
-vector<ResidualEdge> &ResidualNetworkList::getOutgoingEdges(int i)
-{
-    return this->E[i];
 }
