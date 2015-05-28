@@ -12,7 +12,7 @@
 
 using namespace std;
 
-long long GetStanfordFlow(ResidualNetwork &E)
+auto GetStanfordFlow(ResidualNetworkList &E) -> PushRelabel
 {
     PushRelabel PR(E.getCount());
 
@@ -27,7 +27,7 @@ long long GetStanfordFlow(ResidualNetwork &E)
         }
     }
 
-    return PR.GetMaxFlow(E.getSource(), E.getSink());
+    return PR;//.GetMaxFlow(E.getSource(), E.getSink());
 }
 
 int main()
@@ -52,24 +52,25 @@ int main()
     //
     // RELABEL TO FRONT
     //
-    // S.start("RTF");
-    // RelabelToFront RTF(E);
-    // RTF.Run();
-    // S.stop("RTF");
+    S.start("RTF");
+    RelabelToFront RTF(E);
+    RTF.Run();
+    S.stop("RTF");
 
     //
     // FORD FULKERSON
     //
-    S.start("FF");
-    FordFulkerson FF(E);
-    FF.Run();
-    S.stop("FF");
+    // S.start("FF");
+    // FordFulkerson FF(E);
+    // FF.Run();
+    // S.stop("FF");
 
     //
     // Stanford
     //
     // S.start("S");
-    // long long flowS = GetStanfordFlow(E);
+    // auto PR = GetStanfordFlow(E);
+    // long long flowS = PR.GetMaxFlow(E.getSource(), E.getSink());//GetStanfordFlow(E);
     // S.stop("S");
 
     //
@@ -78,20 +79,20 @@ int main()
     // cout << "c FF Flow is  : " << GetFlow(FF.E);
     cout << "V : " << E.getCount() << endl;
     cout << "E : " << edgeCount << endl;
-    cout << "FF Flow is : " << FF.E.getFlow() << endl;
-    // cout << "RTF Flow is : " << RTF.E.getFlow() << endl;
+    // cout << "FF Flow is : " << FF.E.getFlow() << endl;
+    cout << "RTF Flow is : " << RTF.E.getFlow() << endl;
     // cout << "\n Sta Flow is : " << flowS << endl;
 
-    cout << "FF Time is : " << S.get_total_time("FF") << endl;
-    // cout << "RTF Time is : " << S.get_total_time("RTF") << endl;
+    // cout << "FF Time is : " << S.get_total_time("FF") << endl;
+    cout << "RTF Time is : " << S.get_total_time("RTF") << endl;
     // cout << "Sta Time is : " << S.get_total_time("S") << endl;
 
     // cout << "\nc";
     // cout << "\nc";
-    cout << "Iterations : " << FF.IterationsCount << endl;
-    // cout << "Relabel Count : " << RTF.RelabelCount << endl;
-    // cout << "Push Count : " << RTF.PushCount << endl;
-    // cout << "Discharge Count : " << RTF.DischargeCount << endl;
+    // cout << "Iterations : " << FF.IterationsCount << endl;
+    cout << "Relabel Count : " << RTF.RelabelCount << endl;
+    cout << "Push Count : " << RTF.PushCount << endl;
+    cout << "Discharge Count : " << RTF.DischargeCount << endl;
 
     cout << "\n";
     cout << "\n";

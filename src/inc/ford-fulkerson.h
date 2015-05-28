@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "simple_queue.hpp"
 #include "residual_edge.h"

@@ -14,6 +14,8 @@ FordFulkerson::FordFulkerson(const ResidualNetworkList &A) : E(ResidualNetworkLi
 
 FordFulkerson::~FordFulkerson()
 {
+    // DON'T DO THIS!
+    // std::for_each(A.begin(), A.end(), [](ResidualEdge const *ptr) { delete ptr;});
 }
 
 void FordFulkerson::Run()

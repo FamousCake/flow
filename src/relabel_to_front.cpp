@@ -25,6 +25,7 @@ RelabelToFront::RelabelToFront(const ResidualNetworkList &A) : E(ResidualNetwork
 
     // The source has a static height of |V|
     V[Source].Height = VertexCount;
+    // V[Sink].Height =
 }
 
 RelabelToFront::~RelabelToFront()
@@ -34,13 +35,14 @@ RelabelToFront::~RelabelToFront()
 void RelabelToFront::Run()
 {
     PushInitialFlow();
-    SetInitialLabels();
+    // SetInitialLabels();
 
     for (int i = 0; i < VertexCount; ++i)
     {
-        if (i != Source && i != Sink)
+        if (IsOverflowing(i))
         {
             ActiveQueue.push(i);
+            cout << i << " ";
         }
     }
 
@@ -218,27 +220,31 @@ void RelabelToFront::PushInitialFlow()
 
 void RelabelToFront::SetInitialLabels()
 {
-    for (int i = 0; i < VertexCount; ++i) {
-        V[i].Height = VertexCount;
-    }
-    V[Sink].Height = 0;
+    vector<bool> A = vector<bool>(VertexCount, false);
+
+    // for (int i = 0; i < VertexCount; ++i) {
+    //     V[i].Height = VertexCount;
+    // }
+    // V[Sink].Height = 0;
 
     SimpleQueue q(VertexCount);
     q.push(Sink);
+
+    A[Source] = true;
+    A[Sink] = true;
 
     while (q.size() > 0)
     {
         const int u = q.pop();
         const int dist = V[u].Height + 1;
 
-        // for (int v = 0; v < VertexCount; ++v)
         for ( auto edge : E.getNeighbours(u) )
         {
-
-            if (E.E[edge.to][edge.index].weight > 0 && V[edge.to].Height == VertexCount)
+            if (E.E[edge.to][edge.index].weight > 0 && A[edge.to] == false)
             {
                 q.push(edge.to);
                 V[edge.to].Height = dist;
+                A[edge.to] = true;
             }
         }
     }
