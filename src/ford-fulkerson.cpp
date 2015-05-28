@@ -9,6 +9,7 @@ FordFulkerson::FordFulkerson(const ResidualNetworkList &A) : E(ResidualNetworkLi
     this->VertexCount = E.getCount();
 
     this->V = vector<int>(VertexCount);
+    this->A = vector<ResidualEdge*>(VertexCount);
 }
 
 FordFulkerson::~FordFulkerson()
@@ -27,39 +28,22 @@ void FordFulkerson::Run()
 
 void FordFulkerson::AugmentPath()
 {
-    //
-    // Step 1 : Find the minimum flow the path can be augmented by
-    //
     int x = Sink;
 
-    // Let the initial minimum be the first edge on the augmenting path
-    int min = E.getWeight(V[x], x);
+    int min = A[x]->weight;
 
     while (V[x] != x)
     {
-        int u = x;
-        int v = V[x];
-
-        if (min > E.getWeight(v, u))
-        {
-            min = E.getWeight(v, u);
-        }
+        min = std::min(A[x]->weight, min);
 
         x = V[x];
     }
 
-    //
-    // Step 2: Augment every edge on the path by the minimum flow
-    //
     x = Sink;
     while (V[x] != x)
     {
-
-        int u = x;
-        int v = V[x];
-
-        E.updateWeight(v, u, -min);
-        E.updateWeight(u, v, min);
+        A[x]->weight -= min;
+        E.E[x][A[x]->index].weight += min;
 
         x = V[x];
     }
@@ -67,7 +51,6 @@ void FordFulkerson::AugmentPath()
 
 bool FordFulkerson::GetPath()
 {
-    // Reset the list of ancestors for every BFS search
     std::fill(this->V.begin(), this->V.end(), -1);
 
     SimpleQueue q(VertexCount);
@@ -79,13 +62,14 @@ bool FordFulkerson::GetPath()
     {
         const int u = q.pop();
 
-        for (auto edge : E.getNeighbours(u))
+        for (auto &edge : E.getNeighbours(u))
         {
             if (edge.weight > 0 && V[edge.to] == -1)
             {
                 q.push(edge.to);
 
                 V[edge.to] = u;
+                A[edge.to] = &edge;
 
                 if (edge.to == Sink)
                 {

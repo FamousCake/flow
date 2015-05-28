@@ -4,6 +4,14 @@
 class ResidualEdge
 {
   public:
+
+    ResidualEdge()
+    {
+        this->from = -1;
+        this->to = -1;
+        this->weight = -1;
+        this->index = -1;
+    }
     ResidualEdge(int a, int b, int c, int d)
     {
         this->from = a;

@@ -3,9 +3,12 @@
 #ifndef FORD_FULKERSON_H
 #define FORD_FULKERSON_H
 
+#include <iostream>
 #include <vector>
+#include <memory>
 
 #include "simple_queue.hpp"
+#include "residual_edge.h"
 #include "residual_network_list.h"
 
 class FordFulkerson
@@ -14,6 +17,7 @@ class FordFulkerson
   public:
     // List of ancestors for every vertex after the BFS
     std::vector<int> V;
+    std::vector<ResidualEdge*> A;
     int VertexCount;
     int Source, Sink;
 
