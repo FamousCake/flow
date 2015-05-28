@@ -67,22 +67,22 @@ int main()
     //
     // RESULTS
     //
-    cout << "Vertices    : " << E.getCount() << endl;
-    cout << "Edges       : " << E.getEdgesCount() << endl;
+    cout << "Vertices : " << E.getCount() << endl;
+    cout << "Edges    : " << E.getEdgesCount() << endl;
     cout << "\n";
-    cout << "RTF Flow is : " << RTF.E.getFlow() << endl;
-    cout << "Sta Flow is : " << flowS << endl;
-    cout << "FF  Flow is : " << FF.E.getFlow() << endl;
+    cout << "RTF Flow : " << RTF.E.getFlow() << endl;
+    cout << "Sta Flow : " << flowS << endl;
+    cout << "FF  Flow : " << FF.E.getFlow() << endl;
     cout << "\n";
-    cout << "RTF Time is : " << S.get_total_time("RTF") << endl;
-    cout << "Sta Time is : " << S.get_total_time("S") << endl;
-    cout << "FF  Time is : " << S.get_total_time("FF") << endl;
+    cout << "RTF Time : " << S.get_total_time("RTF") << endl;
+    cout << "Sta Time : " << S.get_total_time("S") << endl;
+    cout << "FF  Time : " << S.get_total_time("FF") << endl;
     cout << "\n";
-    cout << "FF Paths    : " << FF.IterationsCount << endl;
+    cout << "FF Paths : " << FF.IterationsCount << endl;
     cout << "\n";
-    cout << "Push        : " << RTF.PushCount << endl;
-    cout << "Relabel     : " << RTF.RelabelCount << endl;
-    cout << "Discharge   : " << RTF.DischargeCount << endl;
+    cout << "Push     : " << RTF.PushCount << endl;
+    cout << "Relabel  : " << RTF.RelabelCount << endl;
+    cout << "Discharge: " << RTF.DischargeCount << endl;
 
     cout << "\n";
     cout << "\n";
