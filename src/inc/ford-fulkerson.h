@@ -18,7 +18,7 @@ class FordFulkerson
   public:
     // List of ancestors for every vertex after the BFS
     std::vector<int> V;
-    std::vector<ResidualEdge*> A;
+    std::vector<ResidualEdge *> A;
     int VertexCount;
     int Source, Sink;
 

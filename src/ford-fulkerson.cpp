@@ -9,7 +9,7 @@ FordFulkerson::FordFulkerson(const ResidualNetworkList &A) : E(ResidualNetworkLi
     this->VertexCount = E.getCount();
 
     this->V = vector<int>(VertexCount);
-    this->A = vector<ResidualEdge*>(VertexCount);
+    this->A = vector<ResidualEdge *>(VertexCount);
 }
 
 FordFulkerson::~FordFulkerson()
@@ -64,7 +64,7 @@ bool FordFulkerson::GetPath()
     {
         const int u = q.pop();
 
-        for (auto &edge : E.getNeighbours(u))
+        for (auto &edge : E.getOutgoingEdges(u))
         {
             if (edge.weight > 0 && V[edge.to] == -1)
             {

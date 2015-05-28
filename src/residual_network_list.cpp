@@ -20,49 +20,14 @@ ResidualNetworkList::ResidualNetworkList(const ResidualNetworkList &v)
     this->E = vector<vector<ResidualEdge>>(v.E);
 }
 
-int ResidualNetworkList::getWeight(int i, int j)
-{
-    int w = -1;
-
-    for (const auto &x : E[i])
-    {
-        if (x.to == j)
-        {
-            w = x.weight;
-        }
-    }
-
-    return w;
-}
-
-void ResidualNetworkList::setWeight(int i, int j, int w)
-{
-    for (auto &x : E[i])
-    {
-        if (x.to == j)
-        {
-            x.weight = w;
-        }
-    }
-}
-
-void ResidualNetworkList::updateWeight(int i, int j, int w)
-{
-    for (auto &x : E[i])
-    {
-        if (x.to == j)
-        {
-            x.weight += w;
-        }
-    }
-}
-
 ResidualEdge &ResidualNetworkList::getEdge(int i, int j)
 {
     int temp = 0;
 
-    for (int z = 0; z < Count; ++z) {
-        if (E[i][z].to == j) {
+    for (int z = 0; z < Count; ++z)
+    {
+        if (E[i][z].to == j)
+        {
             temp = z;
             break;
         }
@@ -115,7 +80,7 @@ int ResidualNetworkList::getFlow()
     return flow;
 }
 
-vector<ResidualEdge> &ResidualNetworkList::getNeighbours(int i)
+vector<ResidualEdge> &ResidualNetworkList::getOutgoingEdges(int i)
 {
     return this->E[i];
 }

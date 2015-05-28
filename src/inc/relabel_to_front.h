@@ -31,16 +31,15 @@ class RelabelToFront
     void Run();
 
   private:
-    void PushInitialFlow();
     void SetInitialLabels();
 
     void Discharge(const int);
 
-    void Push(ResidualEdge&);
+    void Push(ResidualEdge &);
     void Relabel(const int);
     void Gap(const int);
 
-    bool CanPush(const ResidualEdge&);
+    bool CanPush(const ResidualEdge &);
     bool CanRelabel(const int);
     bool IsOverflowing(const int);
 };

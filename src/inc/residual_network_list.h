@@ -12,18 +12,15 @@ class ResidualNetworkList
     ResidualNetworkList(const std::vector<std::vector<ResidualEdge>> &, int, int);
     ResidualNetworkList(const ResidualNetworkList &);
 
-    int getWeight(int, int);
-    void setWeight(int, int, int);
-    void updateWeight(int, int, int);
-
     int getCount();
     int getEdgesCount();
+
     int getSource();
     int getSink();
     int getFlow();
 
     ResidualEdge &getEdge(int, int);
-    std::vector<ResidualEdge> &getNeighbours(int);
+    std::vector<ResidualEdge> &getOutgoingEdges(int);
 
     std::vector<std::vector<ResidualEdge>> E;
 

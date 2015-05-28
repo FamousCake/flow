@@ -4,7 +4,6 @@
 class ResidualEdge
 {
   public:
-
     ResidualEdge()
     {
         this->from = -1;

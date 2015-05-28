@@ -15,7 +15,7 @@ RelabelToFront::RelabelToFront(const ResidualNetworkList &A) : E(ResidualNetwork
     this->V = vector<Vertex>(VertexCount);
     for (int i = 0; i < VertexCount; ++i)
     {
-        V[i].NCurrent = E.getNeighbours(i).begin();
+        V[i].NCurrent = E.getOutgoingEdges(i).begin();
     }
 
     this->HeightCount = vector<int>(2 * VertexCount, 0);
@@ -23,9 +23,7 @@ RelabelToFront::RelabelToFront(const ResidualNetworkList &A) : E(ResidualNetwork
     this->HeightCount[VertexCount] = 1;
     this->HeightCount[0] = VertexCount - 1;
 
-    // The source has a static height of |V|
     V[Source].Height = VertexCount;
-    // V[Sink].Height =
 }
 
 RelabelToFront::~RelabelToFront()
@@ -34,15 +32,14 @@ RelabelToFront::~RelabelToFront()
 
 void RelabelToFront::Run()
 {
-    PushInitialFlow();
-    // SetInitialLabels();
+    SetInitialLabels();
 
-    for (int i = 0; i < VertexCount; ++i)
+    for (auto &edge : E.getOutgoingEdges(Source))
     {
-        if (IsOverflowing(i))
+        if (edge.weight > 0)
         {
-            ActiveQueue.push(i);
-            cout << i << " ";
+            V[Source].ExcessFlow += edge.weight;
+            Push(edge);
         }
     }
 
@@ -60,14 +57,12 @@ void RelabelToFront::Discharge(const int i)
 {
     this->DischargeCount++;
 
-    auto begin = E.getNeighbours(i).begin();
-    auto end = E.getNeighbours(i).end();
+    auto begin = E.getOutgoingEdges(i).begin();
+    auto end = E.getOutgoingEdges(i).end();
     auto current = V[i].NCurrent;
 
     while (V[i].ExcessFlow > 0)
     {
-        int j = (*current).to;
-
         if (current == end)
         {
             int oldHeight = V[i].Height;
@@ -81,21 +76,14 @@ void RelabelToFront::Discharge(const int i)
             }
 
             current = begin;
+            continue;
         }
         else if (CanPush(*current))
         {
-            if (V[j].ExcessFlow == 0 && j != Source && j != Sink)
-            {
-                ActiveQueue.push(j);
-            }
             Push(*current);
+        }
 
-            current++;
-        }
-        else
-        {
-            current++;
-        }
+        current++;
     }
 
     V[i].NCurrent = current;
@@ -105,13 +93,15 @@ void RelabelToFront::Push(ResidualEdge &edge)
 {
     this->PushCount++;
 
+    if (V[edge.to].ExcessFlow == 0 && edge.to != Source && edge.to != Sink)
+    {
+        ActiveQueue.push(edge.to);
+    }
+
     int min = std::min(V[edge.from].ExcessFlow, edge.weight);
 
-    // E.getEdge(i, j).weight -= min;
-    // E.getEdge(j, i).weight += min;
-
     edge.weight -= min;
-    E.E[edge.to][edge.index].weight +=min;
+    E.E[edge.to][edge.index].weight += min;
 
     V[edge.from].ExcessFlow -= min;
     V[edge.to].ExcessFlow += min;
@@ -123,7 +113,7 @@ void RelabelToFront::Relabel(const int i)
     this->V[i].RelabelCount++;
 
     auto minHeight = 2 * VertexCount;
-    for (const auto &edge : E.getNeighbours(i))
+    for (const auto &edge : E.getOutgoingEdges(i))
     {
         if (edge.weight > 0)
         {
@@ -181,11 +171,11 @@ bool RelabelToFront::CanRelabel(const int i)
     }
 
     // 2) All neigbors must be highter
-    for (int j = 0; j < VertexCount; ++j)
+    for (auto edge : E.getOutgoingEdges(i))
     {
-        if (E.getWeight(i, j) > 0)
+        if (edge.weight > 0)
         {
-            if (V[i].Height > V[j].Height)
+            if (V[edge.from].Height > V[edge.to].Height)
             {
                 return false;
             }
@@ -200,51 +190,32 @@ bool RelabelToFront::IsOverflowing(const int i)
     return V[i].ExcessFlow > 0 && i != Source && i != Sink;
 }
 
-void RelabelToFront::PushInitialFlow()
-{
-    // Push the capacity of the cut {s, V-s}
-    for (int i = 0; i < VertexCount; ++i)
-    {
-        int capacity = E.getWeight(Source, i);
-
-        if (capacity > 0)
-        {
-            E.updateWeight(i, Source, capacity);
-            E.updateWeight(Source, i, -capacity);
-
-            V[i].ExcessFlow += capacity;
-            V[Source].ExcessFlow -= capacity;
-        }
-    }
-}
-
 void RelabelToFront::SetInitialLabels()
 {
+    queue<int> q;
     vector<bool> A = vector<bool>(VertexCount, false);
 
-    // for (int i = 0; i < VertexCount; ++i) {
-    //     V[i].Height = VertexCount;
-    // }
-    // V[Sink].Height = 0;
-
-    SimpleQueue q(VertexCount);
     q.push(Sink);
-
-    A[Source] = true;
     A[Sink] = true;
+    A[Source] = true;
 
-    while (q.size() > 0)
+    while (!q.empty())
     {
-        const int u = q.pop();
+        const int u = q.front();
+        q.pop();
+
         const int dist = V[u].Height + 1;
 
-        for ( auto edge : E.getNeighbours(u) )
+        for (const auto &edge : E.getOutgoingEdges(u))
         {
             if (E.E[edge.to][edge.index].weight > 0 && A[edge.to] == false)
             {
                 q.push(edge.to);
-                V[edge.to].Height = dist;
                 A[edge.to] = true;
+
+                HeightCount[V[edge.to].Height]--;
+                V[edge.to].Height = dist;
+                HeightCount[V[edge.to].Height]++;
             }
         }
     }

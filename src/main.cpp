@@ -18,16 +18,16 @@ auto GetStanfordFlow(ResidualNetworkList &E) -> PushRelabel
 
     for (int i = 0; i < E.getCount(); ++i)
     {
-        for (int j = 0; j < E.getCount(); ++j)
+        for (auto edge : E.getOutgoingEdges(i))
         {
-            if (E.getWeight(i, j) > 0)
+            if ( edge.weight > 0)
             {
-                PR.AddEdge(i, j, E.getWeight(i, j));
+                PR.AddEdge(edge.from, edge.to, edge.weight);
             }
         }
     }
 
-    return PR;//.GetMaxFlow(E.getSource(), E.getSink());
+    return PR; //.GetMaxFlow(E.getSource(), E.getSink());
 }
 
 int main()
@@ -79,6 +79,7 @@ int main()
     // cout << "c FF Flow is  : " << GetFlow(FF.E);
     cout << "V : " << E.getCount() << endl;
     cout << "E : " << edgeCount << endl;
+    cout << "\n";
     // cout << "FF Flow is : " << FF.E.getFlow() << endl;
     cout << "RTF Flow is : " << RTF.E.getFlow() << endl;
     // cout << "\n Sta Flow is : " << flowS << endl;
