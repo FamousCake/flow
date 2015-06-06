@@ -41,6 +41,11 @@ ResidualEdge &ResidualNetwork::getEdge(int i, int j)
     return E[i][temp];
 }
 
+ResidualEdge &ResidualNetwork::getReverseEdge(const ResidualEdge &e)
+{
+    return E[e.to][e.index];
+}
+
 int ResidualNetwork::getCount()
 {
     return this->Count;

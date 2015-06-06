@@ -20,6 +20,7 @@ class ResidualNetwork
     int getFlow();
 
     ResidualEdge &getEdge(int, int);
+    ResidualEdge &getReverseEdge(const ResidualEdge&);
     std::vector<ResidualEdge> &getOutgoingEdges(int);
 
     std::vector<std::vector<ResidualEdge>> E;

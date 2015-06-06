@@ -28,35 +28,34 @@ void FordFulkerson::Run()
 
 void FordFulkerson::AugmentPath()
 {
-    int x = Sink;
+    auto current = A[Sink];
 
-    int min = A[x]->weight;
+    int min = current->weight;
 
-    while (V[x] != x)
+    while (current != nullptr)
     {
-        min = std::min(A[x]->weight, min);
+        min = std::min(current->weight, min);
 
-        x = V[x];
+        current = A[current->from];
     }
 
-    x = Sink;
-    while (V[x] != x)
+    current = A[Sink];
+    while (current != nullptr)
     {
-        A[x]->weight -= min;
-        E.E[x][A[x]->index].weight += min;
+        current->weight -= min;
+        E.getReverseEdge(*current).weight += min;
 
-        x = V[x];
+        current = A[current->from];
     }
 }
 
 bool FordFulkerson::GetPath()
 {
-    std::fill(this->V.begin(), this->V.end(), -1);
-
     queue<int> q;
-    q.push(Source);
+    vector<bool> V = vector<bool>(VertexCount, false);
 
-    V[Source] = Source;
+    q.push(Source);
+    V[Source] = true;
 
     while (!q.empty())
     {
@@ -65,11 +64,11 @@ bool FordFulkerson::GetPath()
 
         for (auto &edge : E.getOutgoingEdges(u))
         {
-            if (edge.weight > 0 && V[edge.to] == -1)
+            if (edge.weight > 0 && V[edge.to] == false)
             {
                 q.push(edge.to);
 
-                V[edge.to] = u;
+                V[edge.to] = true;
                 A[edge.to] = &edge;
 
                 if (edge.to == Sink)
