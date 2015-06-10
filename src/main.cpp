@@ -51,10 +51,10 @@ int main()
     //
     // FORD FULKERSON
     //
-    S.start("FF");
-    FordFulkerson FF(E);
-    FF.Run();
-    S.stop("FF");
+    // S.start("FF");
+    // FordFulkerson FF(E);
+    // FF.Run();
+    // S.stop("FF");
 
     //
     // Stanford
@@ -72,13 +72,13 @@ int main()
     cout << "\n";
     cout << "RTF Flow : " << RTF.E.getFlow() << endl;
     cout << "Sta Flow : " << flowS << endl;
-    cout << "FF  Flow : " << FF.E.getFlow() << endl;
+    // cout << "FF  Flow : " << FF.E.getFlow() << endl;
     cout << "\n";
     cout << "RTF Time : " << S.get_total_time("RTF") << endl;
     cout << "Sta Time : " << S.get_total_time("S") << endl;
-    cout << "FF  Time : " << S.get_total_time("FF") << endl;
+    // cout << "FF  Time : " << S.get_total_time("FF") << endl;
     cout << "\n";
-    cout << "FF Paths : " << FF.IterationsCount << endl;
+    // cout << "FF Paths : " << FF.IterationsCount << endl;
     cout << "\n";
     cout << "Push     : " << RTF.PushCount << endl;
     cout << "Relabel  : " << RTF.RelabelCount << endl;

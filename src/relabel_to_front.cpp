@@ -43,14 +43,30 @@ void RelabelToFront::Run()
         }
     }
 
+    vector<int> list;
+    for (int i = 0; i < VertexCount; ++i) {
+        if (i != Source && i != Sink) {
+            list.push_back(i);
+        }
+    }
+
+    auto current = list.begin();
     do
     {
-        int i = ActiveQueue.front();
-        ActiveQueue.pop();
+        int i = *current;
+        int oldHeight = V[i].Height;
 
         Discharge(i);
 
-    } while (!ActiveQueue.empty());
+
+        if (oldHeight != V[i].Height) {
+            swap(*current, *list.begin());
+            current = list.begin();
+        }
+
+        current++;
+
+    } while (current != list.end());
 }
 
 void RelabelToFront::Discharge(const int i)
@@ -93,10 +109,10 @@ void RelabelToFront::Push(ResidualEdge &edge)
 {
     this->PushCount++;
 
-    if (V[edge.to].ExcessFlow == 0 && edge.to != Source && edge.to != Sink)
-    {
-        ActiveQueue.push(edge.to);
-    }
+    // if (V[edge.to].ExcessFlow == 0 && edge.to != Source && edge.to != Sink)
+    // {
+    //     ActiveQueue.push(edge.to);
+    // }
 
     int min = std::min(V[edge.from].ExcessFlow, edge.weight);
 
