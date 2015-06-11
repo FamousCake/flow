@@ -12,6 +12,8 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
     this->RelabelCount = 0;
     this->DischargeCount = 0;
 
+    this->Bucket = vector<vector<int>>(2 * VertexCount);
+
     this->V = vector<Vertex>(VertexCount);
     for (int i = 0; i < VertexCount; ++i)
     {
@@ -45,12 +47,30 @@ void RelabelToFront::Run()
 
     do
     {
-        int i = ActiveQueue.front();
-        ActiveQueue.pop();
+        // int i = ActiveQueue.front();
+        // ActiveQueue.pop();
+        int i = -1;
+
+        for ( auto &x : Bucket )
+        {
+            if (x.size() >= 1)
+            {
+                i = x.back();
+
+                x.pop_back();
+                break;
+            }
+        }
+
+        if ( i == -1 ) {
+            break;
+        }
+
+        // cout << i << " " << V[i].ExcessFlow << endl;
 
         Discharge(i);
 
-    } while (!ActiveQueue.empty());
+    } while (true);
 }
 
 void RelabelToFront::Discharge(const int i)
@@ -95,7 +115,8 @@ void RelabelToFront::Push(ResidualEdge &edge)
 
     if (V[edge.to].ExcessFlow == 0 && edge.to != Source && edge.to != Sink)
     {
-        ActiveQueue.push(edge.to);
+        // ActiveQueue.push(edge.to);
+        this->Bucket[V[edge.to].Height].push_back(edge.to);
     }
 
     int min = std::min(V[edge.from].ExcessFlow, edge.weight);

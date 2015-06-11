@@ -17,6 +17,8 @@ class RelabelToFront
     std::vector<int> HeightCount;
     std::queue<int> ActiveQueue;
 
+    std::vector<std::vector<int>> Bucket;
+
     int VertexCount;
     int Source, Sink;
 
