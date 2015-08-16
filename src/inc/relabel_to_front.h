@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <utility>
 #include <queue>
+#include <forward_list>
 
 #include "vertex.hpp"
 #include "residual_edge.hpp"

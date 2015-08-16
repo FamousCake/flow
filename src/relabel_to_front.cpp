@@ -32,7 +32,7 @@ RelabelToFront::~RelabelToFront()
 
 void RelabelToFront::Run()
 {
-    SetInitialLabels();
+    // SetInitialLabels();
 
     for (auto &edge : E.getOutgoingEdges(Source))
     {
@@ -50,7 +50,7 @@ void RelabelToFront::Run()
         }
     }
 
-    auto current = list.begin();
+    auto current = list.end()-1;
     do
     {
         int i = *current;
@@ -60,13 +60,17 @@ void RelabelToFront::Run()
 
 
         if (oldHeight != V[i].Height) {
-            swap(*current, *list.begin());
-            current = list.begin();
+            // swap(*current, *list.begin());
+            list.push_back(*current);
+            list.erase(current);
+            current = list.end()-1;
+        }
+        else {
+            current--;
         }
 
-        current++;
 
-    } while (current != list.end());
+    } while (current != list.begin() - 1);
 }
 
 void RelabelToFront::Discharge(const int i)
