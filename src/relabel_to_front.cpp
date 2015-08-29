@@ -32,6 +32,7 @@ RelabelToFront::~RelabelToFront()
 
 void RelabelToFront::Run()
 {
+    // Тези евристика не работи с този метод
     // SetInitialLabels();
 
     for (auto &edge : E.getOutgoingEdges(Source))
@@ -43,6 +44,7 @@ void RelabelToFront::Run()
         }
     }
 
+    // Списък от върховете, в началото не е топологично сортиран
     vector<int> list;
     for (int i = 0; i < VertexCount; ++i) {
         if (i != Source && i != Sink) {
@@ -50,6 +52,8 @@ void RelabelToFront::Run()
         }
     }
 
+    // Тъй като във вектор могат да се добавят ефективно върхове само в края
+    // спистъка се итерира винаги отзад напред
     auto current = list.end()-1;
     do
     {
@@ -60,7 +64,6 @@ void RelabelToFront::Run()
 
 
         if (oldHeight != V[i].Height) {
-            // swap(*current, *list.begin());
             list.push_back(*current);
             list.erase(current);
             current = list.end()-1;
