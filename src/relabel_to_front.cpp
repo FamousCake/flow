@@ -12,14 +12,18 @@ RelabelToFront::RelabelToFront(const ResidualNetwork &A) : E(ResidualNetwork(A))
     this->RelabelCount = 0;
     this->DischargeCount = 0;
 
+    // Инициализация на списъка от върховете
     this->V = vector<Vertex>(VertexCount);
     for (int i = 0; i < VertexCount; ++i)
     {
+        // Инициализация на указател към текущо ребро
         V[i].NCurrent = E.getOutgoingEdges(i).begin();
     }
 
+    // Масив, в които се запазва броя на върховете на всяка от височините
     this->HeightCount = vector<int>(2 * VertexCount, 0);
 
+    // Източника и шахтата имат статична височина
     this->HeightCount[VertexCount] = 1;
     this->HeightCount[0] = VertexCount - 1;
 
@@ -32,8 +36,10 @@ RelabelToFront::~RelabelToFront()
 
 void RelabelToFront::Run()
 {
+    // Изпълнението на евристиката Global Relabeling Heuristic
     SetInitialLabels();
 
+    // Избутване на поток равен на разреза ({s}, V\{s})
     for (auto &edge : E.getOutgoingEdges(Source))
     {
         if (edge.weight > 0)
@@ -43,6 +49,7 @@ void RelabelToFront::Run()
         }
     }
 
+    // Основно действие на алгоритъма
     do
     {
         int i = ActiveQueue.front();
@@ -69,7 +76,7 @@ void RelabelToFront::Discharge(const int i)
 
             Relabel(i);
 
-            // We have a gap
+            // Изпълнение на евристиката Gap Heuristic, ако е намерена празна височина
             if (HeightCount[oldHeight] == 0)
             {
                 Gap(oldHeight);
@@ -93,6 +100,7 @@ void RelabelToFront::Push(ResidualEdge &edge)
 {
     this->PushCount++;
 
+    // Ако избутваме поток към неактивен връх, се добавя към опашката
     if (V[edge.to].ExcessFlow == 0 && edge.to != Source && edge.to != Sink)
     {
         ActiveQueue.push(edge.to);
@@ -128,6 +136,7 @@ void RelabelToFront::Relabel(const int i)
 
 void RelabelToFront::Gap(const int k)
 {
+    // Промяна на височините на всички върхове ако е намерена дупка във височините
     for (int i = 0; i < VertexCount; i++)
     {
         if (i != Source && i != Sink && V[i].Height >= k)
@@ -190,6 +199,7 @@ bool RelabelToFront::IsOverflowing(const int i)
     return V[i].ExcessFlow > 0 && i != Source && i != Sink;
 }
 
+// Изпълнява обратно търсене в дълбочина
 void RelabelToFront::SetInitialLabels()
 {
     queue<int> q;
