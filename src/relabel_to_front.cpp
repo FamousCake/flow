@@ -34,7 +34,7 @@ RelabelToFront::~RelabelToFront()
 
 void RelabelToFront::Run()
 {
-    // SetInitialLabels();
+    SetInitialLabels();
 
     for (auto &edge : E.getOutgoingEdges(Source))
     {
@@ -47,10 +47,9 @@ void RelabelToFront::Run()
 
     do
     {
-        // int i = ActiveQueue.front();
-        // ActiveQueue.pop();
         int i = -1;
 
+        // Намиране на връх за освобождане
         for ( auto &x : Bucket )
         {
             if (x.size() >= 1)
@@ -65,8 +64,6 @@ void RelabelToFront::Run()
         if ( i == -1 ) {
             break;
         }
-
-        // cout << i << " " << V[i].ExcessFlow << endl;
 
         Discharge(i);
 
