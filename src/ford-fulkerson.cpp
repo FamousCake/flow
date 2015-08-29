@@ -8,7 +8,10 @@ FordFulkerson::FordFulkerson(const ResidualNetwork &A) : E(ResidualNetwork(A))
     this->Sink = E.getSink();
     this->VertexCount = E.getCount();
 
+    // Списък на наследниците, използван от обхождането в ширина
     this->V = vector<int>(VertexCount);
+
+    // Спитък на ребрата, с които се е достигнало до тези наследници
     this->A = vector<ResidualEdge *>(VertexCount);
 }
 
@@ -26,8 +29,10 @@ void FordFulkerson::Run()
     }
 }
 
+// Обхождане на намерения път от източника до шахтата
 void FordFulkerson::AugmentPath()
 {
+    // Намиране на най-лекото ребро по този път
     auto current = A[Sink];
 
     int min = current->weight;
@@ -39,6 +44,7 @@ void FordFulkerson::AugmentPath()
         current = A[current->from];
     }
 
+    // Промяна потока на всички ребра по пътя със стойноста най-лекото
     current = A[Sink];
     while (current != nullptr)
     {
