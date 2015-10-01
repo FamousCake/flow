@@ -34,11 +34,14 @@ int main()
 {
     Stopwatch S;
     S.set_mode(REAL_TIME);
+    S.start("TOTAL");
 
     //
     // Initialization
     //
+    S.start("READ");
     ResidualNetwork E = IO::ReadGraph();
+    S.stop("READ");
 
     //
     // RELABEL TO FRONT
@@ -47,45 +50,49 @@ int main()
     RelabelToFront RTF(E);
     RTF.Run();
     S.stop("RTF");
+    S.stop("TOTAL");
 
-    //
-    // FORD FULKERSON
-    //
-    S.start("FF");
-    FordFulkerson FF(E);
-    FF.Run();
-    S.stop("FF");
 
+    // //
+    // // FORD FULKERSON
+    // //
+    // S.start("FF");
+    // FordFulkerson FF(E);
+    // FF.Run();
+    // S.stop("FF");
     //
-    // Stanford
-    //
-    S.start("S");
-    auto PR = GetStanfordFlow(E);
-    long long flowS = PR.GetMaxFlow(E.getSource(), E.getSink());
-    S.stop("S");
+    // //
+    // // Stanford
+    // //
+    // S.start("S");
+    // auto PR = GetStanfordFlow(E);
+    // long long flowS = PR.GetMaxFlow(E.getSource(), E.getSink());
+    // S.stop("S");
 
     //
     // RESULTS
     //
-    cout << "Vertices : " << E.getCount() << endl;
-    cout << "Edges    : " << E.getEdgesCount() << endl;
-    cout << "\n";
-    cout << "RTF Flow : " << RTF.E.getFlow() << endl;
-    cout << "Sta Flow : " << flowS << endl;
-    cout << "FF  Flow : " << FF.E.getFlow() << endl;
-    cout << "\n";
-    cout << "RTF Time : " << S.get_total_time("RTF") << endl;
-    cout << "Sta Time : " << S.get_total_time("S") << endl;
-    cout << "FF  Time : " << S.get_total_time("FF") << endl;
-    cout << "\n";
-    cout << "FF Paths : " << FF.IterationsCount << endl;
-    cout << "\n";
+    cout << "Vertices   : " << E.getCount() << endl;
+    cout << "Edges      : " << E.getEdgesCount() << endl;
+    // cout << "\n";
+    cout << "RTF Flow   : " << RTF.E.getFlow() << endl;
+    // cout << "Sta Flow : " << flowS << endl;
+    // cout << "FF  Flow : " << FF.E.getFlow() << endl;
+    // cout << "\n";
+    cout << "READ Time  : " << S.get_total_time("READ") << endl;
+    cout << "RTF Time   : " << S.get_total_time("RTF") << endl;
+    cout << "TOTAL Time : " << S.get_total_time("TOTAL") << endl;
+    // cout << "Sta Time : " << S.get_total_time("S") << endl;
+    // cout << "FF  Time : " << S.get_total_time("FF") << endl;
+    // cout << "\n";
+    // cout << "FF Paths : " << FF.IterationsCount << endl;
+    // cout << "\n";
     cout << "Push     : " << RTF.PushCount << endl;
     cout << "Relabel  : " << RTF.RelabelCount << endl;
     cout << "Discharge: " << RTF.DischargeCount << endl;
 
     cout << "\n";
-    cout << "\n";
+    // cout << "\n";
 
     return 0;
 }
