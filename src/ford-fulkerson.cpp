@@ -49,7 +49,7 @@ void FordFulkerson::AugmentPath()
     while (current != nullptr)
     {
         current->weight -= min;
-        E.getReverseEdge(*current).weight += min;
+        // E.getReverseEdge(*current).weight += min;
 
         current = A[current->from];
     }

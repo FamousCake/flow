@@ -76,8 +76,8 @@ ResidualNetwork IO::ReadGraph()
         {
             int a, b, c;
             cin >> a >> b >> c;
-            E[a - 1].push_back(ResidualEdge(a - 1, b - 1, c, E[b - 1].size()));
-            E[b - 1].push_back(ResidualEdge(b - 1, a - 1, 0, E[a - 1].size() - 1));
+            E[a - 1].push_back(ResidualEdge(a - 1, b - 1, c, E[b - 1].size(), c));
+            // E[b - 1].push_back(ResidualEdge(b - 1, a - 1, 0, E[a - 1].size() - 1));
         }
     }
 

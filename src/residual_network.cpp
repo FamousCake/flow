@@ -82,9 +82,9 @@ int ResidualNetwork::getFlow()
 {
     int flow = 0;
 
-    for (auto x : E[Sink])
+    for (auto x : E[Source])
     {
-        flow += x.weight;
+        flow += x.capacity - x.weight;
     }
 
     return flow;
