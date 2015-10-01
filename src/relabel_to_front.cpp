@@ -65,7 +65,9 @@ void RelabelToFront::Run()
             break;
         }
 
-        Discharge(i);
+        if (V[i].ExcessFlow > 0) {
+            Discharge(i);
+        }
 
     } while (true);
 }
