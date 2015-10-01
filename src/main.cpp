@@ -77,6 +77,7 @@ int main()
     // cout << "RTF Time : " << S.get_total_time("RTF") << endl;
     // cout << "Sta Time : " << S.get_total_time("S") << endl;
     cout << "FF  Time : " << S.get_total_time("FF") << endl;
+    cout << "FF Paths : " << FF.IterationsCount << endl;
     cout << "\n";
     // cout << "\?ischarge: " << RTF.DischargeCount << endl;
 
