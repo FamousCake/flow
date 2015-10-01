@@ -60,8 +60,10 @@ void RelabelToFront::Run()
         int i = *current;
         int oldHeight = V[i].Height;
 
-        Discharge(i);
+        if (V[i].ExcessFlow > 0) {
 
+            Discharge(i);
+        }
 
         if (oldHeight != V[i].Height) {
             list.push_back(*current);

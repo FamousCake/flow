@@ -80,11 +80,11 @@ int main()
     // cout << "\n";
     // // cout << "FF Paths : " << FF.IterationsCount << endl;
     // cout << "\n";
-    // cout << "Push     : " << RTF.PushCount << endl;
-    // cout << "Relabel  : " << RTF.RelabelCount << endl;
-    // cout << "Discharge: " << RTF.DischargeCount << endl;
+    cout << "Push     : " << RTF.PushCount << endl;
+    cout << "Relabel  : " << RTF.RelabelCount << endl;
+    cout << "Discharge: " << RTF.DischargeCount << endl;
     //
-    // cout << "\n";
+    cout << "\n";
     // cout << "\n";
 
     return 0;
