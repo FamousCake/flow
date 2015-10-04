@@ -34,7 +34,7 @@ RelabelToFront::~RelabelToFront()
 
 void RelabelToFront::Run()
 {
-    // SetInitialLabels();
+    SetInitialLabels();
 
     for (auto &edge : E.getOutgoingEdges(Source))
     {
